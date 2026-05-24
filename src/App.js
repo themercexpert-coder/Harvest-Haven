@@ -1,4 +1,3 @@
-import { db, ref, set, get, child, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
 import { useState, useEffect, useCallback, useRef } from "react";
 
 // ─── Storage Polyfill ─────────────────────────────────────────
@@ -82,7 +81,7 @@ const DiffBadge=({d})=>{const c=d==='easy'?'#27ae60':d==='medium'?'#e67e22':'#e7
 const SecHead=({label,color='#777'})=><div style={{fontSize:11,fontWeight:800,color,letterSpacing:1.1,marginBottom:8,paddingLeft:2}}>{label}</div>;
 const TabRow=({tabs,active,onSelect,ac='#1a6b2a'})=><div style={{display:'flex',gap:6,marginBottom:14}}>{tabs.map(([id,lb])=><button key={id} onClick={()=>onSelect(id)} style={{flex:1,background:active===id?ac:'#fff',color:active===id?'#fff':'#555',border:`1.5px solid ${active===id?ac:'#ddd'}`,borderRadius:12,padding:'8px 4px',fontSize:11,fontWeight:700,cursor:'pointer'}}>{lb}</button>)}</div>;
 
-export default function HarvestHaven(){
+function HarvestHaven({user,onSignOut}){
   const [screen,setScreen]=useState('home');
   const [tiles,setTiles]=useState(Array(12).fill(null).map((_,i)=>({id:i,state:'empty',crop:null,growsAt:0,watered:false})));
   const [landPlots,setLP]=useState(3);
@@ -169,6 +168,7 @@ export default function HarvestHaven(){
     (async()=>{
       try{const r=await window.storage.get('hh7');if(r){const s=JSON.parse(r.value);const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});}}catch{}
       try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
+      try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
       try{const r=await window.storage.get('world_code');if(r)setWC(r.value);else{const c=`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`;await window.storage.set('world_code',c);setWC(c);}}catch{setWC(`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`);}
       setTasks(genTasks(1));
@@ -437,7 +437,10 @@ export default function HarvestHaven(){
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
               <div>
                 <div style={{display:'flex',alignItems:'center',gap:6}}>
+                  <div style={{display:'flex',alignItems:'center',gap:6}}>
                   <div style={{fontSize:11,fontWeight:800,color:T.primary,letterSpacing:1.2}}>🌾 HARVEST HAVEN</div>
+                  <button onClick={onSignOut} style={{background:'none',border:'1px solid #ddd',borderRadius:8,padding:'2px 8px',fontSize:10,color:'#888',cursor:'pointer',fontWeight:600}}>Sign Out</button>
+                </div>
                   <div style={{background:season.col,color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:10,fontWeight:700}}>{season.emoji} {season.name}</div>
                   {loanDebt>0&&<div style={{background:'#e74c3c',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:10,fontWeight:700}}>Loan 🪙{loanDebt}</div>}
                 </div>
