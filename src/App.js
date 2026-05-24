@@ -1198,7 +1198,6 @@ function ChatScreen({G}){
   const[input,setInput]=useState('');
   const[last,setLast]=useState(0);
   const endRef=useRef(null);
-  const endRef=useRef(null);
 
   useEffect(()=>{
     if(!db)return;
