@@ -179,8 +179,7 @@ function HarvestHaven({user,onSignOut}){
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
           if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));
         }
-      }catch(e){console.log('Load error',e);}coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});}}catch{}
-      try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
+}catch(e){console.log('Load error',e);}      try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
       try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
       try{const r=await window.storage.get('world_code');if(r)setWC(r.value);else{const c=`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`;await window.storage.set('world_code',c);setWC(c);}}catch{setWC(`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`);}
