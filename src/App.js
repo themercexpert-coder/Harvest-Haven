@@ -564,7 +564,7 @@ function FarmScreen({G,tiles,tapTile,td,selCrop,setSelCrop,landPlots,buyLand}){
       </div>
       {/* Action buttons */}
       <div style={{display:'flex',gap:8,marginBottom:12}}>
-        {upgrades.autoPlow&&<button onClick={()=>{if(coins<plowedCount*0)return;setScreen&&null;const at=Date.now();G.setTiles&&null;notify&&null;}} style={{flex:1,background:plowedCount>0?'#795548':'#ccc',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
+{upgrades.autoPlow&&<button onClick={()=>{let cnt=0;setTiles(ts=>{const n=[...ts];for(let i=0;i<n.length;i++){if(n[i].state==='empty'){n[i]={...n[i],state:'plowed'};cnt++;}}return n;});if(cnt>0)notify(`Auto-plowed ${cnt} fields! 🚜`,'green');}} style={{flex:1,background:'#795548',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}        {upgrades.autoPlow&&<button onClick={()=>{if(coins<plowedCount*0)return;setScreen&&null;const at=Date.now();G.setTiles&&null;notify&&null;}} style={{flex:1,background:plowedCount>0?'#795548':'#ccc',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
         <button onClick={plantAll} disabled={plowedCount===0} style={{flex:1,background:plowedCount>0?T.primary:'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:plowedCount>0?'pointer':'default'}}>🌱 Plant All ({plowedCount})</button>
         <button onClick={harvestAll} disabled={readyCount===0} style={{flex:1,background:readyCount>0?'#27ae60':'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:readyCount>0?'pointer':'default'}}>🌾 Harvest All ({readyCount})</button>
       </div>
@@ -984,6 +984,7 @@ function BankScreen({G}){
   const profitRate=upgrades.premiumBank?.08:.05;
   const deposit=()=>{const n=parseInt(amt);if(!n||n<=0||n>coins){notify('Invalid amount!','orange');return;}spend(n);setBankBal(b=>b+n);setAmt('');notify(`Deposited 🪙${n.toLocaleString()}!`,'green');};
   const withdraw=()=>{if(!bankBal){notify('Nothing to withdraw!','orange');return;}const p=Math.floor(bankBal*profitRate);earn(bankBal+p);notify(`Withdrew 🪙${(bankBal+p).toLocaleString()} (+🪙${p} profit!)`,'gold');setBankBal(0);};
+  const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
   const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);setCoins&&null;earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
   const repayLoan=()=>{const repay=Math.min(loanDebt,coins);if(!repay){notify('No loan to repay!','orange');return;}spend(repay);setLoanDebt(0);notify(`Loan fully repaid! 🪙${repay}`,'green');};
   const depositGoldGrowth=()=>{if(goldHeld<=0){notify('No gold held!','orange');return;}setGGB(b=>+(b+goldHeld).toFixed(2));G.setGold&&G.setGold(0);notify(`Deposited ${goldHeld}g to Gold Growth Account!`,'gold');};
