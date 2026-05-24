@@ -1198,6 +1198,25 @@ function ChatScreen({G}){
   const[input,setInput]=useState('');
   const[last,setLast]=useState(0);
   const endRef=useRef(null);
+  const endRef=useRef(null);
+
+  useEffect(()=>{
+    if(!db)return;
+    const chatRef=ref(db,`globalchat/${ch}`);
+    const unsub=onValue(chatRef,sn=>{
+      if(sn.exists()){
+        const data=sn.val();
+        if(data&&typeof data==='object'){
+          const msgs=Object.values(data)
+            .filter(m=>m&&m.text&&m.time)
+            .sort((a,b)=>a.time-b.time)
+            .slice(-50);
+          setChat(m=>({...m,[ch]:msgs}));
+        }
+      }
+    });
+    return()=>unsub();
+  },[ch]);
   useEffect(()=>{endRef.current?.scrollIntoView({behavior:'smooth'});},[chatMsgs[ch]]);
   const send=()=>{
     const txt=input.trim();if(!txt)return;
