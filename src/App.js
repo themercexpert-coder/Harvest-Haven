@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import { db, ref, set, get, child, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
+import { db, ref, set, get, child, onValue, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
 // ─── Storage Polyfill ─────────────────────────────────────────
 // Works inside Claude AND in any real browser (localStorage fallback)
 if(typeof window!=='undefined'&&!window.storage){
