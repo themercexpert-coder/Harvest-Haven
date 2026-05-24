@@ -468,7 +468,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const isHome=screen==='home';
   const screenLabel=MENU_DEF.flatMap(s=>s.items).find(i=>i.id===screen);
 
-  const G={coins,earn,spend,notify,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll};
+  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll};
 
   return(
     <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:isHome?T.bg:'#f3f4f3',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
@@ -1203,7 +1203,7 @@ function GarageScreen({G}){
 }
 
 function ChatScreen({G}){
-  const{chatMsgs,sendChat,playerId,blocked,setBlocked,notify}=G;
+  const{chatMsgs,sendChat,setChat,playerId,blocked,setBlocked,notify}=G;
   const[ch,setCh]=useState('General');
   const[input,setInput]=useState('');
   const[last,setLast]=useState(0);
@@ -1220,7 +1220,7 @@ function ChatScreen({G}){
             .filter(m=>m&&m.text&&m.time)
             .sort((a,b)=>a.time-b.time)
             .slice(-50);
-          setChat(m=>({...m,[ch]:msgs}));
+          G.setChat(m=>({...m,[ch]:msgs}));
         }
       }
     });
