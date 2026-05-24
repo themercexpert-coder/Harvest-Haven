@@ -1,4 +1,4 @@
-import { db, ref, set, get, child } from './firebase';
+import { db, ref, set, get, child, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
 import { useState, useEffect, useCallback, useRef } from "react";
 
 // ─── Storage Polyfill ─────────────────────────────────────────
@@ -406,7 +406,7 @@ export default function HarvestHaven(){
   // Machine management
   const buyMach=mId=>{const def=MACH_DEF[mId];if(coins<def.cost){notify(`Need 🪙${def.cost.toLocaleString()}!`,'orange');return;}spend(def.cost);setMach(p=>({...p,[mId]:{...p[mId],owned:true}}));notify(`${def.name} purchased!`,'green');};
   const upgMach=mId=>{const m=mach[mId],def=MACH_DEF[mId];if(m.tier>=4){notify('Already max tier!','orange');return;}const cost=def.upg[m.tier+1];if(coins<cost){notify(`Need 🪙${cost.toLocaleString()}!`,'orange');return;}spend(cost);setMach(p=>({...p,[mId]:{...p[mId],tier:p[mId].tier+1}}));notify(`${def.name} → ${def.tiers[m.tier+1].l}!`,'gold');};
-  const toggleMach=mId=>{const m=mach[mId];if(!m.owned)return;if(m.dur<=0){notify('Repair first!','orange');return;}if(fuel<=0&&!m.active){notify('Buy fuel first!','orange');return;}setMach(p=>({...p,[mId]:{...p[mId],active:!p[mId].active,lastCycle:Date.now()}}));notify(!m.active?'Machine started! 🟢':'Machine stopped.','green');};
+  const toggleMach=mId=>{const m=mach[mId];if(!m.owned)return;if(m.dur<=0){notify('Repair first!','orange');return;}if(fuel<=0&&!m.active){notify('Buy fuel first!','orange');return;}const wasActive=m.active;setMach(p=>({...p,[mId]:{...p[mId],active:!p[mId].active,lastCycle:Date.now()}}));notify(!wasActive?'Machine started! 🟢':'Machine stopped.','green');};
   const repairMach=mId=>{if(coins<200){notify('Need 🪙200!','orange');return;}spend(200);setMach(p=>({...p,[mId]:{...p[mId],dur:100}}));notify('Machine repaired! ✅','green');};
   const buyFuelF=item=>{if(coins<item.cost){notify(`Need 🪙${item.cost}!`,'orange');return;}spend(item.cost);setFuel(f=>Math.min(200,f+item.amt));notify(`+${item.amt} fuel! ⛽`,'green');};
   const addToQueue=(cropId,qty=5)=>{setMach(p=>({...p,seeder:{...p.seeder,queue:[...p.seeder.queue,...Array(qty).fill(cropId)]}}));const cr=CROPS.find(c=>c.id===cropId);notify(`Added ${qty}x ${cr?.emoji} to seeder queue!`,'green');};
@@ -564,7 +564,7 @@ function FarmScreen({G,tiles,tapTile,td,selCrop,setSelCrop,landPlots,buyLand}){
       </div>
       {/* Action buttons */}
       <div style={{display:'flex',gap:8,marginBottom:12}}>
-{upgrades.autoPlow&&<button onClick={()=>{let cnt=0;setTiles(ts=>{const n=[...ts];for(let i=0;i<n.length;i++){if(n[i].state==='empty'){n[i]={...n[i],state:'plowed'};cnt++;}}return n;});if(cnt>0)notify(`Auto-plowed ${cnt} fields! 🚜`,'green');}} style={{flex:1,background:'#795548',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}        {upgrades.autoPlow&&<button onClick={()=>{if(coins<plowedCount*0)return;setScreen&&null;const at=Date.now();G.setTiles&&null;notify&&null;}} style={{flex:1,background:plowedCount>0?'#795548':'#ccc',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
+        {upgrades.autoPlow&&<button onClick={()=>{let cnt=0;setTiles(ts=>{const n=[...ts];for(let i=0;i<n.length;i++){if(n[i].state==='empty'){n[i]={...n[i],state:'plowed'};cnt++;}}return n;});if(cnt>0)notify(`Auto-plowed ${cnt} fields! 🚜`,'green');}} style={{flex:1,background:'#795548',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
         <button onClick={plantAll} disabled={plowedCount===0} style={{flex:1,background:plowedCount>0?T.primary:'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:plowedCount>0?'pointer':'default'}}>🌱 Plant All ({plowedCount})</button>
         <button onClick={harvestAll} disabled={readyCount===0} style={{flex:1,background:readyCount>0?'#27ae60':'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:readyCount>0?'pointer':'default'}}>🌾 Harvest All ({readyCount})</button>
       </div>
@@ -984,7 +984,7 @@ function BankScreen({G}){
   const profitRate=upgrades.premiumBank?.08:.05;
   const deposit=()=>{const n=parseInt(amt);if(!n||n<=0||n>coins){notify('Invalid amount!','orange');return;}spend(n);setBankBal(b=>b+n);setAmt('');notify(`Deposited 🪙${n.toLocaleString()}!`,'green');};
   const withdraw=()=>{if(!bankBal){notify('Nothing to withdraw!','orange');return;}const p=Math.floor(bankBal*profitRate);earn(bankBal+p);notify(`Withdrew 🪙${(bankBal+p).toLocaleString()} (+🪙${p} profit!)`,'gold');setBankBal(0);};
-  const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);setCoins&&null;earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
+  const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
   const repayLoan=()=>{const repay=Math.min(loanDebt,coins);if(!repay){notify('No loan to repay!','orange');return;}spend(repay);setLoanDebt(0);notify(`Loan fully repaid! 🪙${repay}`,'green');};
   const depositGoldGrowth=()=>{if(goldHeld<=0){notify('No gold held!','orange');return;}setGGB(b=>+(b+goldHeld).toFixed(2));G.setGold&&G.setGold(0);notify(`Deposited ${goldHeld}g to Gold Growth Account!`,'gold');};
   const withdrawGoldGrowth=()=>{if(!goldGrowthBal){notify('Nothing deposited!','orange');return;}const tot=+(goldGrowthBal+goldGrowth).toFixed(2);earn(Math.floor(tot*G.goldPrice));setGGB(0);setGG(0);notify(`Withdrew ${tot}g worth 🪙${Math.floor(tot*G.goldPrice).toLocaleString()}!`,'gold');};
