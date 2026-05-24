@@ -75,7 +75,7 @@ const MINERALS=[
   {id:'sapphire',name:'Sapphire',emoji:'🔷',r:.006,v:2200,xp:120},
   {id:'titanium',name:'Titanium',emoji:'⚙️',r:.005,v:2800,xp:140},
   {id:'crystal',name:'Crystal',emoji:'🔮',r:.003,v:3500,xp:160},
-  {id:'mythril',name:'Mythril',emoji:'🌀',r:.002,v:5000,xp:200},
+  {id:'mythril',name:'Mythril',emoji:'🌀',r:.002,v:5000,xp:200},];
 const RECIPES=[
   {id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:3},sell:70,xp:15,desc:'3 Wheat'},
   {id:'vegSoup',name:'Veg Soup',emoji:'🍲',ing:{carrot:2,tomato:2},sell:130,xp:22,desc:'2 Carrot + 2 Tomato'},
