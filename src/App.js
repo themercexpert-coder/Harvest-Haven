@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-
+import { db, ref, set, get, child, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
 // ─── Storage Polyfill ─────────────────────────────────────────
 // Works inside Claude AND in any real browser (localStorage fallback)
 if(typeof window!=='undefined'&&!window.storage){
@@ -1390,4 +1390,71 @@ function FarmhouseScreen({G}){
       </>}
     </div>
   );
+}
+function AuthScreen({onLogin}){
+  const[mode,setMode]=useState('login');
+  const[email,setEmail]=useState('');
+  const[password,setPassword]=useState('');
+  const[username,setUsername]=useState('');
+  const[farmNameL,setFarmNameL]=useState('');
+  const[error,setError]=useState('');
+  const[loading,setLoading]=useState(false);
+  const submit=async()=>{
+    setError('');setLoading(true);
+    try{
+      if(mode==='register'){
+        if(!username.trim()||!farmNameL.trim()){setError('Please fill in all fields.');setLoading(false);return;}
+        const cred=await createUserWithEmailAndPassword(auth,email,password);
+        await set(ref(db,`users/${cred.user.uid}/profile`),{username:username.trim(),farmName:farmNameL.trim(),createdAt:Date.now()});
+        onLogin(cred.user);
+      }else{
+        const cred=await signInWithEmailAndPassword(auth,email,password);
+        onLogin(cred.user);
+      }
+    }catch(e){
+      const msgs={'auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password needs 6+ characters.','auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/invalid-credential':'Incorrect email or password.'};
+      setError(msgs[e.code]||e.message);
+    }
+    setLoading(false);
+  };
+  return(
+    <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9 55%,#d4f1b8)',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',padding:24,boxSizing:'border-box'}}>
+      <div style={{fontSize:56,marginBottom:8}}>🌾</div>
+      <div style={{fontSize:28,fontWeight:900,color:'#1a6b2a',marginBottom:4}}>Harvest Haven</div>
+      <div style={{fontSize:13,color:'#555',marginBottom:32}}>Your farming empire awaits</div>
+      <div style={{background:'#fff',borderRadius:20,padding:24,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.10)'}}>
+        <div style={{display:'flex',gap:8,marginBottom:20}}>
+          {[['login','Sign In'],['register','Create Account']].map(([m,l])=>(
+            <button key={m} onClick={()=>{setMode(m);setError('');}} style={{flex:1,background:mode===m?'#1a6b2a':'#f5f5f5',color:mode===m?'#fff':'#555',border:'none',borderRadius:12,padding:'10px',fontSize:13,fontWeight:700,cursor:'pointer'}}>{l}</button>
+          ))}
+        </div>
+        {mode==='register'&&<>
+          <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Username</div>
+          <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="e.g. FarmerJoe" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
+          <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Farm Name</div>
+          <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder="e.g. Sunny Acres" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
+        </>}
+        <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Email</div>
+        <input value={email} onChange={e=>setEmail(e.target.value)} type="email" placeholder="your@email.com" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
+        <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Password</div>
+        <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Min 6 characters" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:16,color:'#333'}}/>
+        {error&&<div style={{background:'#fff5f5',border:'1px solid #fce4e4',borderRadius:10,padding:'8px 12px',fontSize:12,color:'#c0392b',marginBottom:12,fontWeight:600}}>{error}</div>}
+        <button onClick={submit} disabled={loading} style={{width:'100%',background:loading?'#bbb':'#1a6b2a',color:'#fff',border:'none',borderRadius:12,padding:'12px',fontSize:15,fontWeight:800,cursor:loading?'default':'pointer'}}>
+          {loading?'Please wait...':mode==='login'?'Sign In':'Create Account'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function Root(){
+  const[user,setUser]=useState(null);
+  const[checking,setChecking]=useState(true);
+  useEffect(()=>{
+    const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
+    return unsub;
+  },[]);
+  if(checking)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9)',fontFamily:'system-ui',fontSize:18,color:'#1a6b2a',fontWeight:700}}>🌾 Loading...</div>;
+  if(!user)return<AuthScreen onLogin={setUser}/>;
+  return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
 }
