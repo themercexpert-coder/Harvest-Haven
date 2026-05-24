@@ -167,7 +167,19 @@ function HarvestHaven({user,onSignOut}){
 
   useEffect(()=>{
     (async()=>{
-      try{const r=await window.storage.get('hh7');if(r){const s=JSON.parse(r.value);const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});}}catch{}
+      try{
+        let saveData=null;
+        if(db&&auth?.currentUser){
+          try{const sn=await get(child(ref(db),`saves/${auth.currentUser.uid}`));if(sn.exists())saveData=JSON.parse(sn.val());}catch{}
+        }
+        if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
+        if(saveData){
+          const s=saveData;
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};
+          Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
+          if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));
+        }
+      }catch(e){console.log('Load error',e);}coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});}}catch{}
       try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
       try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
@@ -176,14 +188,33 @@ function HarvestHaven({user,onSignOut}){
     })();
   },[]);
 
-  const saveGame=useCallback(async()=>{
-    try{await window.storage.set('hh7',JSON.stringify({coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings}));}catch{}
-  },[coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings]);
-
-  useEffect(()=>{const t=setTimeout(saveGame,2000);return()=>clearTimeout(t);},[saveGame]);
-  useEffect(()=>{const t=setInterval(()=>setStamina(s=>Math.min(100,s+2)),4000);return()=>clearInterval(t);},[]);
+const saveGame=useCallback(async()=>{
+    try{
+      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
+      localStorage.setItem('hh7',JSON.stringify(s));
+      if(db&&auth?.currentUser){
+        try{await set(ref(db,`saves/${auth.currentUser.uid}`),JSON.stringify(s));}catch(e){console.log('Firebase save error',e);}
+      }
+    }catch(e){console.log('Save error',e);}
+  },[coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles]);
+useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},[saveGame]);
+  useEffect(()=>{
+    const handler=()=>saveGame();
+    document.addEventListener('visibilitychange',handler);
+    window.addEventListener('beforeunload',handler);
+    return()=>{document.removeEventListener('visibilitychange',handler);window.removeEventListener('beforeunload',handler);};
+  },[saveGame]);  useEffect(()=>{const t=setInterval(()=>setStamina(s=>Math.min(100,s+2)),4000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>setGP(p=>Math.max(82,Math.min(115,+(p+(Math.random()-.48)*.4).toFixed(2)))),20000);return()=>clearInterval(t);},[]);
-  useEffect(()=>{if(xp>0&&xp>=xpFor(level)){setLevel(l=>l+1);notify(`Level Up! Now Level ${level+1}!`,'gold');}},[xp]);
+  useEffect(()=>{
+    if(xp>0&&xp>=xpFor(level)){
+      const newLevel=level+1;
+      setLevel(newLevel);
+      const coinReward=newLevel*100;
+      earn(coinReward);
+      if(newLevel>=5)setPetInv(p=>({...p,petFood:p.petFood+2}));
+      notify(`🎉 Level ${newLevel}! +🪙${coinReward}`,'gold');
+    }
+  },[xp]);
   useEffect(()=>{const t=setInterval(()=>{setTiles(ts=>{const now=Date.now();let ch=false;const nx=ts.map(ti=>{if(ti.state==='planted'&&ti.growsAt>0&&now>=ti.growsAt){ch=true;return{...ti,state:'ready'};}return ti;});return ch?nx:ts;});},2000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>{setPets(ps=>ps.map(p=>({...p,hunger:Math.max(0,p.hunger-1),happiness:Math.max(0,p.happiness-.5)})));},45000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>setSeasonIdx(i=>(i+1)%4),240000);return()=>clearInterval(t);},[]);
