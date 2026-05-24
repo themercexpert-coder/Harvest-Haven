@@ -450,7 +450,17 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const addListing=(itemId,qty,price,type,emoji,name)=>{if(type==='silo'&&(silo[itemId]||0)<qty){notify('Not enough in Silo!','orange');return;}if(type==='mineral'&&(minerals[itemId]||0)<qty){notify('Not enough minerals!','orange');return;}if(type==='silo')setSilo(s=>({...s,[itemId]:(s[itemId]||0)-qty}));else setMin(m=>({...m,[itemId]:(m[itemId]||0)-qty}));setListings(l=>[...l,{id:Date.now(),itemId,qty,price,type,emoji,name,seller:farmName,sellerId:playerId,expiresAt:Date.now()+24*3600000}]);notify(`Listed ${qty}x ${name}!`,'green');};
   const buyListing=l=>{if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}spend(total);if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));setListings(ls=>ls.filter(x=>x.id!==l.id));notify(`Bought ${l.qty}x ${l.name}!`,'gold');};
 
-  const sendChat=(ch,text)=>{if(['spam','scam','hack'].some(w=>text.toLowerCase().includes(w))){notify('Blocked.','orange');return false;}const msg={id:Date.now(),author:playerId,farm:farmName,text,time:Date.now()};setChat(m=>({...m,[ch]:[...m[ch].slice(-49),msg]}));return true;};
+  const sendChat=async(ch,text)=>{
+    if(['spam','scam','hack'].some(w=>text.toLowerCase().includes(w))){notify('Blocked.','orange');return false;}
+    const msg={id:`${Date.now()}_${playerId}`,author:playerId,farm:farmName,text:String(text),time:Date.now()};
+    setChat(m=>({...m,[ch]:[...m[ch].slice(-49),msg]}));
+    if(db){
+      try{
+        await set(ref(db,`globalchat/${ch}/${msg.id}`),msg);
+      }catch(e){console.log('Chat send error:',e);}
+    }
+    return true;
+  };
 
   const buyUpgrade=up=>{if(upgrades[up.id]){notify('Already owned!','orange');return;}if(coins<up.cost){notify(`Need 🪙${up.cost.toLocaleString()}!`,'orange');return;}spend(up.cost);setUpgrades(u=>({...u,[up.id]:true}));notify(`${up.emoji} ${up.name} activated permanently!`,'gold');};
 
