@@ -188,7 +188,11 @@ function HarvestHaven({user,onSignOut}){
         if(db&&auth?.currentUser){
           try{const sn=await get(child(ref(db),`saves/${auth.currentUser.uid}`));if(sn.exists())saveData=JSON.parse(sn.val());}catch{}
         }
-        if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
+        if(!saveData){
+          // Try current key first, then fallback to older keys
+          const raw=localStorage.getItem('hh7');
+          if(raw)saveData=JSON.parse(raw);
+        }
         if(saveData){
           const s=saveData;
           const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP};
@@ -610,7 +614,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const isHome=screen==='home';
   const screenLabel=MENU_DEF.flatMap(s=>s.items).find(i=>i.id===screen);
 
-  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll,autoPlow,allStalls,saveGame};
+  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll,autoPlow,allStalls,saveGame,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,ownedAnimals,landPlots,buyLand,setSilo,setMin};
 
   return(
     <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:isHome?T.bg:'#f3f4f3',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
