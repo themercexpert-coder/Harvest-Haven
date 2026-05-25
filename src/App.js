@@ -35,10 +35,10 @@ if(typeof window!=='undefined'&&!window.storage){
 const THEMES=[{id:'forest',name:'🌿 Forest',bg:'linear-gradient(170deg,#a8d8ea,#b8e4c9 55%,#d4f1b8)',primary:'#1a6b2a',accent:'#27ae60',light:'#eef7ee'},{id:'ocean',name:'🌊 Ocean',bg:'linear-gradient(170deg,#c8e6ff,#b3d9f5 55%,#d4eaf8)',primary:'#1a4f76',accent:'#2980b9',light:'#eaf4fb'},{id:'rose',name:'🌹 Rose',bg:'linear-gradient(170deg,#fce4ec,#f8bbd0 55%,#f3e5f5)',primary:'#880e4f',accent:'#c2185b',light:'#fce8f0'},{id:'autumn',name:'🍂 Autumn',bg:'linear-gradient(170deg,#fff3e0,#ffe0b2 55%,#ffcc80)',primary:'#bf360c',accent:'#e64a19',light:'#fef3e8'},{id:'lavender',name:'🪻 Lavender',bg:'linear-gradient(170deg,#ede7f6,#d1c4e9 55%,#c3a8e1)',primary:'#6c3483',accent:'#8e44ad',light:'#f3eafa'},{id:'teal',name:'🩵 Teal',bg:'linear-gradient(170deg,#e0f7fa,#b2ebf2 55%,#80deea)',primary:'#00695c',accent:'#00897b',light:'#e0f2f1'},{id:'sunset',name:'🌅 Sunset',bg:'linear-gradient(170deg,#fff8e1,#ffe0b2 55%,#ffb74d)',primary:'#e65100',accent:'#f57c00',light:'#fff3e0'},{id:'night',name:'🌙 Night',bg:'linear-gradient(170deg,#1a1a2e,#16213e 55%,#0d2346)',primary:'#7986cb',accent:'#5c6bc0',light:'#252540'}];
 const SEASONS=[{name:'Spring',emoji:'🌸',col:'#c2185b',boost:{wheat:1.1,tomato:1.2,strawberry:1.3,blueberry:1.2}},{name:'Summer',emoji:'☀️',col:'#f57c00',boost:{corn:1.2,pumpkin:1.1,blueberry:1.3,golden:1.1}},{name:'Autumn',emoji:'🍂',col:'#5d4037',boost:{pumpkin:1.4,wheat:1.2,carrot:1.3,corn:1.1}},{name:'Winter',emoji:'❄️',col:'#1565c0',boost:{golden:1.5,carrot:1.2}}];
 // All crops max 5 minutes
-const CROPS=[{id:'wheat',name:'Wheat',emoji:'🌾',cost:10,base:25,xp:5,grow:30},{id:'corn',name:'Corn',emoji:'🌽',cost:15,base:38,xp:8,grow:45},{id:'tomato',name:'Tomato',emoji:'🍅',cost:20,base:52,xp:10,grow:60},{id:'strawberry',name:'Strawberry',emoji:'🍓',cost:25,base:68,xp:13,grow:90},{id:'carrot',name:'Carrot',emoji:'🥕',cost:18,base:46,xp:9,grow:45},{id:'pumpkin',name:'Pumpkin',emoji:'🎃',cost:30,base:80,xp:15,grow:120},{id:'blueberry',name:'Blueberry',emoji:'🫐',cost:35,base:95,xp:18,grow:180},{id:'golden',name:'Golden Grain',emoji:'✨',cost:100,base:300,xp:50,grow:300}];
-const ANIMALS=[{id:'cow',emoji:'🐄',name:'Cow',product:'Milk',pe:'🥛',value:40,ml:1,meat:'Beef',me:'🥩',ms:80,mv:120},{id:'chicken',emoji:'🐔',name:'Chicken',product:'Eggs',pe:'🥚',value:25,ml:1,meat:'Chicken',me:'🍗',ms:40,mv:60},{id:'sheep',emoji:'🐑',name:'Sheep',product:'Wool',pe:'🧶',value:55,ml:5,meat:'Lamb',me:'🍖',ms:60,mv:90},{id:'goat',emoji:'🐐',name:'Goat',product:'Goat Milk',pe:'🥛',value:35,ml:8,meat:'Goat Meat',me:'🍖',ms:55,mv:80},{id:'horse',emoji:'🐎',name:'Horse',product:'Stamina',pe:'⚡',value:0,ml:10,meat:null,me:null,ms:0,mv:0},{id:'duck',emoji:'🦆',name:'Duck',product:'Feathers',pe:'🪶',value:30,ml:12,meat:'Duck Meat',me:'🍗',ms:45,mv:70},{id:'rabbit',emoji:'🐇',name:'Rabbit',product:'Lucky Drops',pe:'🍀',value:45,ml:15,meat:'Rabbit Meat',me:'🍖',ms:35,mv:55}];
+const CROPS=[{id:'wheat',name:'Wheat',emoji:'🌾',cost:10,base:25,xp:5,grow:30},{id:'corn',name:'Corn',emoji:'🌽',cost:15,base:38,xp:8,grow:45},{id:'tomato',name:'Tomato',emoji:'🍅',cost:20,base:52,xp:10,grow:60},{id:'strawberry',name:'Strawberry',emoji:'🍓',cost:25,base:68,xp:13,grow:90},{id:'carrot',name:'Carrot',emoji:'🥕',cost:18,base:46,xp:9,grow:45},{id:'pumpkin',name:'Pumpkin',emoji:'🎃',cost:30,base:80,xp:15,grow:120},{id:'blueberry',name:'Blueberry',emoji:'🫐',cost:35,base:95,xp:18,grow:180},{id:'golden',name:'Golden Grain',emoji:'✨',cost:100,base:300,xp:50,grow:300},{id:'sugarcane',name:'Sugarcane',emoji:'🎋',cost:22,base:55,xp:11,grow:50},{id:'pepper',name:'Pepper',emoji:'🫑',cost:22,base:58,xp:11,grow:65},{id:'watermelon',name:'Watermelon',emoji:'🍉',cost:40,base:105,xp:20,grow:200},{id:'grape',name:'Grapes',emoji:'🍇',cost:45,base:118,xp:22,grow:220},{id:'sunflower',name:'Sunflower',emoji:'🌻',cost:28,base:74,xp:14,grow:100},{id:'lavender',name:'Lavender',emoji:'💜',cost:32,base:85,xp:16,grow:130},{id:'chili',name:'Chili',emoji:'🌶️',cost:38,base:98,xp:19,grow:160},{id:'mushroom',name:'Mushroom',emoji:'🍄',cost:50,base:130,xp:24,grow:240},{id:'cotton',name:'Cotton',emoji:'🌿',cost:55,base:145,xp:26,grow:260},{id:'coffee',name:'Coffee Bean',emoji:'☕',cost:60,base:150,xp:30,grow:160},{id:'olive',name:'Olive',emoji:'🫒',cost:90,base:220,xp:45,grow:220},{id:'truffle',name:'Truffle',emoji:'🍄‍🟫',cost:150,base:400,xp:80,grow:280},{id:'diamond_flower',name:'Diamond Flower',emoji:'💎',cost:200,base:600,xp:80,grow:300}];
+const ANIMALS=[{id:'cow',emoji:'🐄',name:'Cow',product:'Milk',pe:'🥛',value:40,ml:1,meat:'Beef',me:'🥩',ms:80,mv:120,buyCost:300},{id:'chicken',emoji:'🐔',name:'Chicken',product:'Eggs',pe:'🥚',value:25,ml:1,meat:'Chicken',me:'🍗',ms:40,mv:60,buyCost:150},{id:'sheep',emoji:'🐑',name:'Sheep',product:'Wool',pe:'🧶',value:55,ml:5,meat:'Lamb',me:'🍖',ms:60,mv:90,buyCost:350},{id:'goat',emoji:'🐐',name:'Goat',product:'Goat Milk',pe:'🥛',value:35,ml:8,meat:'Goat Meat',me:'🍖',ms:55,mv:80,buyCost:280},{id:'horse',emoji:'🐎',name:'Horse',product:'Stamina',pe:'⚡',value:0,ml:10,meat:null,me:null,ms:0,mv:0,buyCost:800},{id:'duck',emoji:'🦆',name:'Duck',product:'Feathers',pe:'🪶',value:30,ml:12,meat:'Duck Meat',me:'🍗',ms:45,mv:70,buyCost:220},{id:'rabbit',emoji:'🐇',name:'Rabbit',product:'Lucky Drops',pe:'🍀',value:45,ml:15,meat:'Rabbit Meat',me:'🍖',ms:35,mv:55,buyCost:200},{id:'camel',emoji:'🐪',name:'Camel',product:'Camel Milk',pe:'🥛',value:55,ml:8,meat:null,me:null,ms:0,mv:0,buyCost:400},{id:'bee',emoji:'🐝',name:'Bee Hive',product:'Honey',pe:'🍯',value:35,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:180},{id:'turkey',emoji:'🦃',name:'Turkey',product:'Turkey Egg',pe:'🥚',value:22,ml:10,meat:'Turkey Meat',me:'🍗',ms:50,mv:85,buyCost:200},{id:'alpaca',emoji:'🦙',name:'Alpaca',product:'Alpaca Wool',pe:'🧶',value:45,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:280}];
 const MINERALS=[{id:'coal',name:'Coal',emoji:'⚫',r:.35,v:30,xp:5},{id:'iron',name:'Iron',emoji:'🪨',r:.28,v:55,xp:8},{id:'copper',name:'Copper',emoji:'🔵',r:.18,v:80,xp:12},{id:'silver',name:'Silver',emoji:'🪙',r:.10,v:150,xp:18},{id:'goldore',name:'Gold Ore',emoji:'🟡',r:.06,v:300,xp:25},{id:'diamond',name:'Diamond',emoji:'💎',r:.02,v:800,xp:50},{id:'emerald',name:'Emerald',emoji:'🟢',r:.01,v:1200,xp:80}];
-const RECIPES=[{id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:3},sell:70,xp:15,desc:'3 Wheat'},{id:'vegSoup',name:'Veg Soup',emoji:'🍲',ing:{carrot:2,tomato:2},sell:130,xp:22,desc:'2 Carrot + 2 Tomato'},{id:'berryJam',name:'Berry Jam',emoji:'🍯',ing:{strawberry:3,blueberry:2},sell:200,xp:28,desc:'3 Strawberry + 2 Blueberry'},{id:'pumpkinPie',name:'Pumpkin Pie',emoji:'🥧',ing:{pumpkin:1,wheat:2},sell:160,xp:25,desc:'1 Pumpkin + 2 Wheat'},{id:'ironTool',name:'Iron Tool',emoji:'🔨',ing:{iron:2,coal:1},sell:210,xp:35,desc:'2 Iron + 1 Coal'},{id:'copperWire',name:'Copper Wire',emoji:'🔌',ing:{copper:3},sell:290,xp:40,desc:'3 Copper'},{id:'goldBar',name:'Gold Bar',emoji:'🏅',ing:{goldore:2},sell:720,xp:60,desc:'2 Gold Ore'},{id:'diamondGem',name:'Cut Diamond',emoji:'💍',ing:{diamond:1},sell:1900,xp:100,desc:'1 Diamond'}];
+const RECIPES=[{id:'petfood_dog',name:'Dog Biscuit',emoji:'🦴',ing:{wheat:3,carrot:1},sell:15,xp:5,desc:'Dog Food · 3 Wheat + 1 Carrot'},{id:'petfood_cat',name:'Fish Snack',emoji:'🐟',ing:{wheat:2,copper:1},sell:15,xp:5,desc:'Cat Food · 2 Wheat + 1 Copper'},{id:'petfood_parrot',name:'Seed Mix',emoji:'🌱',ing:{wheat:4,sunflower:1},sell:15,xp:5,desc:'Parrot Food · 4 Wheat + 1 Sunflower'},{id:'petfood_bunny',name:'Carrot Treat',emoji:'🥕',ing:{carrot:3},sell:15,xp:5,desc:'Bunny Food · 3 Carrot'},{id:'petfood_fox',name:'Meat Chunk',emoji:'🥩',ing:{corn:2,iron:1},sell:20,xp:6,desc:'Fox Food · 2 Corn + 1 Iron'},{id:'petfood_bear',name:'Honey Pot',emoji:'🍯',ing:{sunflower:3,corn:2},sell:25,xp:8,desc:'Bear Food · 3 Sunflower + 2 Corn'},{id:'petfood_owl',name:'Mouse Treat',emoji:'🐭',ing:{wheat:2,coal:1},sell:15,xp:5,desc:'Owl Food · 2 Wheat + 1 Coal'},{id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:3},sell:70,xp:15,desc:'3 Wheat'},{id:'vegSoup',name:'Veg Soup',emoji:'🍲',ing:{carrot:2,tomato:2},sell:130,xp:22,desc:'2 Carrot + 2 Tomato'},{id:'berryJam',name:'Berry Jam',emoji:'🍯',ing:{strawberry:3,blueberry:2},sell:200,xp:28,desc:'3 Strawberry + 2 Blueberry'},{id:'pumpkinPie',name:'Pumpkin Pie',emoji:'🥧',ing:{pumpkin:1,wheat:2},sell:160,xp:25,desc:'1 Pumpkin + 2 Wheat'},{id:'ironTool',name:'Iron Tool',emoji:'🔨',ing:{iron:2,coal:1},sell:210,xp:35,desc:'2 Iron + 1 Coal'},{id:'copperWire',name:'Copper Wire',emoji:'🔌',ing:{copper:3},sell:290,xp:40,desc:'3 Copper'},{id:'goldBar',name:'Gold Bar',emoji:'🏅',ing:{goldore:2},sell:720,xp:60,desc:'2 Gold Ore'},{id:'diamondGem',name:'Cut Diamond',emoji:'💍',ing:{diamond:1},sell:1900,xp:100,desc:'1 Diamond'}];
 const NPCS={joe:{name:'Farmer Joe',emoji:'👨‍🌾',col:'#27ae60',lines:['Hello neighbour!','Great work today!','Fields look wonderful!','Really appreciate you!','Best farmer I know!']},mary:{name:'Market Mary',emoji:'👩‍💼',col:'#2980b9',lines:['Perfect quality!','My stall thanks you!','Fair deal always!','Premium goods!','My best supplier!']},tom:{name:'Miner Tom',emoji:'⛏️',col:'#546e7a',lines:['Good ore today!','Mine yields well!','Solid work!','Sharp pick!','Best miner!']},lily:{name:'Florist Lily',emoji:'🌸',col:'#c2185b',lines:['Beautiful harvest!','Blooms lovely!','Nature smiles!','Wonderful!','Garden thanks you!']},chef:{name:'Chef Carlos',emoji:'👨‍🍳',col:'#e67e22',lines:['Delicious!','Soup perfect!','Customers love it!','Finest produce!','You feed the town!']}};
 const TASK_POOL=[{npcId:'joe',itemId:'wheat',qty:3,inv:'silo',coins:75,xp:15,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'chef',itemId:'tomato',qty:3,inv:'silo',coins:110,xp:18,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'lily',itemId:'corn',qty:4,inv:'silo',coins:95,xp:16,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'carrot',qty:5,inv:'silo',coins:140,xp:20,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'joe',itemId:'pumpkin',qty:2,inv:'silo',coins:130,xp:19,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'strawberry',qty:6,inv:'silo',coins:320,xp:45,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'chef',itemId:'blueberry',qty:5,inv:'silo',coins:380,xp:50,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'iron',qty:2,inv:'mineral',coins:200,xp:38,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'copper',qty:2,inv:'mineral',coins:260,xp:42,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'wheat',qty:10,inv:'silo',coins:350,xp:48,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'golden',qty:2,inv:'silo',coins:900,xp:120,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'tom',itemId:'diamond',qty:1,inv:'mineral',coins:1600,xp:160,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'mary',itemId:'emerald',qty:1,inv:'mineral',coins:2000,xp:180,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'chef',itemId:'strawberry',qty:15,inv:'silo',coins:1000,xp:130,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1}];
 const DR=[{coins:50,xp:10},{coins:100,xp:20},{coins:150,xp:30,petFood:1},{coins:200,xp:40},{coins:300,xp:50,petFood:2},{coins:400,xp:60,toys:1},{coins:600,xp:100,petFood:3,toys:1}];
@@ -176,7 +176,7 @@ function HarvestHaven({user,onSignOut}){
         if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
-          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB};
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
           if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));
         }
@@ -185,6 +185,9 @@ function HarvestHaven({user,onSignOut}){
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
       try{const r=await window.storage.get('world_code');if(r)setWC(r.value);else{const c=`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`;await window.storage.set('world_code',c);setWC(c);}}catch{setWC(`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`);}
       setTasks(genTasks(1));
+      // Reset daily claim if new day
+      const lastClaim=localStorage.getItem('hh_lastclaim');
+      if(lastClaim!==todayStr()){setDC(false);}
     })();
   },[]);
 
@@ -221,6 +224,14 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   // Gold Growth Account returns (simulated monthly)
   useEffect(()=>{const t=setInterval(()=>{if(goldGrowthBal>0){const ret=+(goldGrowthBal*.02).toFixed(2);setGG(g=>+(g+ret).toFixed(2));notify(`Gold Growth +${ret}g return!`,'gold');}},120000);return()=>clearInterval(t);},[goldGrowthBal]);
   // Joint fund growth
+  // Joint Fund - sync with Firebase world pool
+  useEffect(()=>{
+    if(!db||!worldCode)return;
+    // Push our contribution
+    if(jointBal>0){set(ref(db,`jointfund/${worldCode}/${playerId}`),{amount:jointBal,name:farmName,time:Date.now()}).catch(()=>{});}
+  },[jointBal,worldCode,playerId,farmName]);
+
+  // Local joint fund returns
   useEffect(()=>{const t=setInterval(()=>{if(jointBal>0){const ret=Math.floor(jointBal*.02);setJB(b=>b+ret);notify(`Joint Fund earned 🪙${ret}!`,'gold');}},90000);return()=>clearInterval(t);},[jointBal]);
 
   const notify=(msg,type='green')=>{const id=Date.now()+Math.random();setNotifs(n=>[...n,{id,msg,type}]);setTimeout(()=>setNotifs(n=>n.filter(x=>x.id!==id)),2800);};
@@ -330,7 +341,18 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     notify(`Quest done! +🪙${dq.reward.coins} +${dq.reward.xp}XP`,'gold');
   };
 
-  const claimDaily=()=>{if(dailyClaimed){notify('Already claimed today!','orange');return;}const dayIdx=Math.min(streak%7,6);const r=DR[dayIdx];earn(r.coins);setXp(x=>x+r.xp);if(r.petFood)setPetInv(p=>({...p,petFood:p.petFood+r.petFood}));if(r.toys)setPetInv(p=>({...p,toys:p.toys+r.toys}));setStreak(s=>s+1);setLastLogin(todayStr());setDC(true);notify(`Day ${dayIdx+1} reward! +🪙${r.coins}`,'gold');};
+  const claimDaily=()=>{
+    const today=todayStr();
+    const lastClaim=localStorage.getItem('hh_lastclaim');
+    if(lastClaim===today){notify('Already claimed today! Come back tomorrow 🌅','orange');setDC(true);return;}
+    const dayIdx=Math.min(streak%7,6);const r=DR[dayIdx];
+    earn(r.coins);setXp(x=>x+r.xp);
+    if(r.petFood)setPetInv(p=>({...p,petFood:p.petFood+r.petFood}));
+    if(r.toys)setPetInv(p=>({...p,toys:p.toys+r.toys}));
+    setStreak(s=>s+1);setLastLogin(today);setDC(true);
+    localStorage.setItem('hh_lastclaim',today);
+    notify(`Day ${dayIdx+1} reward! +🪙${r.coins}`,'gold');
+  };
 
   const adoptPet=pt=>{if(coins<pt.cost){notify(`Need 🪙${pt.cost}!`,'orange');return;}if(pets.length>=3){notify('Max 3 pets!','orange');return;}spend(pt.cost);setPets(p=>[...p,{id:`pet_${Date.now()}`,typeId:pt.id,name:pt.name,hunger:100,happiness:100,petXp:0,petLevel:1}]);notify(`${pt.emoji} ${pt.name} adopted!`,'green');};
   const feedPet=id=>{if(petInv.petFood<=0){notify('No Pet Food!','orange');return;}setPetInv(p=>({...p,petFood:p.petFood-1}));setPets(ps=>ps.map(p=>{if(p.id!==id)return p;const nx=p.petXp+5,nl=nx>=p.petLevel*50?p.petLevel+1:p.petLevel;return{...p,hunger:Math.min(100,p.hunger+35),petXp:nx,petLevel:nl};}));setXp(x=>x+5);notify('Pet fed! +5 XP','green');};
@@ -439,8 +461,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   // Sync own stall to Firebase
   useEffect(()=>{
     if(!db||!playerId)return;
-    const myListings=listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now());
-    const stall={...stallCfg,playerId,farmName,listings:myListings,lastSeen:Date.now()};
+    const stall={...stallCfg,playerId,farmName,listings:listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now()),lastSeen:Date.now()};
     set(ref(db,`stalls/${playerId}`),stall).catch(()=>{});
   },[stallCfg,listings,farmName,playerId]);
 
@@ -450,7 +471,15 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     const unsub=onValue(ref(db,'stalls'),sn=>{
       if(sn.exists()){
         const data=sn.val();
-        const stalls=Object.values(data).filter(s=>s.playerId!==playerId&&Date.now()-s.lastSeen<3600000);
+        // Deduplicate by playerId, only show other players, active in last hour
+        const seen=new Set();
+        const stalls=Object.values(data).filter(s=>{
+          if(!s.playerId||s.playerId===playerId)return false;
+          if(Date.now()-s.lastSeen>3600000)return false;
+          if(seen.has(s.playerId))return false;
+          seen.add(s.playerId);
+          return true;
+        });
         setAllStalls(stalls);
       }else setAllStalls([]);
     });
@@ -471,6 +500,27 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     });
     return()=>unsub();
   },[]);
+
+
+  // Listen for payments from buyers and credit seller
+  useEffect(()=>{
+    if(!db||!playerId)return;
+    const unsub=onValue(ref(db,`payments/${playerId}`),sn=>{
+      if(sn.exists()){
+        const data=sn.val();
+        Object.entries(data).forEach(([id,p])=>{
+          if(p&&p.amount&&p.time&&Date.now()-p.time<60000){
+            // Credit within last 60 seconds means it's new
+            earn(p.amount);
+            notify(`💰 ${p.item} sold! +🪙${p.amount}`,'gold');
+            // Clear the payment
+            set(ref(db,`payments/${playerId}/${id}`),null).catch(()=>{});
+          }
+        });
+      }
+    });
+    return()=>unsub();
+  },[playerId]);
 
   // Machine management
   const buyMach=mId=>{const def=MACH_DEF[mId];if(coins<def.cost){notify(`Need 🪙${def.cost.toLocaleString()}!`,'orange');return;}spend(def.cost);setMach(p=>({...p,[mId]:{...p[mId],owned:true}}));notify(`${def.name} purchased!`,'green');};
@@ -1076,104 +1126,119 @@ function StallScreen({G}){
 
 // ─── BANK (Fixed: Emergency Loan cap + auto-debit, Savings, Loans, Services) ──
 function BankScreen({G}){
-  const{coins,earn,spend,notify,bankBal,setBankBal,loanDebt,takeEmergencyLoan,setLoanDebt,upgrades,goldGrowthBal,setGGB,goldGrowth,setGG,goldHeld,jointBal,setJB}=G;
-  const[tab,setTab]=useState('savings');
-  const[amt,setAmt]=useState('');
-  const[lAmt,setLA]=useState('');
-  const[eLoan,setEL]=useState('');
-  const profitRate=upgrades.premiumBank?.08:.05;
-  const deposit=()=>{const n=parseInt(amt);if(!n||n<=0||n>coins){notify('Invalid amount!','orange');return;}spend(n);setBankBal(b=>b+n);setAmt('');notify(`Deposited 🪙${n.toLocaleString()}!`,'green');};
-  const withdraw=()=>{if(!bankBal){notify('Nothing to withdraw!','orange');return;}const p=Math.floor(bankBal*profitRate);earn(bankBal+p);notify(`Withdrew 🪙${(bankBal+p).toLocaleString()} (+🪙${p} profit!)`,'gold');setBankBal(0);};
-  const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
-  const repayLoan=()=>{const repay=Math.min(loanDebt,coins);if(!repay){notify('No loan to repay!','orange');return;}spend(repay);setLoanDebt(0);notify(`Loan fully repaid! 🪙${repay}`,'green');};
-  const depositGoldGrowth=()=>{if(goldHeld<=0){notify('No gold held!','orange');return;}setGGB(b=>+(b+goldHeld).toFixed(2));G.setGold&&G.setGold(0);notify(`Deposited ${goldHeld}g to Gold Growth Account!`,'gold');};
-  const withdrawGoldGrowth=()=>{if(!goldGrowthBal){notify('Nothing deposited!','orange');return;}const tot=+(goldGrowthBal+goldGrowth).toFixed(2);earn(Math.floor(tot*G.goldPrice));setGGB(0);setGG(0);notify(`Withdrew ${tot}g worth 🪙${Math.floor(tot*G.goldPrice).toLocaleString()}!`,'gold');};
-  const joinFund=()=>{const n=parseInt(lAmt);if(!n||n>coins){notify('Invalid!','orange');return;}spend(n);setJB(b=>b+n);setLA('');notify(`🪙${n} added to Joint Fund. Returns every 90s!`,'green');};
-  const withdrawJoint=()=>{if(!jointBal){notify('Nothing in fund!','orange');return;}earn(jointBal);setJB(0);notify(`Withdrew 🪙${jointBal.toLocaleString()} from Joint Fund!`,'gold');};
+  const{bankBal,setBankBal,coins,spend,earn,loanDebt,takeEmergencyLoan,T,upgrades,jointBal,setJB,worldCode,playerId,farmName,notify}=G;
+  const[dep,setDep]=useState('');
+  const[loan,setLoan]=useState(100);
+  const[jDep,setJDep]=useState('');
+  const[worldPool,setWorldPool]=useState([]);
+  const rate=upgrades.premiumBank?0.08:0.05;
+
+  // Load world joint fund from Firebase
+  useEffect(()=>{
+    if(!db||!worldCode)return;
+    const unsub=onValue(ref(db,`jointfund/${worldCode}`),sn=>{
+      if(sn.exists()){
+        const data=sn.val();
+        const pool=Object.values(data).filter(p=>p&&p.amount>0);
+        setWorldPool(pool);
+      }else setWorldPool([]);
+    });
+    return()=>unsub();
+  },[worldCode]);
+
+  const totalPool=worldPool.reduce((a,b)=>a+(b.amount||0),0);
+  const myShare=worldPool.find(p=>p.name===farmName);
+
+  const deposit=()=>{
+    const a=parseInt(dep);
+    if(!a||a<=0||a>coins){notify('Invalid amount!','orange');return;}
+    spend(a);setBankBal(b=>b+a);setDep('');
+    notify(`Deposited 🪙${a.toLocaleString()} — earning ${(rate*100).toFixed(0)}% profit share`,'green');
+  };
+
+  const joinFund=()=>{
+    const a=parseInt(jDep);
+    if(!a||a<=0||a>coins){notify('Invalid amount!','orange');return;}
+    spend(a);setJB(b=>b+a);setJDep('');
+    notify(`🤝 Pooled 🪙${a.toLocaleString()} with your world!`,'green');
+  };
+
+  const withdrawJoint=()=>{
+    if(!jointBal){notify('Nothing to withdraw!','orange');return;}
+    earn(jointBal);setJB(0);
+    if(db&&worldCode)set(ref(db,`jointfund/${worldCode}/${playerId}`),null).catch(()=>{});
+    notify(`Withdrew 🪙${jointBal.toLocaleString()} from Joint Fund`,'gold');
+  };
+
   return(
     <div style={{padding:14}}>
-      <div style={{background:'linear-gradient(135deg,#1a3a50,#2471a3)',borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>HARVEST HAVEN BANK</div>
-        <div style={{fontSize:28,fontWeight:800,margin:'4px 0'}}>🪙 {bankBal.toLocaleString()}</div>
-        <div style={{fontSize:11,opacity:.75}}>{(profitRate*100).toFixed(0)}% monthly profit share{upgrades.premiumBank?' (Premium)':''}</div>
+      <div style={{background:'linear-gradient(135deg,#1a5276,#1a3a5c)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>HALAL BANKING</div>
+        <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🏦 Farm Bank</div>
+        <div style={{fontSize:12,opacity:.85}}>Profit Share · Joint Fund · Emergency Loans</div>
       </div>
-      {loanDebt>0&&<div style={{background:'linear-gradient(135deg,#e74c3c,#c0392b)',borderRadius:14,padding:'10px 16px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-        <div><div style={{fontSize:12,fontWeight:800,color:'#fff'}}>Active Emergency Loan</div><div style={{fontSize:11,color:'rgba(255,255,255,.8)'}}>10% of earnings auto-debiting</div></div>
-        <div style={{textAlign:'right'}}><div style={{fontSize:16,fontWeight:800,color:'#fff'}}>🪙{loanDebt} left</div><button onClick={repayLoan} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1px solid rgba(255,255,255,.4)',borderRadius:10,padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',marginTop:4}}>Repay Now</button></div>
-      </div>}
-      <TabRow tabs={[['savings','Savings'],['loans','Loans'],['services','Services']]} active={tab} onSelect={setTab} ac='#1a5276'/>
-      {tab==='savings'&&<>
-        <Card>
-          <div style={{fontWeight:800,fontSize:14,color:'#1a3a50',marginBottom:6}}>Profit Share Account</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:10,lineHeight:1.5}}>Deposit coins and earn {(profitRate*100).toFixed(0)}% monthly profit share. No interest — returns come from real farm economy activity.</div>
-          <div style={{display:'flex',gap:8,marginBottom:8}}>
-            <input value={amt} onChange={e=>setAmt(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-            <Btn onClick={deposit}>Deposit</Btn>
-          </div>
-          {bankBal>0&&<>
-            <div style={{background:'#e8f4f8',borderRadius:12,padding:'9px 14px',marginBottom:8}}>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:13}}><span style={{color:'#555'}}>Balance</span><span style={{fontWeight:800,color:'#1a3a50'}}>🪙{bankBal.toLocaleString()}</span></div>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:4}}><span style={{color:'#888'}}>Profit Share ({(profitRate*100).toFixed(0)}%)</span><span style={{fontWeight:700,color:'#27ae60'}}>+🪙{Math.floor(bankBal*profitRate).toLocaleString()}</span></div>
-            </div>
-            <Btn onClick={withdraw} color='#e67e22' style={{width:'100%',padding:10}}>Withdraw + Claim Profit</Btn>
-          </>}
-        </Card>
-      </>}
-      {tab==='loans'&&<>
-        <div style={{background:'#e8f4f8',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #bee3f8'}}>
-          <div style={{fontSize:12,fontWeight:800,color:'#1a5276',marginBottom:3}}>Fixed-Fee Loans</div>
-          <div style={{fontSize:11,color:'#555',lineHeight:1.5}}>All loans use a one-time fixed fee. Zero interest. Full transparency before you confirm.</div>
+
+      {/* Profit Share Account */}
+      <div style={{background:'#fff',borderRadius:14,padding:14,marginBottom:10,boxShadow:'0 2px 8px rgba(0,0,0,.06)'}}>
+        <div style={{fontWeight:800,fontSize:15,marginBottom:4,color:'#1a5276'}}>💰 Profit Share Account</div>
+        <div style={{fontSize:12,color:'#888',marginBottom:10}}>Deposit coins, earn {(rate*100).toFixed(0)}% profit share. Withdraw anytime.</div>
+        <div style={{background:'#eaf4fb',borderRadius:10,padding:'8px 12px',marginBottom:10,display:'flex',justifyContent:'space-between'}}>
+          <span style={{fontSize:13,color:'#555'}}>Balance</span>
+          <span style={{fontWeight:800,color:'#1a5276',fontSize:14}}>🪙{bankBal.toLocaleString()}</span>
         </div>
-        <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#e74c3c',marginBottom:6}}>🆘 Emergency Loan</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Cap: 🪙500 per loan. No fee. 10% of every earning auto-debits until fully repaid. One loan at a time only. You can also repay manually at any time.</div>
-          {loanDebt>0?<div style={{background:'#fff5f5',borderRadius:12,padding:'8px 12px',fontSize:12,color:'#c0392b',fontWeight:700,textAlign:'center'}}>Loan active: 🪙{loanDebt} remaining. Repay before taking another.</div>:<>
-            <div style={{display:'flex',gap:8}}>
-              <input value={eLoan} onChange={e=>setEL(e.target.value)} type="number" placeholder="Amount (max 500)" max="500" style={{flex:1,padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-              <Btn onClick={()=>{const n=parseInt(eLoan);takeEmergencyLoan(n);setEL('');}} color='#e74c3c' style={{fontSize:12,padding:'8px 12px'}}>Apply</Btn>
-            </div>
-            {eLoan&&<div style={{fontSize:11,color:'#888',marginTop:5}}>You receive 🪙{Math.min(parseInt(eLoan)||0,500)} · Zero fee · Auto-debits 10% of earnings</div>}
-          </>}
-        </Card>
-        {[{label:'Equipment Loan',desc:'Buy machinery or farm upgrades',fee:.08,icon:'🏗️'},{label:'Seed and Supply Loan',desc:'Fund seeds, fertilizer and supplies',fee:.05,icon:'🌱'},{label:'Expansion Loan',desc:'Fund land purchases and expansions',fee:.10,icon:'🌍'}].map((l,i)=>(
-          <Card key={i}>
-            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}><span style={{fontSize:26}}>{l.icon}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13,color:'#111'}}>{l.label}</div><div style={{fontSize:11,color:'#777'}}>{l.desc}</div><div style={{fontSize:12,fontWeight:700,color:'#b7800a',marginTop:2}}>Fixed fee: {(l.fee*100).toFixed(0)}%</div></div></div>
-            <div style={{display:'flex',gap:8}}>
-              <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Loan amount..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-              <Btn onClick={()=>takeLoan(l.fee)} color='#1a5276' style={{fontSize:12,padding:'7px 12px'}}>Apply</Btn>
-            </div>
-            {lAmt&&parseInt(lAmt)>0&&<div style={{fontSize:11,color:'#777',marginTop:5}}>Receive 🪙{parseInt(lAmt)||0} · Fee 🪙{Math.round((parseInt(lAmt)||0)*l.fee)} deducted now</div>}
-          </Card>
-        ))}
-      </>}
-      {tab==='services'&&<>
-        <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#b7800a',marginBottom:6}}>💛 Gold Growth Account{!upgrades.goldVault?<span style={{fontSize:10,color:'#aaa',fontWeight:400}}> — Buy Gold Vault in Garage</span>:''}</div>
-          {!upgrades.goldVault?<div style={{fontSize:11,color:'#aaa',lineHeight:1.5}}>Purchase the Gold Vault upgrade in the Garage (🪙3,000) to unlock this account.</div>:<>
-            <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Deposit your gold and earn 2% returns automatically. Credited every 2 minutes in demo. Withdraw anytime with profits.</div>
-            <div style={{background:'#fff9e6',borderRadius:12,padding:'8px 12px',marginBottom:8}}>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#666'}}>Deposited</span><span style={{fontWeight:800,color:'#b7800a'}}>{goldGrowthBal}g</span></div>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:3}}><span style={{color:'#666'}}>Returns earned</span><span style={{fontWeight:700,color:'#27ae60'}}>+{G.goldGrowth}g</span></div>
-            </div>
-            <div style={{display:'flex',gap:8}}>
-              <Btn onClick={depositGoldGrowth} color='#b7800a' style={{flex:1,padding:9,fontSize:12}}>Deposit All Gold ({G.goldHeld}g)</Btn>
-              {goldGrowthBal>0&&<Btn onClick={withdrawGoldGrowth} style={{flex:1,padding:9,fontSize:12}}>Withdraw</Btn>}
-            </div>
-          </>}
-        </Card>
-        <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#16a085',marginBottom:6}}>👥 Joint Investment Fund</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Pool coins with your world. Earn 2% returns every 90 seconds. All players in your world benefit from contributions.</div>
-          <div style={{background:'#e8f8f5',borderRadius:12,padding:'8px 12px',marginBottom:8}}>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#555'}}>Your contribution</span><span style={{fontWeight:800,color:'#16a085'}}>🪙{jointBal.toLocaleString()}</span></div>
+        <div style={{display:'flex',gap:8,marginBottom:8}}>
+          <input type="number" value={dep} onChange={e=>setDep(e.target.value)} placeholder="Amount to deposit" style={{flex:1,border:'1.5px solid #eee',borderRadius:8,padding:8,fontSize:13}}/>
+          <button onClick={deposit} style={{background:'#1a5276',color:'#fff',border:'none',borderRadius:8,padding:'8px 14px',fontWeight:700,cursor:'pointer'}}>Deposit</button>
+        </div>
+        {bankBal>0&&<button onClick={()=>{earn(bankBal);setBankBal(0);notify(`Withdrew 🪙${bankBal.toLocaleString()} + profit share`,'gold');}} style={{width:'100%',background:'#eee',color:'#333',border:'none',borderRadius:8,padding:8,fontWeight:700,cursor:'pointer'}}>Withdraw 🪙{bankBal.toLocaleString()}</button>}
+      </div>
+
+      {/* Joint Investment Fund */}
+      <div style={{background:'#fff',borderRadius:14,padding:14,marginBottom:10,boxShadow:'0 2px 8px rgba(0,0,0,.06)'}}>
+        <div style={{fontWeight:800,fontSize:15,marginBottom:4,color:'#16a085'}}>🤝 Joint World Fund</div>
+        <div style={{fontSize:12,color:'#888',marginBottom:10}}>Pool coins with your world. Everyone earns 2% returns together every 90 seconds.</div>
+        <div style={{background:'#e8f8f5',borderRadius:10,padding:'8px 12px',marginBottom:8}}>
+          <div style={{display:'flex',justifyContent:'space-between',marginBottom:4}}>
+            <span style={{fontSize:12,color:'#555'}}>World Pool Total</span>
+            <span style={{fontWeight:800,color:'#16a085'}}>🪙{totalPool.toLocaleString()}</span>
           </div>
+          <div style={{display:'flex',justifyContent:'space-between'}}>
+            <span style={{fontSize:12,color:'#555'}}>Your Contribution</span>
+            <span style={{fontWeight:800,color:'#16a085'}}>🪙{jointBal.toLocaleString()}</span>
+          </div>
+        </div>
+        {worldPool.length>0&&<div style={{marginBottom:8}}>
+          <div style={{fontSize:11,fontWeight:700,color:'#888',marginBottom:4}}>CONTRIBUTORS</div>
+          {worldPool.map((p,i)=>(
+            <div key={i} style={{display:'flex',justifyContent:'space-between',fontSize:12,padding:'3px 0',borderBottom:'1px solid #f5f5f5'}}>
+              <span style={{color:'#555'}}>🌾 {p.name}</span>
+              <span style={{fontWeight:700,color:'#16a085'}}>🪙{(p.amount||0).toLocaleString()}</span>
+            </div>
+          ))}
+        </div>}
+        <div style={{display:'flex',gap:8,marginBottom:8}}>
+          <input type="number" value={jDep} onChange={e=>setJDep(e.target.value)} placeholder="Amount to pool" style={{flex:1,border:'1.5px solid #eee',borderRadius:8,padding:8,fontSize:13}}/>
+          <button onClick={joinFund} style={{background:'#16a085',color:'#fff',border:'none',borderRadius:8,padding:'8px 14px',fontWeight:700,cursor:'pointer'}}>Pool</button>
+        </div>
+        {jointBal>0&&<button onClick={withdrawJoint} style={{width:'100%',background:'#eee',color:'#333',border:'none',borderRadius:8,padding:8,fontWeight:700,cursor:'pointer'}}>Withdraw My 🪙{jointBal.toLocaleString()}</button>}
+      </div>
+
+      {/* Emergency Loan */}
+      {loanDebt>0?(
+        <div style={{background:'#fff5f5',borderRadius:12,padding:12,border:'1px solid #fce4e4'}}>
+          <div style={{fontWeight:800,color:'#c0392b',fontSize:13}}>⚠️ Outstanding Loan: 🪙{loanDebt}</div>
+          <div style={{fontSize:11,color:'#888',marginTop:4}}>10% of earnings auto-debits until repaid</div>
+        </div>
+      ):(
+        <div style={{background:'#fff',borderRadius:14,padding:14,boxShadow:'0 2px 8px rgba(0,0,0,.06)'}}>
+          <div style={{fontWeight:800,fontSize:15,marginBottom:4,color:'#e74c3c'}}>🤝 Emergency Loan</div>
+          <div style={{fontSize:12,color:'#888',marginBottom:10}}>Free community support loan. Max 🪙500. Repaid automatically at 10% of earnings.</div>
           <div style={{display:'flex',gap:8}}>
-            <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Amount to pool..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-            <Btn onClick={joinFund} color='#16a085' style={{fontSize:12,padding:'7px 12px'}}>Pool</Btn>
-            {jointBal>0&&<Btn onClick={withdrawJoint} color='#e67e22' style={{fontSize:12,padding:'7px 12px'}}>Withdraw</Btn>}
+            <input type="number" value={loan} onChange={e=>setLoan(+e.target.value)} min={1} max={500} style={{flex:1,border:'1.5px solid #eee',borderRadius:8,padding:8,fontSize:13}}/>
+            <button onClick={()=>takeEmergencyLoan(loan)} style={{background:'#e74c3c',color:'#fff',border:'none',borderRadius:8,padding:'8px 14px',fontWeight:700,cursor:'pointer'}}>Borrow</button>
           </div>
-        </Card>
-      </>}
+        </div>
+      )}
     </div>
   );
 }
@@ -1508,20 +1573,33 @@ function FarmhouseScreen({G}){
 }
 
 function VisitStallScreen({stall,onClose,G}){
-  const{coins,spend,notify,playerId,setMin,setSilo,T,listings}=G;
-  const[stallListings,setStallListings]=useState(stall.listings||[]);
+  const{coins,spend,notify,playerId,setMin,setSilo,T}=G;
   const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
   const[shown,setShown]=useState(true);
+  const[localListings,setLocalListings]=useState(stall.listings||[]);
+  const[buying,setBuying]=useState(null);
   const buyItem=async l=>{
+    if(buying)return;
     if(l.sellerId===playerId){notify('That is your own listing!','orange');return;}
     const total=l.price*l.qty;
     if(coins<total){notify('Not enough coins!','orange');return;}
+    setBuying(l.id);
     spend(total);
+    // Add to buyer inventory
     if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
     else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
-    if(db){try{await set(ref(db,`market/${l.id}`),null);}catch{}}
-    setStallListings(sl=>sl.filter(x=>x.id!==l.id));
-    notify(`Bought ${l.qty}x ${l.name}!`,'gold');
+    // Remove from Firebase market
+    if(db){
+      try{
+        await set(ref(db,`market/${l.id}`),null);
+        // Pay seller via Firebase
+        await set(ref(db,`payments/${l.sellerId}/${l.id}`),{amount:total,from:playerId,item:l.name,time:Date.now()});
+      }catch(e){console.log('Buy error:',e);}
+    }
+    // Remove from local stall view immediately
+    setLocalListings(prev=>prev.filter(x=>x.id!==l.id));
+    setBuying(null);
+    notify(`✅ Bought ${l.qty}x ${l.name}! Items added to your inventory.`,'gold');
   };
   return(
     <div style={{padding:14}}>
@@ -1539,8 +1617,8 @@ function VisitStallScreen({stall,onClose,G}){
         <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🏪 {stall.name}</div>
         <div style={{fontSize:12,opacity:.85}}>by {stall.farmName}</div>
       </div>
-      {stallListings&&stallListings.length>0?(
-        stallListings.map(l=>(
+      {localListings&&localListings.length>0?(
+        localListings.map(l=>(
           <Card key={l.id}>
             <div style={{display:'flex',alignItems:'center',gap:10}}>
               <div style={{fontSize:28}}>{l.emoji}</div>
@@ -1549,7 +1627,7 @@ function VisitStallScreen({stall,onClose,G}){
                 <div style={{fontSize:11,color:'#777'}}>×{l.qty}</div>
                 <div style={{fontWeight:800,color:'#f39c12'}}>🪙{l.price} each</div>
               </div>
-              {l.sellerId!==playerId&&<Btn onClick={()=>buyItem(l)} color={theme.color} disabled={coins<l.price*l.qty} style={{fontSize:12,padding:'8px 12px',flexShrink:0}}>Buy</Btn>}
+              {l.sellerId!==playerId&&<Btn onClick={()=>buyItem(l)} color={theme.color} disabled={coins<l.price*l.qty||buying===l.id} style={{fontSize:12,padding:'8px 12px',flexShrink:0}}>{buying===l.id?'..':'Buy'}</Btn>}
             </div>
           </Card>
         ))
