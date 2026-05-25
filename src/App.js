@@ -63,12 +63,12 @@ const FUEL_SHOP=[{name:'Small Can',emoji:'⛽',amt:25,cost:120},{name:'Large Can
 const UPGRADES=[{id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow all empty fields instantly',cost:2000},{id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},{id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},{id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower — less daily care needed',cost:1500},{id:'goldVault',name:'Gold Vault',emoji:'🥇',desc:'Unlocks Gold Growth Account and Joint Fund',cost:3000},{id:'siloBoost',name:'Super Silo',emoji:'🏗️',desc:'All crop sell prices permanently +10%',cost:1800}];
 const MENU_DEF=[
   {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting',desc:'Craft items for higher value',ac:'#795548',ml:3},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
-  {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1}]},
+  {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1},{id:'visitstalls',emoji:'🏘️',label:'Visit Stalls',desc:'Browse and buy from other players',ac:'#16a085',ml:1}]},
   {title:'FINANCE',items:[{id:'bank',emoji:'🏦',label:'Bank',desc:'Savings, loans and profit share',ac:'#1a5276',ml:1},{id:'gold',emoji:'🥇',label:'Gold Store',desc:'Buy and sell at live rates',ac:'#b7800a',ml:1},{id:'finance',emoji:'💰',label:'Financial Dashboard',desc:'Income, expenses and net worth',ac:'#1a6b2a',ml:1}]},
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','market','gmb','stall','bank','gold','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
+const ACTIVE=['farm','silo','animals','butchery','mine','market','gmb','stall','visitstalls','bank','gold','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
 const xpFor=l=>l*100;
 const todayStr=()=>new Date().toISOString().split('T')[0];
 const genTasks=lvl=>[...TASK_POOL].filter(t=>!(t.diff==='hard'&&lvl<10)&&!(t.diff==='medium'&&lvl<4)).sort(()=>Math.random()-.5).slice(0,8).map((t,i)=>({...t,id:`t${Date.now()}${i}`,accepted:false,expiresAt:Date.now()+t.hrs*3600000}));
@@ -108,6 +108,7 @@ function HarvestHaven({user,onSignOut}){
   const [goldBuy,setGoldBuy]=useState('');
   const [goldSell,setGoldSell]=useState('');
   const [stallCfg,setStall]=useState({name:'My Farm Stall',welcome:'Welcome! Freshest goods in the valley',goodbye:'Thanks for visiting! Come back soon',theme:'green'});
+  const [allStalls,setAllStalls]=useState([]);
   const [notifs,setNotifs]=useState([]);
   const [farmName,setFarmName]=useState('Sunny Acres Farm');
   const [themeId,setThemeId]=useState('forest');
@@ -434,6 +435,42 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     return()=>clearTimeout(t);
   },[]);
 
+
+  // Sync own stall to Firebase
+  useEffect(()=>{
+    if(!db||!playerId)return;
+    const stall={...stallCfg,playerId,farmName,listings:listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now()),lastSeen:Date.now()};
+    set(ref(db,`stalls/${playerId}`),stall).catch(()=>{});
+  },[stallCfg,listings,farmName,playerId]);
+
+  // Load all other players stalls from Firebase
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'stalls'),sn=>{
+      if(sn.exists()){
+        const data=sn.val();
+        const stalls=Object.values(data).filter(s=>s.playerId!==playerId&&Date.now()-s.lastSeen<3600000);
+        setAllStalls(stalls);
+      }else setAllStalls([]);
+    });
+    return()=>unsub();
+  },[playerId]);
+
+  // Load market listings from Firebase
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'market'),sn=>{
+      if(sn.exists()){
+        const data=sn.val();
+        if(data&&typeof data==='object'){
+          const now=Date.now();
+          setListings(Object.values(data).filter(l=>l&&l.expiresAt>now).sort((a,b)=>b.expiresAt-a.expiresAt));
+        }
+      }else setListings([]);
+    });
+    return()=>unsub();
+  },[]);
+
   // Machine management
   const buyMach=mId=>{const def=MACH_DEF[mId];if(coins<def.cost){notify(`Need 🪙${def.cost.toLocaleString()}!`,'orange');return;}spend(def.cost);setMach(p=>({...p,[mId]:{...p[mId],owned:true}}));notify(`${def.name} purchased!`,'green');};
   const upgMach=mId=>{const m=mach[mId],def=MACH_DEF[mId];if(m.tier>=4){notify('Already max tier!','orange');return;}const cost=def.upg[m.tier+1];if(coins<cost){notify(`Need 🪙${cost.toLocaleString()}!`,'orange');return;}spend(cost);setMach(p=>({...p,[mId]:{...p[mId],tier:p[mId].tier+1}}));notify(`${def.name} → ${def.tiers[m.tier+1].l}!`,'gold');};
@@ -447,8 +484,25 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const craft=r=>{if(!canCraft(r)){notify('Not enough ingredients!','orange');return;}const ns={...silo},nm={...minerals};Object.entries(r.ing).forEach(([id,qty])=>{const inS=CROPS.find(c=>c.id===id);if(inS)ns[id]=(ns[id]||0)-qty;else nm[id]=(nm[id]||0)-qty;});setSilo(ns);setMin(nm);setCraftInv(c=>({...c,[r.id]:(c[r.id]||0)+1}));setXp(x=>x+r.xp);addCollected(r.id);notify(`Crafted ${r.emoji} ${r.name}!`,'gold');};
   const sellCrafted=r=>{const q=craftInv[r.id]||0;if(!q)return;earn(q*r.sell);setCraftInv(c=>({...c,[r.id]:0}));notify(`Sold ${q}x ${r.emoji} 🪙${(q*r.sell).toLocaleString()}`,'gold');};
 
-  const addListing=(itemId,qty,price,type,emoji,name)=>{if(type==='silo'&&(silo[itemId]||0)<qty){notify('Not enough in Silo!','orange');return;}if(type==='mineral'&&(minerals[itemId]||0)<qty){notify('Not enough minerals!','orange');return;}if(type==='silo')setSilo(s=>({...s,[itemId]:(s[itemId]||0)-qty}));else setMin(m=>({...m,[itemId]:(m[itemId]||0)-qty}));setListings(l=>[...l,{id:Date.now(),itemId,qty,price,type,emoji,name,seller:farmName,sellerId:playerId,expiresAt:Date.now()+24*3600000}]);notify(`Listed ${qty}x ${name}!`,'green');};
-  const buyListing=l=>{if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}spend(total);if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));setListings(ls=>ls.filter(x=>x.id!==l.id));notify(`Bought ${l.qty}x ${l.name}!`,'gold');};
+  const addListing=async(itemId,qty,price,type,emoji,name)=>{
+    if(type==='silo'&&(silo[itemId]||0)<qty){notify('Not enough in Silo!','orange');return;}
+    if(type==='mineral'&&(minerals[itemId]||0)<qty){notify('Not enough minerals!','orange');return;}
+    if(type==='silo')setSilo(s=>({...s,[itemId]:(s[itemId]||0)-qty}));
+    else setMin(m=>({...m,[itemId]:(m[itemId]||0)-qty}));
+    const listing={id:`${Date.now()}_${playerId}`,itemId,qty,price,type,emoji,name,seller:farmName,sellerId:playerId,expiresAt:Date.now()+24*3600000};
+    if(db){try{await set(ref(db,`market/${listing.id}`),listing);}catch(e){console.log('Listing error:',e);}}
+    notify(`Listed ${qty}x ${name}!`,'green');
+  };
+  const buyListing=async l=>{
+    if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}
+    const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}
+    spend(total);
+    if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
+    else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
+    if(db){try{await set(ref(db,`market/${l.id}`),null);}catch(e){console.log('Buy error:',e);}}
+    setListings(ls=>ls.filter(x=>x.id!==l.id));
+    notify(`Bought ${l.qty}x ${l.name}!`,'gold');
+  };
 
   const sendChat=async(ch,text)=>{
     if(['spam','scam','hack'].some(w=>text.toLowerCase().includes(w))){notify('Blocked.','orange');return false;}
@@ -468,7 +522,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const isHome=screen==='home';
   const screenLabel=MENU_DEF.flatMap(s=>s.items).find(i=>i.id===screen);
 
-  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll};
+  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll,allStalls,saveGame};
 
   return(
     <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:isHome?T.bg:'#f3f4f3',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
@@ -529,6 +583,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         {screen==='finance'&&<FinanceScreen G={G}/>}
         {screen==='chat'&&<ChatScreen G={G}/>}
         {screen==='garage'&&<GarageScreen G={G}/>}
+        {screen==='visitstalls'&&<VisitStallsListScreen G={G}/>}
         {screen==='farmhouse'&&<FarmhouseScreen G={G}/>}
         {!ACTIVE.includes(screen)&&screen!=='home'&&<div style={{textAlign:'center',padding:'60px 30px'}}><div style={{fontSize:56,marginBottom:14}}>🚧</div><div style={{fontWeight:800,fontSize:18,color:'#777',marginBottom:8}}>Coming Soon</div></div>}
       </div>
@@ -1450,6 +1505,99 @@ function FarmhouseScreen({G}){
     </div>
   );
 }
+
+function VisitStallScreen({stall,onClose,G}){
+  const{coins,spend,notify,playerId,setMin,setSilo,T}=G;
+  const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
+  const[shown,setShown]=useState(true);
+  const buyItem=async l=>{
+    if(l.sellerId===playerId){notify('That is your own listing!','orange');return;}
+    const total=l.price*l.qty;
+    if(coins<total){notify('Not enough coins!','orange');return;}
+    spend(total);
+    if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
+    else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
+    if(db){try{await set(ref(db,`market/${l.id}`),null);}catch{}}
+    notify(`Bought ${l.qty}x ${l.name}!`,'gold');
+  };
+  return(
+    <div style={{padding:14}}>
+      {shown&&<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.55)',zIndex:500,display:'flex',alignItems:'center',justifyContent:'center',padding:20}}>
+        <div style={{background:theme.color,borderRadius:24,padding:28,maxWidth:340,width:'100%',textAlign:'center',color:'#fff'}}>
+          <div style={{fontSize:48,marginBottom:8}}>👋</div>
+          <div style={{fontSize:20,fontWeight:900,marginBottom:6}}>{stall.welcome||'Welcome!'}</div>
+          <div style={{fontSize:13,opacity:.85,marginBottom:20}}>Welcome to {stall.name}</div>
+          <button onClick={()=>setShown(false)} style={{background:'rgba(255,255,255,.25)',color:'#fff',border:'1.5px solid rgba(255,255,255,.5)',borderRadius:14,padding:'11px 28px',fontSize:14,fontWeight:800,cursor:'pointer'}}>Enter Stall</button>
+        </div>
+      </div>}
+      <div style={{background:theme.color,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <button onClick={onClose} style={{background:'rgba(255,255,255,.2)',border:'none',color:'#fff',borderRadius:8,padding:'4px 12px',fontSize:12,fontWeight:700,cursor:'pointer',marginBottom:8}}>← Back</button>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:700}}>VISITING</div>
+        <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🏪 {stall.name}</div>
+        <div style={{fontSize:12,opacity:.85}}>by {stall.farmName}</div>
+      </div>
+      {stall.listings&&stall.listings.length>0?(
+        stall.listings.map(l=>(
+          <Card key={l.id}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:28}}>{l.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{l.name}</div>
+                <div style={{fontSize:11,color:'#777'}}>×{l.qty}</div>
+                <div style={{fontWeight:800,color:'#f39c12'}}>🪙{l.price} each</div>
+              </div>
+              {l.sellerId!==playerId&&<Btn onClick={()=>buyItem(l)} color={theme.color} disabled={coins<l.price*l.qty} style={{fontSize:12,padding:'8px 12px',flexShrink:0}}>Buy</Btn>}
+            </div>
+          </Card>
+        ))
+      ):(
+        <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
+          <div style={{fontSize:48}}>📭</div>
+          <div style={{fontWeight:700,color:'#888',marginTop:8}}>No items for sale</div>
+        </div>
+      )}
+      <button onClick={()=>{notify(stall.goodbye||'Goodbye! Come back soon 👋','green');onClose();}} style={{width:'100%',background:'#f5f5f5',border:'1px solid #ddd',borderRadius:14,padding:13,fontSize:14,fontWeight:700,cursor:'pointer',color:'#555',marginTop:8}}>Leave Stall 👋</button>
+    </div>
+  );
+}
+
+function VisitStallsListScreen({G}){
+  const{allStalls,T}=G;
+  const[visiting,setVisiting]=useState(null);
+  if(visiting)return<VisitStallScreen stall={visiting} onClose={()=>setVisiting(null)} G={G}/>;
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>PLAYER STALLS</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🛖 Visit Farm Stalls</div>
+        <div style={{fontSize:12,opacity:.85}}>{allStalls.length} stalls open right now</div>
+      </div>
+      {allStalls.length===0?(
+        <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
+          <div style={{fontSize:56}}>🛖</div>
+          <div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No stalls open yet</div>
+          <div style={{fontSize:12,marginTop:6,color:'#aaa'}}>Other players need to list items first</div>
+        </div>
+      ):allStalls.map(stall=>{
+        const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
+        return(
+          <Card key={stall.playerId}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{width:46,height:46,background:theme.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0}}>🏪</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{stall.name}</div>
+                <div style={{fontSize:11,color:'#777'}}>by {stall.farmName}</div>
+                <div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>{stall.listings?.length||0} items for sale</div>
+              </div>
+              <Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
 function AuthScreen({onLogin}){
   const[mode,setMode]=useState('login');
   const[email,setEmail]=useState('');
