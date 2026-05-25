@@ -114,6 +114,7 @@ function HarvestHaven({user,onSignOut}){
   const [todaySpent,setTDS]=useState(0);
   const [animalCd,setAnimalCd]=useState({});
   const [animalTypes,setAT]=useState(new Set());
+  const [ownedAnimals,setOwnedAnimals]=useState({});
   const [meatInv,setMeatInv]=useState({});
   const [minerals,setMin]=useState({});
   const [minedTotal,setMTotal]=useState(0);
