@@ -593,7 +593,8 @@ const addListing=async(itemId,qty,price,type,emoji,name)=>{
       catch(e){console.log('Listing error:',e);}
     }
     notify(`Listed ${qty}x ${name}!`,'green');
-const buyListing=async l=>{
+  };
+  const buyListing=async l=>{
     if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}
     const total=l.price*l.qty;
     if(coins<total){notify('Not enough coins!','orange');return;}
