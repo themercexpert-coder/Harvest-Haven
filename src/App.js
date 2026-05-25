@@ -1448,22 +1448,6 @@ function VisitStallsListScreen({G}){
 }
 
 function VisitStallScreen({stall,onClose,G}){
-  const{coins,spend,notify,setMin,setSilo}=G;
-  const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
-  const[shown,setShown]=useState(true);
-  return(
-    <div style={{padding:14}}>
-      {shown&&<div style={{position:'fixed',top:0,left:0,right:0,bottom:0,background:'rgba(0,0,0,0.5)',zIndex:500,display:'flex',alignItems:'center',justifyContent:'center',padding:20}}><div style={{background:theme.color,borderRadius:20,padding:24,maxWidth:340,width:'100%',textAlign:'center',color:'#fff'}}><div style={{fontSize:40,marginBottom:8}}>👋</div><div style={{fontSize:18,fontWeight:900,marginBottom:6}}>{stall.welcome}</div><div style={{fontSize:13,opacity:.85,marginBottom:16}}>Welcome to {stall.name}</div><button onClick={()=>setShown(false)} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1.5px solid rgba(255,255,255,.4)',borderRadius:12,padding:'10px 24px',fontSize:14,fontWeight:700,cursor:'pointer'}}>Enter Stall</button></div></div>}
-      <div style={{background:theme.color,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:700}}>VISITING</div>
-        <div style={{fontSize:22,fontWeight:900}}>🏪 {stall.name}</div>
-        <div style={{fontSize:12,opacity:.85}}>by {stall.farmName}</div>
-      </div>
-      {stall.listings&&stall.listings.length>0?stall.listings.map(l=>(<Card key={l.id}><div style={{display:'flex',alignItems:'center',gap:12}}><span style={{fontSize:30}}>{l.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{l.name} x{l.qty}</div><div style={{fontSize:12,color:'#b7800a',fontWeight:700}}>🪙{l.price} each</div></div><Btn onClick={()=>{const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}spend(total);if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));if(db)set(ref(db,`market/${l.id}`),null).catch(()=>{});notify(`Bought ${l.qty}x ${l.name}!`,'gold');}} disabled={coins<l.price*l.qty} style={{fontSize:12,padding:'7px 11px',flexShrink:0}}>Buy</Btn></div></Card>)):<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:40}}>📭</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No items listed</div></div>}
-      <button onClick={()=>{notify(stall.goodbye,'green');onClose();}} style={{width:'100%',background:'#f5f5f5',border:'1px solid #ddd',borderRadius:14,padding:13,fontSize:14,fontWeight:700,cursor:'pointer',color:'#555',marginTop:8}}>Leave Stall 👋</button>
-    </div>
-  );
-}function VisitStallScreen({stall,onClose,G}){
   const{coins,spend,notify,playerId,setMin,setSilo}=G;
   const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
   const[shown,setShown]=useState(true);
