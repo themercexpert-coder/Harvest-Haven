@@ -1,11 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { db, ref, set, get, child, onValue, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
-import { useState, useEffect, useCallback, useRef } from 'react';
-// In VS Code replace this line with:
-// import { db, ref, set, get, child, onValue, auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from './firebase';
-const db=null,auth=null;
-const ref=()=>{},set=async()=>{},get=async()=>({exists:()=>false,val:()=>({})}),child=()=>{},onValue=()=>()=>{};
-const createUserWithEmailAndPassword=async()=>({user:{uid:'preview_'+Math.random().toString(36).substr(2,6)}}),signInWithEmailAndPassword=async()=>({user:{uid:'preview'}}),signOut=async()=>{},onAuthStateChanged=(a,cb)=>{cb({uid:'preview_user',email:'preview@farm.com'});return()=>{}};
 
 // ─── Storage Polyfill ─────────────────────────────────────────
 if(typeof window!=='undefined'&&!window.storage){
@@ -597,7 +591,7 @@ function HarvestHaven({user,onSignOut}){
     else if(tile.state==='plowed'){
       if(coins<selCrop.cost){notify('Not enough coins!','orange');return;}
       spend(selCrop.cost);
-      const growMult=upgrades.greenhouse?.6:1;
+      const growMult=upgrades.greenhouse?0.6:1;
       const at=Date.now()+selCrop.grow*1000*growMult;
       setTiles(ts=>ts.map(ti=>ti.id===tile.id?{...ti,state:'planted',crop:selCrop,growsAt:at,watered:false}:ti));
       setStamina(s=>Math.max(0,s-.5));notify(`${selCrop.emoji} Planted!`);
@@ -621,7 +615,7 @@ function HarvestHaven({user,onSignOut}){
     const cost=plowed.length*selCrop.cost;
     if(coins<cost){notify(`Need 🪙${cost.toLocaleString()} for ${plowed.length} fields!`,'orange');return;}
     spend(cost);
-    const growMult=upgrades.greenhouse?.6:1;
+    const growMult=upgrades.greenhouse?0.6:1;
     const at=Date.now()+selCrop.grow*1000*growMult;
     setTiles(ts=>ts.map(t=>t.state==='plowed'?{...t,state:'planted',crop:selCrop,growsAt:at,watered:false}:t));
     notify(`Planted ${plowed.length}x ${selCrop.emoji}!`,'green');
@@ -850,7 +844,157 @@ function HarvestHaven({user,onSignOut}){
   const {HomeScreen,FarmScreen,SiloScreen,DailyScreen,CraftingScreen,TaskBoardScreen,PetsScreen,CollectionsScreen,GoalsScreen,AnimalsScreen,ButcheryScreen,MineScreen,MarketScreen,GmbScreen,StallScreen,BankScreen,GoldScreen,FinanceScreen,ChatScreen,GarageScreen,FarmhouseScreen,VisitStallScreen,VisitStallsListScreen}=window.__HHScreens||{};
 
   const renderScreen=()=>{
-    const props={G,tiles,tapTile,td,selCrop,setSelCrop,landPlots,buyLand};
     if(!HomeScreen)return<div style={{padding:20,textAlign:'center',color:'#1a6b2a',fontSize:14}}>Loading screens... Make sure Screens.js is imported.</div>;
     switch(screen){
-      case 'home': return<HomeScreen G={G} siloTotal={siloTotal} siloValue={silo
+      case 'home': return<HomeScreen G={G} siloTotal={siloTotal} siloValue={siloValue} tiles={tiles} tapTile={tapTile} td={td} selCrop={selCrop} setSelCrop={setSelCrop} landPlots={landPlots} buyLand={buyLand}/>;
+      case 'farm': return<FarmScreen G={G} tiles={tiles} tapTile={tapTile} td={td} selCrop={selCrop} setSelCrop={setSelCrop} landPlots={landPlots} buyLand={buyLand}/>;
+      case 'silo': return<SiloScreen G={G}/>;
+      case 'daily': return<DailyScreen G={G}/>;
+      case 'crafting': return<CraftingScreen G={G}/>;
+      case 'taskboard': return<TaskBoardScreen G={G}/>;
+      case 'pets': return<PetsScreen G={G}/>;
+      case 'collections': return<CollectionsScreen G={G}/>;
+      case 'goals': return<GoalsScreen G={G}/>;
+      case 'animals': return<AnimalsScreen G={G}/>;
+      case 'butchery': return<ButcheryScreen G={G}/>;
+      case 'mine': return<MineScreen G={G}/>;
+      case 'market': return<MarketScreen G={G}/>;
+      case 'gmb': return<GmbScreen G={G}/>;
+      case 'stall': return<StallScreen G={G}/>;
+      case 'bank': return<BankScreen G={G}/>;
+      case 'gold': return<GoldScreen G={G}/>;
+      case 'finance': return<FinanceScreen G={G}/>;
+      case 'chat': return<ChatScreen G={G}/>;
+      case 'garage': return<GarageScreen G={G}/>;
+      case 'farmhouse': return<FarmhouseScreen G={G}/>;
+      case 'visitstalls': return<VisitStallsListScreen G={G}/>;
+      default: return<HomeScreen G={G} siloTotal={siloTotal} siloValue={siloValue} tiles={tiles} tapTile={tapTile} td={td} selCrop={selCrop} setSelCrop={setSelCrop} landPlots={landPlots} buyLand={buyLand}/>;
+    }
+  };
+
+  return(
+    <div style={{maxWidth:430,margin:'0 auto',minHeight:'100vh',background:T.bg,fontFamily:'system-ui,sans-serif',position:'relative',overflow:'hidden'}}>
+      {/* Notifications */}
+      <div style={{position:'fixed',top:16,left:'50%',transform:'translateX(-50%)',zIndex:9999,display:'flex',flexDirection:'column',gap:6,alignItems:'center',pointerEvents:'none',width:'90%',maxWidth:380}}>
+        {notifs.map(n=>(
+          <div key={n.id} style={{background:nc[n.type]||nc.green,color:'#fff',borderRadius:12,padding:'8px 16px',fontSize:13,fontWeight:700,boxShadow:'0 4px 16px rgba(0,0,0,.18)',animation:'fadeIn .2s ease',whiteSpace:'nowrap',maxWidth:'100%',overflow:'hidden',textOverflow:'ellipsis'}}>
+            {n.msg}
+          </div>
+        ))}
+      </div>
+
+      {/* Header */}
+      <div style={{background:'rgba(255,255,255,0.85)',backdropFilter:'blur(8px)',padding:'10px 14px',display:'flex',alignItems:'center',justifyContent:'space-between',borderBottom:'1px solid rgba(0,0,0,0.06)',position:'sticky',top:0,zIndex:100}}>
+        {screen!=='home'?(
+          <button onClick={()=>setScreen('home')} style={{background:'none',border:'none',fontSize:20,cursor:'pointer',padding:'2px 6px',color:T.primary}}>←</button>
+        ):(
+          <div style={{fontSize:11,fontWeight:800,color:T.primary,letterSpacing:1.2}}>🌾 HARVEST HAVEN</div>
+        )}
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          {screen!=='home'&&<div style={{fontSize:13,fontWeight:800,color:'#333'}}>{screenLabel?.label||''}</div>}
+        </div>
+        <div style={{display:'flex',alignItems:'center',gap:8}}>
+          <div style={{background:T.light,borderRadius:10,padding:'4px 10px',fontSize:13,fontWeight:800,color:T.primary}}>🪙{coins.toLocaleString()}</div>
+          <button onClick={onSignOut} style={{background:'none',border:'1px solid #ddd',borderRadius:8,padding:'3px 8px',fontSize:10,color:'#888',cursor:'pointer',fontWeight:600}}>Out</button>
+        </div>
+      </div>
+
+      {/* Offline report */}
+      {offRep&&(
+        <div style={{margin:'10px 14px 0',background:'#fff',borderRadius:16,padding:14,boxShadow:'0 2px 12px rgba(0,0,0,.08)',border:'1px solid #e8f5e9'}}>
+          <div style={{fontWeight:800,fontSize:14,color:'#1a6b2a',marginBottom:8}}>⏰ While You Were Away</div>
+          {offRep.harvested>0&&<div style={{fontSize:13,color:'#333',marginBottom:4}}>🌾 Harvested: {offRep.harvested} crops</div>}
+          {offRep.earned>0&&<div style={{fontSize:13,color:'#333',marginBottom:4}}>🪙 Earned: {offRep.earned.toLocaleString()} coins</div>}
+          {offRep.planted>0&&<div style={{fontSize:13,color:'#333',marginBottom:4}}>🌱 Planted: {offRep.planted} crops</div>}
+          <button onClick={()=>setOffRep(null)} style={{marginTop:6,background:T.primary,color:'#fff',border:'none',borderRadius:10,padding:'6px 16px',fontSize:12,fontWeight:700,cursor:'pointer'}}>OK!</button>
+        </div>
+      )}
+
+      {/* Main content */}
+      <div style={{paddingBottom:20}}>
+        {renderScreen()}
+      </div>
+
+      <style>{`@keyframes fadeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}`}</style>
+    </div>
+  );
+}
+
+function AuthScreen({onLogin}){
+  const[mode,setMode]=useState('login');
+  const[email,setEmail]=useState('');
+  const[password,setPassword]=useState('');
+  const[username,setUsername]=useState('');
+  const[farmNameL,setFarmNameL]=useState('');
+  const[error,setError]=useState('');
+  const[loading,setLoading]=useState(false);
+
+  const submit=async()=>{
+    setError('');setLoading(true);
+    try{
+      if(mode==='register'){
+        if(!username.trim()||!farmNameL.trim()){setError('Please fill in all fields.');setLoading(false);return;}
+        const cred=await createUserWithEmailAndPassword(auth,email,password);
+        if(db){
+          await set(ref(db,`users/${cred.user.uid}/profile`),{username:username.trim(),farmName:farmNameL.trim(),email,createdAt:Date.now()});
+        }
+        try{await window.storage.set('farm_name',farmNameL.trim());}catch{}
+        onLogin(cred.user);
+      }else{
+        const cred=await signInWithEmailAndPassword(auth,email,password);
+        onLogin(cred.user);
+      }
+    }catch(e){
+      const msgs={'auth/email-already-in-use':'Email already registered.','auth/wrong-password':'Incorrect password.','auth/user-not-found':'No account with that email.','auth/weak-password':'Password must be 6+ characters.','auth/invalid-email':'Invalid email address.','auth/invalid-credential':'Incorrect email or password.'};
+      setError(msgs[e.code]||e.message);
+    }
+    setLoading(false);
+  };
+
+  return(
+    <div style={{minHeight:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9 55%,#d4f1b8)',display:'flex',alignItems:'center',justifyContent:'center',padding:20,fontFamily:'system-ui,sans-serif'}}>
+      <div style={{background:'rgba(255,255,255,0.95)',borderRadius:24,padding:28,width:'100%',maxWidth:380,boxShadow:'0 8px 40px rgba(0,0,0,0.12)'}}>
+        <div style={{textAlign:'center',marginBottom:24}}>
+          <div style={{fontSize:52,marginBottom:8}}>🌾</div>
+          <div style={{fontSize:24,fontWeight:900,color:'#1a6b2a'}}>Harvest Haven</div>
+          <div style={{fontSize:13,color:'#888',marginTop:4}}>Your farming adventure awaits!</div>
+        </div>
+
+        <div style={{display:'flex',background:'#f5f5f5',borderRadius:14,padding:3,marginBottom:20}}>
+          {['login','register'].map(m=>(
+            <button key={m} onClick={()=>{setMode(m);setError('');}} style={{flex:1,background:mode===m?'#fff':'transparent',border:'none',borderRadius:11,padding:'9px 0',fontSize:13,fontWeight:700,color:mode===m?'#1a6b2a':'#888',cursor:'pointer',transition:'all .2s',boxShadow:mode===m?'0 2px 8px rgba(0,0,0,.08)':'none'}}>
+              {m==='login'?'Sign In':'Create Account'}
+            </button>
+          ))}
+        </div>
+
+        {mode==='register'&&(
+          <>
+            <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="Username" style={{width:'100%',border:'1.5px solid #e0e0e0',borderRadius:12,padding:'11px 14px',fontSize:14,marginBottom:10,boxSizing:'border-box',outline:'none'}}/>
+            <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder="Farm Name" style={{width:'100%',border:'1.5px solid #e0e0e0',borderRadius:12,padding:'11px 14px',fontSize:14,marginBottom:10,boxSizing:'border-box',outline:'none'}}/>
+          </>
+        )}
+        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email" type="email" style={{width:'100%',border:'1.5px solid #e0e0e0',borderRadius:12,padding:'11px 14px',fontSize:14,marginBottom:10,boxSizing:'border-box',outline:'none'}}/>
+        <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" type="password" style={{width:'100%',border:'1.5px solid #e0e0e0',borderRadius:12,padding:'11px 14px',fontSize:14,marginBottom:16,boxSizing:'border-box',outline:'none'}}/>
+
+        {error&&<div style={{background:'#fff5f5',border:'1px solid #fce4e4',borderRadius:10,padding:'8px 12px',fontSize:12,color:'#c0392b',marginBottom:12,fontWeight:600}}>{error}</div>}
+
+        <button onClick={submit} disabled={loading} style={{width:'100%',background:loading?'#bbb':'#1a6b2a',color:'#fff',border:'none',borderRadius:12,padding:'13px',fontSize:15,fontWeight:800,cursor:loading?'default':'pointer'}}>
+          {loading?'Please wait...':mode==='login'?'Sign In':'Create Account'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default function Root(){
+  const[user,setUser]=useState(null);
+  const[checking,setChecking]=useState(true);
+  useEffect(()=>{
+    const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
+    return unsub;
+  },[]);
+  if(checking)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9)',fontFamily:'system-ui',fontSize:18,color:'#1a6b2a',fontWeight:700}}>🌾 Loading...</div>;
+  if(!user)return<AuthScreen onLogin={setUser}/>;
+  return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
+}
