@@ -439,7 +439,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   // Sync own stall to Firebase
   useEffect(()=>{
     if(!db||!playerId)return;
-    const stall={...stallCfg,playerId,farmName,listings:listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now()),lastSeen:Date.now()};
+    const myListings=listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now());
+    const stall={...stallCfg,playerId,farmName,listings:myListings,lastSeen:Date.now()};
     set(ref(db,`stalls/${playerId}`),stall).catch(()=>{});
   },[stallCfg,listings,farmName,playerId]);
 
@@ -1507,7 +1508,8 @@ function FarmhouseScreen({G}){
 }
 
 function VisitStallScreen({stall,onClose,G}){
-  const{coins,spend,notify,playerId,setMin,setSilo,T}=G;
+  const{coins,spend,notify,playerId,setMin,setSilo,T,listings}=G;
+  const[stallListings,setStallListings]=useState(stall.listings||[]);
   const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
   const[shown,setShown]=useState(true);
   const buyItem=async l=>{
@@ -1518,6 +1520,7 @@ function VisitStallScreen({stall,onClose,G}){
     if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
     else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
     if(db){try{await set(ref(db,`market/${l.id}`),null);}catch{}}
+    setStallListings(sl=>sl.filter(x=>x.id!==l.id));
     notify(`Bought ${l.qty}x ${l.name}!`,'gold');
   };
   return(
@@ -1536,8 +1539,8 @@ function VisitStallScreen({stall,onClose,G}){
         <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🏪 {stall.name}</div>
         <div style={{fontSize:12,opacity:.85}}>by {stall.farmName}</div>
       </div>
-      {stall.listings&&stall.listings.length>0?(
-        stall.listings.map(l=>(
+      {stallListings&&stallListings.length>0?(
+        stallListings.map(l=>(
           <Card key={l.id}>
             <div style={{display:'flex',alignItems:'center',gap:10}}>
               <div style={{fontSize:28}}>{l.emoji}</div>
