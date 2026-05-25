@@ -593,8 +593,7 @@ const addListing=async(itemId,qty,price,type,emoji,name)=>{
       catch(e){console.log('Listing error:',e);}
     }
     notify(`Listed ${qty}x ${name}!`,'green');
-  };
-  const buyListing=async l=>{
+const buyListing=async l=>{
     if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}
     const total=l.price*l.qty;
     if(coins<total){notify('Not enough coins!','orange');return;}
@@ -1427,26 +1426,8 @@ function GarageScreen({G}){
   );
 }
 
-function VisitStallsListScreen({G}){
-  const{allStalls,T}=G;
-  const[visiting,setVisiting]=useState(null);
-  if(visiting)return<VisitStallScreen stall={visiting} onClose={()=>setVisiting(null)} G={G}/>;
-  return(
-    <div style={{padding:14}}>
-      <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>PLAYER STALLS</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🛖 Visit Farm Stalls</div>
-        <div style={{fontSize:12,opacity:.85}}>{allStalls.length} stalls open right now</div>
-      </div>
-      {allStalls.length===0?(<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:56}}>🛖</div><div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No stalls open</div></div>
-      ):allStalls.map(stall=>{
-        const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
-        return(<Card key={stall.playerId}><div style={{display:'flex',alignItems:'center',gap:12}}><div style={{width:46,height:46,background:theme.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0}}>🏪</div><div style={{flex:1}}><div style={{fontWeight:800,fontSize:15,color:'#111'}}>{stall.name}</div><div style={{fontSize:11,color:'#777'}}>by {stall.farmName}</div><div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>{stall.listings?.length||0} items for sale</div></div><Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn></div></Card>);
-      })}
-    </div>
-  );
-}
 
+}
 function VisitStallScreen({stall,onClose,G}){
   const{coins,spend,notify,playerId,setMin,setSilo}=G;
   const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
@@ -1492,6 +1473,43 @@ function VisitStallScreen({stall,onClose,G}){
     </div>
   );
 }
+function VisitStallsListScreen({G}){
+  const{allStalls,T}=G;
+  const[visiting,setVisiting]=useState(null);
+  if(visiting)return<VisitStallScreen stall={visiting} onClose={()=>setVisiting(null)} G={G}/>;
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>PLAYER STALLS</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🛖 Visit Farm Stalls</div>
+        <div style={{fontSize:12,opacity:.85}}>{allStalls.length} stalls open right now</div>
+      </div>
+      {allStalls.length===0?(
+        <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
+          <div style={{fontSize:56}}>🛖</div>
+          <div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No stalls open</div>
+          <div style={{fontSize:12,marginTop:6,color:'#aaa'}}>Other players need to set up their stalls first</div>
+        </div>
+      ):allStalls.map(stall=>{
+        const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
+        return(
+          <Card key={stall.playerId}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{width:46,height:46,background:theme.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0}}>🏪</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{stall.name}</div>
+                <div style={{fontSize:11,color:'#777'}}>by {stall.farmName}</div>
+                <div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>{stall.listings?.length||0} items for sale</div>
+              </div>
+              <Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
 function ChatScreen({G}){
   const{chatMsgs,sendChat,setChat,playerId,blocked,setBlocked,notify}=G;
   const[ch,setCh]=useState('General');
