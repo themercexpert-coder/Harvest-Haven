@@ -1818,7 +1818,7 @@ export default function Root(){
     const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
     return unsub;
   },[]);
- } if(checking)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9)',fontFamily:'system-ui',fontSize:18,color:'#1a6b2a',fontWeight:700}}>🌾 Loading...</div>;
+  if(checking)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9)',fontFamily:'system-ui',fontSize:18,color:'#1a6b2a',fontWeight:700}}>🌾 Loading...</div>;
   if(!user)return<AuthScreen onLogin={setUser}/>;
   return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
 }
