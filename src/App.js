@@ -60,7 +60,22 @@ const MACH_DEF={
   harvester:{id:'harvester',name:'Combine Harvester',emoji:'🌾',desc:'Auto-harvests ready crops directly into silo',cost:2000,tiers:[{t:2,s:20,f:3,bc:.05,l:'Mk1'},{t:4,s:15,f:3.5,bc:.1,l:'Mk2'},{t:6,s:11,f:4,bc:.15,l:'Mk3'},{t:8,s:8,f:4.5,bc:.2,l:'Mk4'},{t:16,s:5,f:5,bc:.3,l:'Mk5'},{t:20,s:4,f:5.5,bc:.4,l:'Mk6'},{t:28,s:3,f:6,bc:.5,l:'Mk7'},{t:40,s:2,f:7,bc:.6,l:'Mk8'}],upg:[0,1200,2800,5500,10000,20000,40000,80000]},
 };
 const FUEL_SHOP=[{name:'Small Can',emoji:'⛽',amt:25,cost:120},{name:'Large Can',emoji:'🪣',amt:75,cost:320},{name:'Full Tank',emoji:'🚛',amt:200,cost:750},{name:'Mega Drum',emoji:'🏭',amt:500,cost:1800},{name:'Farm Tanker',emoji:'⛽',amt:1000,cost:3200}];
-const UPGRADES=[{id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow all empty fields instantly',cost:2000},{id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},{id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},{id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower — less daily care needed',cost:1500},{id:'goldVault',name:'Gold Vault',emoji:'🥇',desc:'Unlocks Gold Growth Account and Joint Fund',cost:3000},{id:'siloBoost',name:'Super Silo',emoji:'🏗️',desc:'All crop sell prices permanently +10%',cost:1800}];
+const UPGRADES=[
+  {id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow ALL empty fields instantly — no limit',cost:2000},
+  {id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},
+  {id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},
+  {id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower — less daily care needed',cost:1500},
+  {id:'goldVault',name:'Gold Vault',emoji:'🥇',desc:'Unlocks Gold Growth Account and Joint Fund',cost:3000},
+  {id:'siloBoost',name:'Super Silo',emoji:'🏗️',desc:'All crop sell prices permanently +10%',cost:1800},
+  {id:'greenhouse',name:'Greenhouse',emoji:'🌿',desc:'All crops grow 40% faster permanently',cost:4000},
+  {id:'richSoil',name:'Rich Soil',emoji:'🌱',desc:'Every harvest yields +1 extra crop permanently',cost:3500},
+  {id:'staminaBoost',name:'Iron Farmer',emoji:'💪',desc:'Stamina drains 50% slower and max stamina +50',cost:2800},
+  {id:'animalFeed',name:'Auto Feeder',emoji:'🐾',desc:'Animals produce 2x more per collection',cost:3200},
+  {id:'marketBoost',name:'Premium Stall',emoji:'🏪',desc:'Your market listings last 48hrs instead of 24hrs',cost:2200},
+  {id:'mineralScanner',name:'Mineral Scanner',emoji:'📡',desc:'See what mineral you will get before mining',cost:4500},
+  {id:'fuelSaver',name:'Fuel Optimizer',emoji:'⛽',desc:'All machines use 30% less fuel',cost:3800},
+  {id:'doubleXp',name:'XP Booster',emoji:'⭐',desc:'+50% XP from all activities permanently',cost:6000},
+];
 const MENU_DEF=[
   {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting',desc:'Craft items for higher value',ac:'#795548',ml:3},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
   {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1},{id:'visitstalls',emoji:'🏘️',label:'Visit Stalls',desc:'Browse and buy from other players',ac:'#16a085',ml:1}]},
@@ -68,7 +83,7 @@ const MENU_DEF=[
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','market','gmb','stall','visitstalls','bank','gold','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
+const ACTIVE=['farm','silo','animals','butchery','mine','market','gmb','stall','visitstalls','bank','gold','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage','workers'];
 const xpFor=l=>l*100;
 const todayStr=()=>new Date().toISOString().split('T')[0];
 const genTasks=lvl=>[...TASK_POOL].filter(t=>!(t.diff==='hard'&&lvl<10)&&!(t.diff==='medium'&&lvl<4)).sort(()=>Math.random()-.5).slice(0,8).map((t,i)=>({...t,id:`t${Date.now()}${i}`,accepted:false,expiresAt:Date.now()+t.hrs*3600000}));
@@ -176,9 +191,11 @@ function HarvestHaven({user,onSignOut}){
         if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
-          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP};
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
           if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));
+          if(s.mach)setMach(s.mach);
+          if(s.fuel!==undefined)setFuel(s.fuel);
         }
 }catch(e){console.log('Load error',e);}      try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
       try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
@@ -193,7 +210,7 @@ function HarvestHaven({user,onSignOut}){
 
 const saveGame=useCallback(async()=>{
     try{
-      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
+      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,landPlots,meatInv,mach,fuel,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
       localStorage.setItem('hh7',JSON.stringify(s));
       if(db&&auth?.currentUser){
         try{await set(ref(db,`saves/${auth.currentUser.uid}`),JSON.stringify(s));}catch(e){console.log('Firebase save error',e);}
@@ -206,7 +223,11 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     document.addEventListener('visibilitychange',handler);
     window.addEventListener('beforeunload',handler);
     return()=>{document.removeEventListener('visibilitychange',handler);window.removeEventListener('beforeunload',handler);};
-  },[saveGame]);  useEffect(()=>{const t=setInterval(()=>setStamina(s=>Math.min(100,s+2)),4000);return()=>clearInterval(t);},[]);
+  },[saveGame]);  useEffect(()=>{
+    const maxStam=upgrades.staminaBoost?150:100;
+    const t=setInterval(()=>setStamina(s=>Math.min(maxStam,s+2)),4000);
+    return()=>clearInterval(t);
+  },[upgrades.staminaBoost]);
   useEffect(()=>{const t=setInterval(()=>setGP(p=>Math.max(82,Math.min(115,+(p+(Math.random()-.48)*.4).toFixed(2)))),20000);return()=>clearInterval(t);},[]);
   useEffect(()=>{
     if(xp>0&&xp>=xpFor(level)){
@@ -257,7 +278,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const buyLand=()=>{const idx=landPlots-3;if(idx>=LAND_PRICES.length){notify('Maximum land!','orange');return;}const p=LAND_PRICES[idx];if(coins<p){notify(`Need 🪙${p.toLocaleString()}!`,'orange');return;}spend(p);setLP(l=>l+1);setTiles(ts=>[...ts,...Array(4).fill(null).map((_,i)=>({id:ts.length+i,state:'empty',crop:null,growsAt:0,watered:false}))]);notify('+4 new fields!','green');};
 
   const tapTile=tile=>{
-    if(tile.state==='empty'){setTiles(ts=>ts.map(ti=>ti.id===tile.id?{...ti,state:'plowed'}:ti));setStamina(s=>Math.max(0,s-1));notify('Plowed!');}
+    if(tile.state==='empty'){setTiles(ts=>ts.map(ti=>ti.id===tile.id?{...ti,state:'plowed'}:ti));setStamina(s=>Math.max(0,s-(upgrades.staminaBoost?0.5:1)));notify('Plowed!');}
     else if(tile.state==='plowed'){if(coins<selCrop.cost){notify('Not enough coins!','orange');return;}spend(selCrop.cost);const at=Date.now()+selCrop.grow*1000;setTiles(ts=>ts.map(ti=>ti.id===tile.id?{...ti,state:'planted',crop:selCrop,growsAt:at,watered:false}:ti));setStamina(s=>Math.max(0,s-.5));notify(`${selCrop.emoji} Planted! ${selCrop.grow}s`);}
     else if(tile.state==='ready'){const crop=tile.crop,sp=cropPrice(crop);setSilo(s=>({...s,[crop.id]:(s[crop.id]||0)+1}));setTH(h=>({...h,[crop.id]:(h[crop.id]||0)+1}));setXp(x=>x+crop.xp);if(crop.id==='golden')setGH(h=>h+1);setTiles(ts=>ts.map(ti=>ti.id===tile.id?{...ti,state:'empty',crop:null,growsAt:0,watered:false}:ti));addCollected(crop.id);setDQP(p=>({...p,dqH:p.dqH+1}));notify(`${crop.emoji} Harvested +🪙${sp}`,'green');}
   };
@@ -289,7 +310,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const waterAll=()=>{let cnt=0;setTiles(ts=>ts.map(t=>{if(t.state!=='planted'||t.watered)return t;cnt++;const rem=Math.max(0,t.growsAt-Date.now());return{...t,watered:true,growsAt:Date.now()+rem*.7};}));if(cnt>0)notify(`Watered ${cnt} crops! -30% grow time`,'blue');else notify('No growing crops!','orange');};
 
   const autoPlow=()=>{
-    const limit=mach.plow.owned?MACH_DEF.plow.tiers[mach.plow.tier].t:4;
+    const limit=mach.plow.owned?MACH_DEF.plow.tiers[mach.plow.tier].t:tiles.length;
     let cnt=0;
     setTiles(ts=>{
       const n=ts.map(t=>{
@@ -308,7 +329,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const sellOne=crop=>{if(!silo[crop.id])return;earn(cropPrice(crop));setSilo(s=>({...s,[crop.id]:s[crop.id]-1}));notify(`Sold 1x ${crop.emoji}`,'gold');};
   const sellAll=()=>{if(!siloTotal){notify('Silo empty!','orange');return;}earn(siloValue);setSilo({});notify(`Sold all 🪙${siloValue.toLocaleString()}`,'gold');};
 
-  const collectAnimal=a=>{if(animalCd[a.id]){notify('Resting...','orange');return;}if(a.value===0){setStamina(s=>Math.min(100,s+15));notify('+15 Stamina!','green');return;}earn(a.value);setXp(x=>x+5);notify(`+🪙${a.value} ${a.pe}`,'gold');setAT(at=>{const n=new Set(at);n.add(a.id);return n;});setAnimalCd(c=>({...c,[a.id]:true}));setDQP(p=>({...p,dqM:p.dqM}));setTimeout(()=>setAnimalCd(c=>{const n={...c};delete n[a.id];return n;}),12000);};
+  const collectAnimal=a=>{if(animalCd[a.id]){notify('Resting...','orange');return;}if(a.value===0){setStamina(s=>Math.min(100,s+15));notify('+15 Stamina!','green');return;}const aVal=upgrades.animalFeed?a.value*2:a.value;earn(aVal);setXp(x=>x+(upgrades.doubleXp?8:5));notify(`+🪙${aVal} ${a.pe}`,'gold');setAT(at=>{const n=new Set(at);n.add(a.id);return n;});setAnimalCd(c=>({...c,[a.id]:true}));setDQP(p=>({...p,dqM:p.dqM}));setTimeout(()=>setAnimalCd(c=>{const n={...c};delete n[a.id];return n;}),12000);};
   const slaughter=a=>{if(!a.meat)return;setMeatInv(p=>({...p,[a.id]:(p[a.id]||0)+1}));notify(`${a.me} ${a.meat} added!`,'green');};
   const eatMeat=a=>{if(!meatInv[a.id]){notify('No meat!','orange');return;}setMeatInv(p=>({...p,[a.id]:p[a.id]-1}));setStamina(s=>Math.min(100,s+a.ms));notify(`+${a.ms} Stamina!`,'green');};
   const sellMeat=a=>{const q=meatInv[a.id]||0;if(!q){notify('No meat!','orange');return;}earn(q*a.mv);setMeatInv(p=>({...p,[a.id]:0}));notify(`Sold ${q}x ${a.me} 🪙${(q*a.mv).toLocaleString()}`,'gold');};
@@ -650,6 +671,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         {screen==='finance'&&<FinanceScreen G={G}/>}
         {screen==='chat'&&<ChatScreen G={G}/>}
         {screen==='garage'&&<GarageScreen G={G}/>}
+        {screen==='workers'&&<WorkersScreen G={G}/>}
         {screen==='visitstalls'&&<VisitStallsListScreen G={G}/>}
         {screen==='farmhouse'&&<FarmhouseScreen G={G}/>}
         {!ACTIVE.includes(screen)&&screen!=='home'&&<div style={{textAlign:'center',padding:'60px 30px'}}><div style={{fontSize:56,marginBottom:14}}>🚧</div><div style={{fontWeight:800,fontSize:18,color:'#777',marginBottom:8}}>Coming Soon</div></div>}
@@ -1402,31 +1424,119 @@ function FinanceScreen({G}){
 }
 
 function GarageScreen({G}){
-  const{upgrades,buyUpgrade,coins,T}=G;
+  const{upgrades,buyUpgrade,coins,T,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP}=G;
+  const[tab,setTab]=useState('machines');
+  const fuelPct=Math.min(100,(fuel/200)*100);
+  const fuelCol=fuel>100?'#27ae60':fuel>40?'#f39c12':'#e74c3c';
   return(
     <div style={{padding:14}}>
       <div style={{background:'linear-gradient(135deg,#37474f,#546e7a)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>GARAGE AND UPGRADES</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🔧 Permanent Farm Upgrades</div>
-        <div style={{fontSize:11,opacity:.8}}>Buy once, benefit forever. These are the big investments!</div>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>GARAGE & UPGRADES</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🔧 Machines & Upgrades</div>
+        {/* Fuel gauge */}
+        <div style={{marginTop:8}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:11,opacity:.85,marginBottom:4}}>
+            <span>⛽ Fuel Tank</span>
+            <span style={{fontWeight:800,color:fuel<40?'#ffcccc':'#fff'}}>{fuel.toFixed(0)} / 200 {fuel<40?'⚠️ LOW':''}</span>
+          </div>
+          <div style={{background:'rgba(255,255,255,.2)',borderRadius:20,height:10}}>
+            <div style={{background:fuelCol,height:10,borderRadius:20,width:`${fuelPct}%`,transition:'width .5s'}}/>
+          </div>
+        </div>
       </div>
-      {UPGRADES.map(up=>{const owned=upgrades[up.id],canAff=coins>=up.cost;return(
-        <Card key={up.id} style={owned?{border:'2px solid #27ae60',opacity:.85}:{}}>
-          <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <span style={{fontSize:40}}>{up.emoji}</span>
-            <div style={{flex:1}}>
-              <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{up.name}</div>
-              <div style={{fontSize:12,color:'#666',marginBottom:4,lineHeight:1.4}}>{up.desc}</div>
-              {!owned&&<div style={{fontSize:14,fontWeight:800,color:'#b7800a'}}>🪙{up.cost.toLocaleString()}</div>}
+      <TabRow tabs={[['machines','🚜 Machines'],['fuel','⛽ Fuel'],['upgrades','⬆️ Upgrades']]} active={tab} onSelect={setTab} ac='#546e7a'/>
+
+      {tab==='machines'&&Object.entries(MACH_DEF).map(([id,def])=>{
+        const m=mach[id];
+        const tier=def.tiers[m.tier];
+        const maxTier=def.tiers.length-1;
+        const durCol=m.dur>60?'#27ae60':m.dur>25?'#f39c12':'#e74c3c';
+        return(
+          <Card key={id}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+              <div style={{fontSize:36}}>{def.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15}}>{def.name}</div>
+                <div style={{fontSize:11,color:'#888'}}>{def.desc}</div>
+                {m.owned&&<div style={{display:'flex',gap:8,marginTop:4,alignItems:'center'}}>
+                  <span style={{fontSize:11,fontWeight:700,color:T.primary}}>{tier.l}</span>
+                  <span style={{fontSize:11,color:'#888'}}>·</span>
+                  <span style={{fontSize:11,color:durCol,fontWeight:700}}>Dur: {Math.round(m.dur)}%</span>
+                  <span style={{fontSize:11,color:'#888'}}>·</span>
+                  <span style={{fontSize:11,color:m.active?'#27ae60':'#aaa',fontWeight:700}}>{m.active?'🟢 Running':'⚫ Off'}</span>
+                </div>}
+              </div>
             </div>
-            {owned?<div style={{textAlign:'center'}}><div style={{fontSize:24}}>✅</div><div style={{fontSize:10,color:'#27ae60',fontWeight:700}}>Active</div></div>:<Btn onClick={()=>buyUpgrade(up)} disabled={!canAff} color={T.primary} style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>{canAff?'Buy Now':'Need 🪙'}</Btn>}
+            {m.owned&&<div style={{marginBottom:8}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:10,color:'#aaa',marginBottom:2}}>
+                <span>Durability</span><span>{Math.round(m.dur)}%</span>
+              </div>
+              <div style={{background:'#eee',borderRadius:10,height:6}}>
+                <div style={{background:durCol,height:6,borderRadius:10,width:`${m.dur}%`,transition:'width .3s'}}/>
+              </div>
+            </div>}
+            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+              {!m.owned&&<Btn onClick={()=>buyMach(id)} color={T.primary} style={{flex:1,padding:9,fontSize:12}}>Buy 🪙{def.cost.toLocaleString()}</Btn>}
+              {m.owned&&<Btn onClick={()=>toggleMach(id)} color={m.active?'#e74c3c':'#27ae60'} style={{flex:1,padding:9,fontSize:12}}>{m.active?'Stop ⏹':'Start ▶'}</Btn>}
+              {m.owned&&m.tier<maxTier&&<Btn onClick={()=>upgMach(id)} color='#f39c12' style={{flex:1,padding:9,fontSize:12}}>→{def.tiers[m.tier+1].l} 🪙{(def.upg[m.tier+1]||0).toLocaleString()}</Btn>}
+              {m.owned&&m.dur<50&&<Btn onClick={()=>repairMach(id)} color='#e74c3c' style={{flex:1,padding:9,fontSize:12}}>Repair 🪙200</Btn>}
+              {m.owned&&m.tier>=maxTier&&<div style={{flex:1,background:'#f0fff4',borderRadius:10,padding:9,textAlign:'center',fontSize:12,fontWeight:700,color:'#27ae60'}}>✅ Max Tier</div>}
+            </div>
+          </Card>
+        );
+      })}
+
+      {tab==='fuel'&&<>
+        {/* Big fuel gauge */}
+        <Card>
+          <div style={{textAlign:'center',marginBottom:12}}>
+            <div style={{fontSize:48}}>⛽</div>
+            <div style={{fontSize:24,fontWeight:900,color:fuelCol}}>{fuel.toFixed(0)}</div>
+            <div style={{fontSize:12,color:'#888'}}>out of 200 units</div>
+          </div>
+          <div style={{background:'#eee',borderRadius:20,height:16,marginBottom:8,overflow:'hidden'}}>
+            <div style={{background:`linear-gradient(90deg,${fuelCol},${fuelCol}cc)`,height:16,borderRadius:20,width:`${fuelPct}%`,transition:'width .5s'}}/>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'#888'}}>
+            <span>Empty</span>
+            <span style={{fontWeight:700,color:fuelCol}}>{fuel<40?'⚠️ Buy fuel soon!':fuel<10?'🚨 Critical!':'✅ Good'}</span>
+            <span>Full</span>
           </div>
         </Card>
-      );})}
-      <Card style={{background:'#f9f9f9'}}>
-        <div style={{fontSize:12,fontWeight:800,color:'#555',marginBottom:6}}>Why buy upgrades?</div>
-        {['Auto-Plower saves time plowing many fields','Mine Elevator doubles rare mineral drops','Premium Banking raises profit share 5% to 8%','Gold Vault unlocks the Gold Growth Account','Silo Boost raises all crop sell prices by 10%','Pet Luxury House slows pet hunger and happiness decay by 60%'].map((t,i)=><div key={i} style={{fontSize:11,color:'#777',lineHeight:1.8}}>• {t}</div>)}
-      </Card>
+        <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8,paddingLeft:2}}>REFUEL OPTIONS</div>
+        {FUEL_SHOP.map(item=>(
+          <Card key={item.name}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{fontSize:36}}>{item.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15}}>{item.name}</div>
+                <div style={{fontSize:12,color:'#27ae60',fontWeight:700}}>+{item.amt} fuel units</div>
+                <div style={{fontSize:11,color:'#888'}}>Fills tank to {Math.min(200,fuel+item.amt).toFixed(0)}/200</div>
+              </div>
+              <Btn onClick={()=>buyFuelF(item)} disabled={coins<item.cost} color='#e67e22' style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>🪙{item.cost.toLocaleString()}</Btn>
+            </div>
+          </Card>
+        ))}
+      </>}
+
+      {tab==='upgrades'&&<>
+        {UPGRADES.map(up=>{const owned=upgrades[up.id],canAff=coins>=up.cost;return(
+          <Card key={up.id} style={owned?{border:'2px solid #27ae60'}:{}}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <span style={{fontSize:36}}>{up.emoji}</span>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{up.name}</div>
+                <div style={{fontSize:12,color:'#666',lineHeight:1.4}}>{up.desc}</div>
+                {!owned&&<div style={{fontSize:13,fontWeight:800,color:'#b7800a',marginTop:4}}>🪙{up.cost.toLocaleString()}</div>}
+              </div>
+              {owned
+                ?<div style={{textAlign:'center'}}><div style={{fontSize:22}}>✅</div><div style={{fontSize:10,color:'#27ae60',fontWeight:700}}>Active</div></div>
+                :<Btn onClick={()=>buyUpgrade(up)} disabled={!canAff} color={T.primary} style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>{canAff?'Buy':'Need 🪙'}</Btn>
+              }
+            </div>
+          </Card>
+        );})}
+      </>}
     </div>
   );
 }
@@ -1780,6 +1890,115 @@ function VisitStallsListScreen({G}){
               </div>
               <Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn>
             </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
+
+function WorkersScreen({G}){
+  const{coins,spend,earn,notify,level,T,upgrades,plantAll,harvestAll,waterAll,autoPlow,mine,collectAnimal,ownedAnimals}=G;
+  const[workers,setWorkers]=useState(()=>{
+    try{const w=localStorage.getItem('hh_workers');return w?JSON.parse(w):[];}catch{return[];}
+  });
+  const WORKER_TYPES=[
+    {id:'plower',name:'Field Hand',emoji:'👨‍🌾',desc:'Auto-plows and plants all fields every 5 min',cost:500,commission:0.05,minLevel:1},
+    {id:'harvester',name:'Crop Harvester',emoji:'🌾',desc:'Auto-harvests all ready crops every 3 min',cost:800,commission:0.08,minLevel:3},
+    {id:'miner',name:'Mine Operator',emoji:'⛏️',desc:'Mines automatically every 4 min',cost:1200,commission:0.10,minLevel:5},
+    {id:'animal_keeper',name:'Animal Keeper',emoji:'🐄',desc:'Collects from all animals every 6 min',cost:1000,commission:0.08,minLevel:3},
+    {id:'manager',name:'Farm Manager',emoji:'👔',desc:'Manages all workers, boosts their efficiency by 20%',cost:5000,commission:0.15,minLevel:10},
+  ];
+  
+  const hire=(wt)=>{
+    if(level<wt.minLevel){notify(`Need Level ${wt.minLevel}!`,'orange');return;}
+    if(coins<wt.cost){notify(`Need 🪙${wt.cost.toLocaleString()}!`,'orange');return;}
+    if(workers.find(w=>w.id===wt.id)){notify('Already hired!','orange');return;}
+    spend(wt.cost);
+    const newWorkers=[...workers,{...wt,hiredAt:Date.now(),lastAction:0}];
+    setWorkers(newWorkers);
+    localStorage.setItem('hh_workers',JSON.stringify(newWorkers));
+    notify(`${wt.emoji} ${wt.name} hired!`,'green');
+  };
+
+  const fire=(id)=>{
+    const newWorkers=workers.filter(w=>w.id!==id);
+    setWorkers(newWorkers);
+    localStorage.setItem('hh_workers',JSON.stringify(newWorkers));
+    notify('Worker let go.','orange');
+  };
+
+  // Worker automation intervals
+  useEffect(()=>{
+    const hasManager=workers.some(w=>w.id==='manager');
+    const mult=hasManager?0.8:1;
+    const intervals=[];
+    workers.forEach(w=>{
+      let interval=null;
+      if(w.id==='plower'){
+        interval=setInterval(()=>{autoPlow();plantAll();},300000*mult);
+      }else if(w.id==='harvester'){
+        interval=setInterval(()=>harvestAll(),180000*mult);
+      }else if(w.id==='miner'){
+        interval=setInterval(()=>mine(),240000*mult);
+      }else if(w.id==='animal_keeper'){
+        interval=setInterval(()=>{
+          ANIMALS.filter(a=>ownedAnimals[a.id]).forEach(a=>collectAnimal(a));
+        },360000*mult);
+      }
+      if(interval)intervals.push(interval);
+    });
+    return()=>intervals.forEach(clearInterval);
+  },[workers,ownedAnimals]);
+
+  const hasManager=workers.some(w=>w.id==='manager');
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#2c3e50,#34495e)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>MANAGEMENT</div>
+        <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>👔 Farm Workers</div>
+        <div style={{fontSize:12,opacity:.85}}>{workers.length} hired · {hasManager?'Manager on duty ✅':'No manager yet'}</div>
+      </div>
+      {workers.length>0&&<>
+        <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8}}>YOUR TEAM</div>
+        {workers.map(w=>(
+          <Card key={w.id}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:32}}>{w.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{w.name}</div>
+                <div style={{fontSize:11,color:'#888'}}>{w.desc}</div>
+                <div style={{fontSize:11,color:'#27ae60',fontWeight:700,marginTop:2}}>Commission: {(w.commission*100).toFixed(0)}% of earnings</div>
+              </div>
+              <button onClick={()=>fire(w.id)} style={{background:'#fee',color:'#e74c3c',border:'1px solid #fcc',borderRadius:8,padding:'6px 10px',fontSize:11,fontWeight:700,cursor:'pointer'}}>Let Go</button>
+            </div>
+          </Card>
+        ))}
+        <div style={{background:'#fffbea',borderRadius:12,padding:10,marginBottom:12,fontSize:12,color:'#b7800a',fontWeight:600}}>
+          💡 Workers act automatically in the background. Commission is deducted from relevant earnings.
+        </div>
+      </>}
+      <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8}}>HIRE WORKERS</div>
+      {WORKER_TYPES.map(wt=>{
+        const hired=workers.find(w=>w.id===wt.id);
+        const locked=level<wt.minLevel;
+        return(
+          <Card key={wt.id} style={{opacity:locked?0.5:1}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+              <div style={{fontSize:32}}>{wt.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{wt.name}</div>
+                <div style={{fontSize:11,color:'#888'}}>{wt.desc}</div>
+                <div style={{fontSize:11,color:'#b7800a',fontWeight:700,marginTop:2}}>🪙{wt.cost.toLocaleString()} · Level {wt.minLevel}+</div>
+              </div>
+            </div>
+            {hired
+              ?<div style={{background:'#f0fff4',borderRadius:10,padding:'8px 12px',fontSize:12,fontWeight:700,color:'#27ae60',textAlign:'center'}}>✅ Already working on your farm!</div>
+              :locked
+              ?<div style={{background:'#f5f5f5',borderRadius:10,padding:'8px 12px',fontSize:12,color:'#aaa',textAlign:'center'}}>🔒 Unlock at Level {wt.minLevel}</div>
+              :<Btn onClick={()=>hire(wt)} color='#2c3e50' style={{width:'100%',padding:10,fontSize:13}}>Hire for 🪙{wt.cost.toLocaleString()}</Btn>
+            }
           </Card>
         );
       })}
