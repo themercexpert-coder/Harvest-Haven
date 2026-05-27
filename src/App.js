@@ -54,7 +54,7 @@ const BAITS=[
   {id:'bread',name:'Bread Crust',emoji:'🍞',cost:8,desc:'Cheap and effective for freshwater fish',bonus:0.05},
   {id:'corn_bait',name:'Corn Kernel',emoji:'🌽',cost:12,desc:'Attracts medium fish',bonus:0.1},
   {id:'cricket',name:'Cricket',emoji:'🦗',cost:20,desc:'Lively bait, better rare catch rate',bonus:0.2},
-  {id:'golden_lure',name:'Golden Lure',emoji:'✨',cost:80,desc:'Best bait — doubles rare fish chance',bonus:0.4},
+  {id:'golden_lure',name:'Golden Lure',emoji:'✨',cost:80,desc:'Best bait  -  doubles rare fish chance',bonus:0.4},
 ];
 const FISH=[
   // Common (always catchable)
@@ -87,7 +87,7 @@ const FISH_RECIPES=[
   {id:'grilled_bass',name:'Grilled Bass',emoji:'🍽️',ing:{bass:2,corn:2},sell:250,xp:28,desc:'2 Bass + 2 Corn'},
   {id:'salmon_sushi',name:'Salmon Sushi',emoji:'🍣',ing:{salmon:2,wheat:3},sell:400,xp:45,desc:'2 Salmon + 3 Wheat'},
   {id:'sturgeon_steak',name:'Sturgeon Steak',emoji:'🥩',ing:{sturgeon:1,pumpkin:2},sell:600,xp:70,desc:'1 Sturgeon + 2 Pumpkin'},
-  {id:'fish_pie',name:'Fisherman's Pie',emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:350,xp:40,desc:'2 Catfish + 4 Wheat + 2 Carrot'},
+  {id:'fish_pie',name:"Fisherman's Pie",emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:350,xp:40,desc:'2 Catfish + 4 Wheat + 2 Carrot'},
   {id:'eel_curry',name:'Eel Curry',emoji:'🍛',ing:{eel:1,tomato:3,corn:2},sell:500,xp:60,desc:'1 Eel + 3 Tomato + 2 Corn'},
   {id:'golden_koi_feast',name:'Golden Koi Feast',emoji:'🥗',ing:{goldfish:1,truffle:1,lavender:2},sell:2000,xp:200,desc:'1 Golden Koi + 1 Truffle + 2 Lavender'},
 ];
@@ -174,7 +174,7 @@ const MACH_DEF={
 };
 const FUEL_SHOP=[{name:'Small Can',emoji:'⛽',amt:25,cost:120},{name:'Large Can',emoji:'🪣',amt:75,cost:320},{name:'Full Tank',emoji:'🚛',amt:200,cost:750}];
 const UPGRADES=[
-  {id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow ALL fields instantly — no limit',cost:2000},
+  {id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow ALL fields instantly  -  no limit',cost:2000},
   {id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},
   {id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},
   {id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower',cost:1500},
@@ -650,7 +650,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       if(!m.owned||!m.active||m.dur<=0)return;
       const def=MACH_DEF[mId],tier=def.tiers[m.tier];
       if(now-m.lastCycle<tier.s*1000)return;
-      if(nF<tier.f){setMach(p=>({...p,[mId]:{...p[mId],active:false}}));notify(`${def.name} stopped — out of fuel! ⛽`,'orange');return;}
+      if(nF<tier.f){setMach(p=>({...p,[mId]:{...p[mId],active:false}}));notify(`${def.name} stopped  -  out of fuel! ⛽`,'orange');return;}
       // Only consume fuel if machine actually does useful work
       let didWork=false;
       if(mId==='plow'){const before=nT.filter(t=>t.state==='empty').length;let c=tier.t||1;nT=nT.map(t=>t.state==='empty'&&c-->0?{...t,state:'plowed'}:t);if(nT.filter(t=>t.state==='empty').length<before)didWork=true;}
@@ -878,7 +878,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
 
   return(
-    <div style={{width:'100%',maxWidth:430,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:T.bg,fontFamily:'"Nunito","Trebuchet MS",system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
+    <div style={{width:'100%',maxWidth:430,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:T.bg,fontFamily:'system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
 
       {/* ── HEADER ── */}
       <div style={{
@@ -976,6 +976,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       <style>{`@keyframes rippleAnim{from{transform:translate(-50%,-50%) scale(0);opacity:1}to{transform:translate(-50%,-50%) scale(3);opacity:0}}*{-webkit-tap-highlight-color:transparent}::-webkit-scrollbar{width:0;height:0}`}</style>
     </div>
   );
+
+}
 
 function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
   const{coins,setScreen,T,level,pets,dailyClaimed,loanDebt,dqDone,friendStreak,streak,farmName,totalEarned,xp,fishInv}=G;
@@ -1094,7 +1096,7 @@ function FarmScreen({G,tiles,tapTile,td,selCrop,setSelCrop,landPlots,buyLand}){
         <button onClick={harvestAll} disabled={readyCount===0} style={{flex:1,background:readyCount>0?'#27ae60':'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:readyCount>0?'pointer':'default'}}>🌾 Harvest All ({readyCount})</button>
       </div>
       <div style={{background:`${season.col}18`,borderRadius:12,padding:'6px 14px',marginBottom:10,display:'flex',justifyContent:'space-between',alignItems:'center',border:`1px solid ${season.col}33`}}>
-        <span style={{fontSize:12,fontWeight:700,color:season.col}}>{season.emoji} {season.name} — price boosts active</span>
+        <span style={{fontSize:12,fontWeight:700,color:season.col}}>{season.emoji} {season.name}  -  price boosts active</span>
       </div>
       <SecHead label="SELECT CROP TO PLANT" color="#777"/>
       <div style={{display:'flex',gap:8,overflowX:'auto',paddingBottom:8,marginBottom:10}}>
@@ -1142,7 +1144,7 @@ function SiloScreen({G}){
       </div>
       {stored.length===0?<div style={{textAlign:'center',padding:'40px 20px'}}><div style={{fontSize:56,marginBottom:12}}>🏗️</div><div style={{fontWeight:800,fontSize:16,color:'#888'}}>Silo is Empty</div><div style={{fontSize:13,marginTop:6,color:'#aaa',lineHeight:1.5}}>Plant and harvest crops to fill it</div></div>:(
         <>
-          <Btn onClick={sellAll} style={{width:'100%',padding:13,fontSize:15,marginBottom:12}}>Sell Everything — 🪙{siloValue.toLocaleString()}</Btn>
+          <Btn onClick={sellAll} style={{width:'100%',padding:13,fontSize:15,marginBottom:12}}>Sell Everything  -  🪙{siloValue.toLocaleString()}</Btn>
           {stored.map(c=>{const sp=cropPrice(c),boosted=sp>c.base;return(
             <Card key={c.id}>
               <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
@@ -1177,14 +1179,14 @@ function DailyScreen({G}){
         {DR.map((dr,i)=>{const done=i<dayIdx,cur=i===dayIdx;return(<div key={i} style={{background:done?'#27ae60':cur?T.primary:'#f5f5f5',borderRadius:12,padding:'6px 3px',textAlign:'center',border:`2px solid ${cur?T.accent:done?'#27ae60':'#eee'}`}}><div style={{fontSize:12}}>{done?'✅':cur?'🎁':'📦'}</div><div style={{fontSize:8,fontWeight:800,color:done||cur?'#fff':'#888'}}>Day {i+1}</div><div style={{fontSize:8,color:done||cur?'rgba(255,255,255,.8)':'#aaa'}}>🪙{dr.coins}</div></div>);})}
       </div>
       <Card>
-        <div style={{fontWeight:800,fontSize:15,color:'#111',marginBottom:8}}>Today — Day {dayIdx+1}</div>
+        <div style={{fontWeight:800,fontSize:15,color:'#111',marginBottom:8}}>Today  -  Day {dayIdx+1}</div>
         <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:12}}>
           <div style={{background:'#fff9e6',borderRadius:12,padding:'8px 12px',textAlign:'center'}}><div style={{fontSize:18}}>🪙</div><div style={{fontWeight:800,color:'#b7800a'}}>+{r.coins}</div></div>
           <div style={{background:'#eef7ee',borderRadius:12,padding:'8px 12px',textAlign:'center'}}><div style={{fontSize:18}}>⭐</div><div style={{fontWeight:800,color:'#27ae60'}}>+{r.xp}XP</div></div>
           {r.petFood&&<div style={{background:'#fef3e8',borderRadius:12,padding:'8px 12px',textAlign:'center'}}><div style={{fontSize:18}}>🐾</div><div style={{fontWeight:800,color:'#e67e22'}}>+{r.petFood}</div></div>}
           {r.toys&&<div style={{background:'#f3eafa',borderRadius:12,padding:'8px 12px',textAlign:'center'}}><div style={{fontSize:18}}>🪀</div><div style={{fontWeight:800,color:'#8e44ad'}}>+{r.toys}</div></div>}
         </div>
-        <Btn onClick={claimDaily} disabled={dailyClaimed} style={{width:'100%',padding:12,fontSize:14}} color={T.primary}>{dailyClaimed?'Claimed — come back tomorrow!':'Claim Daily Reward!'}</Btn>
+        <Btn onClick={claimDaily} disabled={dailyClaimed} style={{width:'100%',padding:12,fontSize:14}} color={T.primary}>{dailyClaimed?'Claimed  -  come back tomorrow!':'Claim Daily Reward!'}</Btn>
       </Card>
       <SecHead label="DAILY QUESTS" color="#555"/>
       {DQ.map(dq=>{
@@ -1300,7 +1302,7 @@ function TaskBoardScreen({G}){
       <TabRow tabs={[['available',`Available (${availTasks.length})`],['accepted',`Accepted (${activeTasks.length})`],['npcs','NPC Friends']]} active={tab} onSelect={setTab} ac='#8e44ad'/>
       {tab==='available'&&<>
         <button onClick={()=>setTasks(genTasks(level))} style={{width:'100%',background:'#f5f5f5',border:'1.5px solid #e0e0e0',borderRadius:12,padding:9,fontSize:12,fontWeight:700,cursor:'pointer',color:'#555',marginBottom:12}}>Refresh Tasks</button>
-        {availTasks.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:40}}>📭</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No tasks — tap Refresh</div></div>:availTasks.map(t=><TCard key={t.id} task={t} acc={false}/>)}
+        {availTasks.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:40}}>📭</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No tasks  -  tap Refresh</div></div>:availTasks.map(t=><TCard key={t.id} task={t} acc={false}/>)}
       </>}
       {tab==='accepted'&&(activeTasks.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:40}}>📝</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No accepted tasks</div></div>:activeTasks.map(t=><TCard key={t.id} task={t} acc={true}/>))}
       {tab==='npcs'&&<div>{Object.entries(NPCS).map(([id,npc])=>{const fp=G.friendship[id]||0,fl=getFP(fp);return(
@@ -1508,7 +1510,7 @@ function AnimalsScreen({G}){
 function ButcheryScreen({G}){
   const{level,meatInv,slaughter,eatMeat,sellMeat,ownedAnimals,animalLevels}=G;
   const avail=ANIMALS.filter(a=>a.meat&&(ownedAnimals[a.id]||0)>0);
-  return(<div style={{padding:14}}><div style={{background:'#fff5f5',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #fce4e4'}}><div style={{fontSize:13,fontWeight:800,color:'#c0392b',marginBottom:3}}>Butchery</div><div style={{fontSize:11,color:'#555',lineHeight:1.5}}>Slaughter animals for meat. Eat for stamina or sell for coins. Horse cannot be slaughtered.</div></div>{avail.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}>Raise animals first</div>:avail.map(a=>{const qty=meatInv[a.id]||0;return(<Card key={a.id}><div style={{display:'flex',alignItems:'center',gap:12,marginBottom:qty>0?10:0}}><span style={{fontSize:32}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{a.name} — {a.me} {a.meat}</div><div style={{fontSize:11,color:'#888'}}>+{a.ms} stamina · 🪙{a.mv}</div></div><div style={{textAlign:'right'}}><div style={{fontSize:10,color:'#888'}}>Owned: {ownedAnimals[a.id]||0}</div><Btn onClick={()=>slaughter(a)} disabled={(ownedAnimals[a.id]||0)<=1} color='#c0392b' style={{fontSize:11,padding:'7px 11px'}}>{(ownedAnimals[a.id]||0)<=1?'Keep 1 alive':'Slaughter'}</Btn></div></div>{qty>0&&<div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,borderTop:'1px solid #f0f0f0'}}><span style={{flex:1,fontSize:13,fontWeight:700,color:'#333'}}>{a.me} {qty} in stock</span><Btn onClick={()=>eatMeat(a)} style={{fontSize:11,padding:'6px 11px'}}>Eat (+{a.ms})</Btn><Btn onClick={()=>sellMeat(a)} color='#b7800a' style={{fontSize:11,padding:'6px 11px'}}>Sell All</Btn></div>}</Card>);})}</div>);
+  return(<div style={{padding:14}}><div style={{background:'#fff5f5',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #fce4e4'}}><div style={{fontSize:13,fontWeight:800,color:'#c0392b',marginBottom:3}}>Butchery</div><div style={{fontSize:11,color:'#555',lineHeight:1.5}}>Slaughter animals for meat. Eat for stamina or sell for coins. Horse cannot be slaughtered.</div></div>{avail.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}>Raise animals first</div>:avail.map(a=>{const qty=meatInv[a.id]||0;return(<Card key={a.id}><div style={{display:'flex',alignItems:'center',gap:12,marginBottom:qty>0?10:0}}><span style={{fontSize:32}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{a.name}  -  {a.me} {a.meat}</div><div style={{fontSize:11,color:'#888'}}>+{a.ms} stamina · 🪙{a.mv}</div></div><div style={{textAlign:'right'}}><div style={{fontSize:10,color:'#888'}}>Owned: {ownedAnimals[a.id]||0}</div><Btn onClick={()=>slaughter(a)} disabled={(ownedAnimals[a.id]||0)<=1} color='#c0392b' style={{fontSize:11,padding:'7px 11px'}}>{(ownedAnimals[a.id]||0)<=1?'Keep 1 alive':'Slaughter'}</Btn></div></div>{qty>0&&<div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,borderTop:'1px solid #f0f0f0'}}><span style={{flex:1,fontSize:13,fontWeight:700,color:'#333'}}>{a.me} {qty} in stock</span><Btn onClick={()=>eatMeat(a)} style={{fontSize:11,padding:'6px 11px'}}>Eat (+{a.ms})</Btn><Btn onClick={()=>sellMeat(a)} color='#b7800a' style={{fontSize:11,padding:'6px 11px'}}>Sell All</Btn></div>}</Card>);})}</div>);
 }
 
 function MineScreen({G}){
@@ -1519,8 +1521,8 @@ function MineScreen({G}){
     <div style={{padding:14}}>
       <div style={{background:'linear-gradient(135deg,#2c3e50,#4a4a4a)',borderRadius:20,padding:20,marginBottom:14,textAlign:'center',color:'#fff',boxShadow:'0 4px 20px rgba(0,0,0,.2)'}}>
         <div style={{fontSize:48,marginBottom:8}}>⛏️</div>
-        {upgrades.mineBoost&&<div style={{background:'#f39c12',borderRadius:20,padding:'2px 10px',fontSize:11,fontWeight:700,color:'#fff',display:'inline-block',marginBottom:8}}>Mine Elevator Active — 2x rare drops!</div>}
-        <div style={{fontSize:12,opacity:.8,marginBottom:12}}>Tap to mine — discover rare minerals!</div>
+        {upgrades.mineBoost&&<div style={{background:'#f39c12',borderRadius:20,padding:'2px 10px',fontSize:11,fontWeight:700,color:'#fff',display:'inline-block',marginBottom:8}}>Mine Elevator Active  -  2x rare drops!</div>}
+        <div style={{fontSize:12,opacity:.8,marginBottom:12}}>Tap to mine  -  discover rare minerals!</div>
         <button onClick={mine} style={{background:mineCd?'#555':'#f39c12',color:'#fff',border:'none',borderRadius:16,padding:'12px 28px',fontSize:15,fontWeight:800,cursor:mineCd?'default':'pointer'}}>{mineCd?'Mining...':'Mine Now!'}</button>
       </div>
       {total>0&&<Card><div style={{fontWeight:800,fontSize:13,color:'#333',marginBottom:10}}>Minerals ({total})</div>
@@ -1735,7 +1737,7 @@ function BankScreen({G}){
           <div style={{fontWeight:800,fontSize:14,color:'#1a3a50',marginBottom:6}}>Profit Share Account</div>
           <div style={{fontSize:11,color:'#777',marginBottom:10,lineHeight:1.5}}>Deposit coins, earn {(profitRate*100).toFixed(0)}% profit share. Withdraw anytime with profits.</div>
           <div style={{display:'flex',gap:8,marginBottom:8}}>
-            <input value={amt} onChange={e=>setAmt(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+            <input value={amt} onChange={e=>setAmt(e.target.value)} type="number" placeholder='Amount...' style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
             <Btn onClick={deposit}>Deposit</Btn>
           </div>
           {bankBal>0&&<>
@@ -1778,7 +1780,7 @@ function BankScreen({G}){
             <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#888'}}>Daily profit est.</span><span style={{fontWeight:700,color:'#27ae60'}}>🪙{myDailyReturn.toLocaleString()}</span></div>
           </div>
           <div style={{display:'flex',gap:8,marginBottom:8}}>
-            <input value={jAmt} onChange={e=>setJAmt(e.target.value)} type="number" placeholder="Amount to pool..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+            <input value={jAmt} onChange={e=>setJAmt(e.target.value)} type="number" placeholder='Amount to pool...' style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
             <Btn onClick={poolCoins} color='#16a085' style={{fontSize:12,padding:'7px 12px'}}>Pool</Btn>
           </div>
           {jointBal>0&&<div style={{display:'flex',gap:8}}>
@@ -1794,7 +1796,7 @@ function BankScreen({G}){
           <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Cap 🪙500. No fee. 10% of earnings auto-debits until repaid.</div>
           {loanDebt>0?<div style={{background:'#fff5f5',borderRadius:12,padding:'8px 12px',fontSize:12,color:'#c0392b',fontWeight:700,textAlign:'center'}}>Active: 🪙{loanDebt} remaining</div>:<>
             <div style={{display:'flex',gap:8}}>
-              <input value={eLoan} onChange={e=>setEL(e.target.value)} type="number" placeholder="Amount (max 500)" max="500" style={{flex:1,padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+              <input value={eLoan} onChange={e=>setEL(e.target.value)} type="number" placeholder='Amount (max 500)' max="500" style={{flex:1,padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
               <Btn onClick={()=>{const n=parseInt(eLoan);takeEmergencyLoan(n);setEL('');}} color='#e74c3c' style={{fontSize:12,padding:'8px 12px'}}>Apply</Btn>
             </div>
           </>}
@@ -1803,7 +1805,7 @@ function BankScreen({G}){
           <Card key={i}>
             <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}><span style={{fontSize:26}}>{l.icon}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13}}>{l.label}</div><div style={{fontSize:11,color:'#777'}}>{l.desc} · Fee: {(l.fee*100).toFixed(0)}%</div></div></div>
             <div style={{display:'flex',gap:8}}>
-              <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+              <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder='Amount...' style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
               <Btn onClick={()=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter amount!','orange');return;}const f=Math.round(n*l.fee);earn(n);spend(f);setLA('');notify(`Loan 🪙${n} approved. Fee 🪙${f} deducted.`,'blue');}} color='#1a5276' style={{fontSize:12,padding:'7px 12px'}}>Apply</Btn>
             </div>
             {lAmt&&parseInt(lAmt)>0&&<div style={{fontSize:11,color:'#777',marginTop:5}}>Receive 🪙{parseInt(lAmt)||0} · Fee 🪙{Math.round((parseInt(lAmt)||0)*l.fee)}</div>}
@@ -2002,7 +2004,7 @@ function ChatScreen({G}){
         {ch==='Missions'&&'Post task help requests here'}{ch==='Trading'&&'Offer and request items'}{ch==='Help'&&'Ask farming questions'}{ch==='General'&&'Chat with all players'}
       </div>
       <div style={{flex:1,overflowY:'auto',padding:'10px 14px',background:'#f3f4f3',display:'flex',flexDirection:'column',gap:8}}>
-        {msgs.length===0&&<div style={{textAlign:'center',color:'#bbb',padding:30,fontSize:13}}>No messages yet — say hello!</div>}
+        {msgs.length===0&&<div style={{textAlign:'center',color:'#bbb',padding:30,fontSize:13}}>No messages yet  -  say hello!</div>}
         {msgs.map(m=>{
           const isMe=m.author===playerId;
           return(
@@ -2094,7 +2096,7 @@ function FarmhouseScreen({G}){
         </div>
         <Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:8}}>Farm Name</div>
-          <input value={nameInput} onChange={e=>setNI(e.target.value.slice(0,30))} placeholder="Name your farm..." style={{width:'100%',padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:14,outline:'none',fontFamily:'inherit',boxSizing:'border-box',marginBottom:8,color:'#333'}}/>
+          <input value={nameInput} onChange={e=>setNI(e.target.value.slice(0,30))} placeholder='Name your farm...' style={{width:'100%',padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:14,outline:'none',fontFamily:'inherit',boxSizing:'border-box',marginBottom:8,color:'#333'}}/>
           <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
             <span style={{fontSize:10,color:'#aaa'}}>{nameInput.length}/30</span>
             <Btn onClick={()=>{updateFN(nameInput);notify('Farm name saved!','green');}} color={T.primary}>Save</Btn>
@@ -2119,7 +2121,7 @@ function FarmhouseScreen({G}){
         <Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:8}}>Join a World</div>
           <div style={{display:'flex',gap:8}}>
-            <input value={joinInput} onChange={e=>setJI(e.target.value.toUpperCase().slice(0,9))} placeholder="Enter world code..." style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:14,outline:'none',fontFamily:'inherit',letterSpacing:2,fontWeight:700,color:'#333'}}/>
+            <input value={joinInput} onChange={e=>setJI(e.target.value.toUpperCase().slice(0,9))} placeholder='Enter world code...' style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:14,outline:'none',fontFamily:'inherit',letterSpacing:2,fontWeight:700,color:'#333'}}/>
             <Btn onClick={async()=>{const c=joinInput.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(!c)return;try{await window.storage.set('world_code',c);}catch{}setWC(c);notify(`Joined ${c}!`,'green');setJI('');}} color={T.primary}>Join</Btn>
           </div>
         </Card>
@@ -2147,15 +2149,15 @@ function FarmhouseScreen({G}){
         </div>
         <Card style={{background:'#e8f8f5',border:'1px solid #c3e6cb'}}>
           <div style={{fontSize:12,fontWeight:800,color:'#16a085',marginBottom:6}}>How Friend Bonuses Work</div>
-          {['Add friends using their Player ID from their Farmhouse Identity tab.','Send daily help to each other. When both send help on the same day the Mutual Help Streak grows.','Each streak day adds 5% bonus to all earnings up to a maximum of 50%.','Streak breaks if one of you misses a day — help each other every day!'].map((t,i)=><div key={i} style={{fontSize:11,color:'#555',lineHeight:1.8}}>• {t}</div>)}
+          {['Add friends using their Player ID from their Farmhouse Identity tab.','Send daily help to each other. When both send help on the same day the Mutual Help Streak grows.','Each streak day adds 5% bonus to all earnings up to a maximum of 50%.','Streak breaks if one of you misses a day  -  help each other every day!'].map((t,i)=><div key={i} style={{fontSize:11,color:'#555',lineHeight:1.8}}>• {t}</div>)}
         </Card>
         <Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:8}}>Add a Friend</div>
           <div style={{display:'flex',gap:8}}>
-            <input value={fidInput} onChange={e=>setFID(e.target.value.toUpperCase())} placeholder="Enter Player ID (e.g. PABC12)" style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333',letterSpacing:1}}/>
+            <input value={fidInput} onChange={e=>setFID(e.target.value.toUpperCase())} placeholder='Enter Player ID (e.g. PABC12)' style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333',letterSpacing:1}}/>
             <Btn onClick={addFriend} color='#16a085'>Add</Btn>
           </div>
-          <div style={{fontSize:11,color:'#aaa',marginTop:6}}>Your ID: <b style={{color:'#555'}}>{playerId}</b> — share this with friends</div>
+          <div style={{fontSize:11,color:'#aaa',marginTop:6}}>Your ID: <b style={{color:'#555'}}>{playerId}</b>  -  share this with friends</div>
         </Card>
         {friendsList.length>0&&<Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:10}}>Your Friends ({friendsList.length})</div>
@@ -2573,7 +2575,7 @@ function AuthScreen({onLogin}){
   const inp={width:'100%',border:'1.5px solid rgba(255,255,255,0.15)',background:'rgba(255,255,255,0.08)',backdropFilter:'blur(8px)',borderRadius:14,padding:'13px 16px',fontSize:14,marginBottom:10,boxSizing:'border-box',outline:'none',color:'#fff',fontFamily:'inherit',placeholder:'rgba(255,255,255,0.4)'};
 
   return(
-    <div style={{minHeight:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#1a5c3a 75%,#0f3321 100%)',display:'flex',alignItems:'center',justifyContent:'center',padding:20,fontFamily:'"Nunito","Trebuchet MS",system-ui,sans-serif',position:'relative',overflow:'hidden'}}>
+    <div style={{minHeight:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#1a5c3a 75%,#0f3321 100%)',display:'flex',alignItems:'center',justifyContent:'center',padding:20,fontFamily:'system-ui,sans-serif',position:'relative',overflow:'hidden'}}>
       {/* Background decorations */}
       <div style={{position:'absolute',top:0,left:0,right:0,bottom:0,backgroundImage:'radial-gradient(circle at 20% 30%, rgba(74,222,128,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(134,239,172,0.1) 0%, transparent 50%)',pointerEvents:'none'}}/>
       <div style={{position:'absolute',fontSize:80,top:20,right:20,opacity:.08,transform:'rotate(15deg)',pointerEvents:'none'}}>🌾</div>
@@ -2595,11 +2597,11 @@ function AuthScreen({onLogin}){
         </div>
 
         {mode==='register'&&<>
-          <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="Username" style={inp}/>
-          <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder="🏡 Farm Name" style={inp}/>
+          <input value={username} onChange={e=>setUsername(e.target.value)} placeholder='Username' style={inp}/>
+          <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder='🏡 Farm Name' style={inp}/>
         </>}
-        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email address" type="email" style={inp}/>
-        <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" type="password" style={{...inp,marginBottom:error?10:18}}/>
+        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder='Email address' type="email" style={inp}/>
+        <input value={password} onChange={e=>setPassword(e.target.value)} placeholder='Password' type="password" style={{...inp,marginBottom:error?10:18}}/>
 
         {error&&<div style={{background:'rgba(220,38,38,0.3)',border:'1px solid rgba(255,100,100,0.4)',borderRadius:12,padding:'9px 14px',fontSize:12,color:'#fca5a5',marginBottom:14,fontWeight:700}}>{error}</div>}
 
@@ -2618,57 +2620,7 @@ export default function Root(){
     const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
     return unsub;
   },[]);
-  if(checking)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#0f3321 100%)',fontFamily:'"Nunito",system-ui'}}><div style={{fontSize:64,marginBottom:16,filter:'drop-shadow(0 4px 16px rgba(0,0,0,0.4))'}}>🌾</div><div style={{fontSize:18,color:'#fff',fontWeight:900,letterSpacing:1,textShadow:'0 2px 8px rgba(0,0,0,0.4)'}}>Loading Harvest Haven...</div><div style={{width:120,height:4,background:'rgba(255,255,255,0.2)',borderRadius:20,marginTop:16,overflow:'hidden'}}><div style={{width:'60%',height:'100%',background:'#4ade80',borderRadius:20,animation:'none'}}/></div></div>;
+  if(checking)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#0f3321 100%)',fontFamily:'system-ui,sans-serif'}}><div style={{fontSize:64,marginBottom:16,filter:'drop-shadow(0 4px 16px rgba(0,0,0,0.4))'}}>🌾</div><div style={{fontSize:18,color:'#fff',fontWeight:900,letterSpacing:1,textShadow:'0 2px 8px rgba(0,0,0,0.4)'}}>Loading Harvest Haven...</div><div style={{width:120,height:4,background:'rgba(255,255,255,0.2)',borderRadius:20,marginTop:16,overflow:'hidden'}}><div style={{width:'60%',height:'100%',background:'#4ade80',borderRadius:20,animation:'none'}}/></div></div>;
   if(!user)return<AuthScreen onLogin={setUser}/>;
   return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
-  const eventsForCh=globalEvents?.filter(e=>e.type==='chat'&&e.ch===ch)||[];
-  return(
-    <div style={{display:'flex',flexDirection:'column',height:'82vh',padding:'0 0 14px'}}>
-      {/* Header */}
-      <div style={{background:`linear-gradient(135deg,#16a085dd,#1abc9ccc)`,backdropFilter:'blur(8px)',borderRadius:'0 0 20px 20px',padding:'14px 16px 12px',color:'#fff',marginBottom:10,border:'1px solid rgba(255,255,255,0.15)',flexShrink:0}}>
-        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Community</div>
-        <div style={{fontSize:20,fontWeight:900,letterSpacing:-.3}}>💬 Farm Chat</div>
-        <div style={{fontSize:11,opacity:.7,marginTop:2}}>All players · Global community</div>
-      </div>
-      <div style={{padding:'0 14px',flexShrink:0}}>
-        {/* Channel tabs */}
-        <div style={{display:'flex',gap:5,marginBottom:10,background:'rgba(0,0,0,0.2)',borderRadius:16,padding:3}}>
-          {CHAT_CH.map(c=>{
-            const isActive=ch===c;
-            const chUnread=eventsForCh.filter(e=>e.ch===c&&e.time>lastSeenChat&&G.lastSeenChat).length;
-            return(
-              <button key={c} onClick={()=>setCh(c)} style={{flex:1,background:isActive?CH_COL[c]:'transparent',color:isActive?'#fff':'rgba(255,255,255,0.5)',border:'none',borderRadius:13,padding:'8px 4px',fontSize:11,fontWeight:isActive?900:600,cursor:'pointer',transition:'all .2s',boxShadow:isActive?`0 3px 12px ${CH_COL[c]}66`:'none',position:'relative'}}>
-                {c}
-                {chUnread>0&&!isActive&&<span style={{position:'absolute',top:2,right:4,background:'#ef4444',color:'#fff',borderRadius:20,width:14,height:14,fontSize:8,fontWeight:900,display:'flex',alignItems:'center',justifyContent:'center'}}>{chUnread}</span>}
-              </button>
-            );
-          })}
-        </div>
-        <div style={{background:'rgba(255,255,255,0.06)',borderRadius:12,padding:'5px 12px',marginBottom:8,fontSize:11,color:'rgba(255,255,255,0.5)',fontStyle:'italic'}}>
-          {ch==='General'?'👋 Chat with all farmers worldwide':ch==='Help'?'🤝 Ask farming questions here':ch==='Missions'?'📋 Post and request task help':ch==='Trading'?'💱 Offer and request items':''}
-        </div>
-      </div>
-      {/* Messages */}
-      <div style={{flex:1,overflowY:'auto',padding:'0 14px',display:'flex',flexDirection:'column',gap:6}}>
-        {msgs.length===0&&<div style={{textAlign:'center',color:'rgba(255,255,255,0.3)',padding:30,fontSize:13}}>No messages yet — say hello! 👋</div>}
-        {msgs.map(m=>{
-          const isMe=m.author===playerId;
-          return(
-            <div key={m.id} style={{display:'flex',flexDirection:'column',alignItems:isMe?'flex-end':'flex-start'}}>
-              <div style={{fontSize:9,color:'rgba(255,255,255,0.4)',marginBottom:2,fontWeight:700}}>{isMe?'You':m.farm}</div>
-              <div style={{background:isMe?CH_COL[ch]:'rgba(255,255,255,0.12)',backdropFilter:isMe?'none':'blur(8px)',color:'#fff',borderRadius:isMe?'16px 16px 4px 16px':'16px 16px 16px 4px',padding:'8px 13px',fontSize:13,maxWidth:'80%',boxShadow:isMe?`0 3px 12px ${CH_COL[ch]}55`:'0 2px 8px rgba(0,0,0,0.2)',border:'1px solid rgba(255,255,255,0.1)',fontWeight:500}}>{m.text}</div>
-            </div>
-          );
-        })}
-        <div ref={endRef}/>
-      </div>
-      {/* Input */}
-      <div style={{padding:'8px 14px 0',flexShrink:0}}>
-        <div style={{display:'flex',gap:8}}>
-          <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder={`Message ${ch}...`} style={{flex:1,background:'rgba(255,255,255,0.1)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:16,padding:'11px 16px',fontSize:13,outline:'none',color:'#fff',fontFamily:'inherit'}}/>
-          <button onClick={send} style={{background:CH_COL[ch],color:'#fff',border:'none',borderRadius:16,padding:'11px 18px',fontWeight:900,cursor:'pointer',boxShadow:`0 4px 16px ${CH_COL[ch]}66`,fontSize:13}}>Send</button>
-        </div>
-      </div>
-    </div>
-  );
 }
