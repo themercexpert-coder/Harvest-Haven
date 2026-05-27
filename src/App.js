@@ -822,10 +822,15 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         addCollected(caught.id);
         const rarityMsg=caught.rarity==='legendary'?'🏆 LEGENDARY! ':caught.rarity==='rare'?'⭐ RARE! ':'';
         notify(`${rarityMsg}Caught ${caught.emoji} ${caught.name}! +🪙${caught.value} value, +${caught.xp}XP`,'#2980b9');
-        // Post to fish chat
+        // Post to fish village chat + global events for rare/legendary
         if(caught.rarity!=='common'){
-          const msg={id:Date.now(),author:playerId,farm:farmName,text:`🎣 Just caught a ${caught.rarity==='legendary'?'LEGENDARY ':'rare '}${caught.emoji} ${caught.name}!`,time:Date.now(),type:'fish'};
-          if(db)set(ref(db,`fishchat/${Date.now()}`),msg).catch(()=>{});
+          const msgId=`fish_${Date.now()}_${playerId}`;
+          const msg={id:msgId,author:playerId,farm:farmName,text:`🎣 Just caught a ${caught.rarity==='legendary'?'LEGENDARY ':'rare '}${caught.emoji} ${caught.name}!`,time:Date.now(),type:'fish'};
+          if(db){
+            set(ref(db,`fishchat/${msgId}`),msg).catch(()=>{});
+            // Also post to global events feed
+            set(ref(db,`globalevents/${msgId}`),{type:'rare_fish',farm:farmName,fishName:caught.name,fishEmoji:caught.emoji,rarity:caught.rarity,time:Date.now()}).catch(()=>{});
+          }
         }
       }else{
         notify('Nothing bit this time... try a different bait! 🎣','#aaa');
@@ -2322,6 +2327,10 @@ function FishingScreen({G}){
       if(sn.exists()){
         const msgs=Object.values(sn.val()).filter(m=>m&&m.text&&m.time).sort((a,b)=>a.time-b.time).slice(-30);
         setVillageMsgs(msgs);
+      } else {
+        // Seed with welcome message if empty
+        const welcome={id:'welcome_001',author:'system',farm:'Harvest Haven',text:'🌊 Welcome to the Fishing Village! Catch rare or legendary fish to appear here.',time:Date.now(),type:'system'};
+        set(ref(db,'fishchat/welcome_001'),welcome).catch(()=>{});
       }
     });
     return()=>unsub();
