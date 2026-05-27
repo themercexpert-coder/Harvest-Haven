@@ -32,18 +32,112 @@ if(typeof window!=='undefined'&&!window.storage){
     }
   };
 }
-const THEMES=[{id:'forest',name:'🌿 Forest',bg:'linear-gradient(170deg,#a8d8ea,#b8e4c9 55%,#d4f1b8)',primary:'#1a6b2a',accent:'#27ae60',light:'#eef7ee'},{id:'ocean',name:'🌊 Ocean',bg:'linear-gradient(170deg,#c8e6ff,#b3d9f5 55%,#d4eaf8)',primary:'#1a4f76',accent:'#2980b9',light:'#eaf4fb'},{id:'rose',name:'🌹 Rose',bg:'linear-gradient(170deg,#fce4ec,#f8bbd0 55%,#f3e5f5)',primary:'#880e4f',accent:'#c2185b',light:'#fce8f0'},{id:'autumn',name:'🍂 Autumn',bg:'linear-gradient(170deg,#fff3e0,#ffe0b2 55%,#ffcc80)',primary:'#bf360c',accent:'#e64a19',light:'#fef3e8'},{id:'lavender',name:'🪻 Lavender',bg:'linear-gradient(170deg,#ede7f6,#d1c4e9 55%,#c3a8e1)',primary:'#6c3483',accent:'#8e44ad',light:'#f3eafa'},{id:'teal',name:'🩵 Teal',bg:'linear-gradient(170deg,#e0f7fa,#b2ebf2 55%,#80deea)',primary:'#00695c',accent:'#00897b',light:'#e0f2f1'},{id:'sunset',name:'🌅 Sunset',bg:'linear-gradient(170deg,#fff8e1,#ffe0b2 55%,#ffb74d)',primary:'#e65100',accent:'#f57c00',light:'#fff3e0'},{id:'night',name:'🌙 Night',bg:'linear-gradient(170deg,#1a1a2e,#16213e 55%,#0d2346)',primary:'#7986cb',accent:'#5c6bc0',light:'#252540'}];
+const THEMES=[
+  {id:'forest',name:'🌿 Forest',bg:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#1a5c3a 75%,#0f3321 100%)',primary:'#4ade80',accent:'#86efac',light:'rgba(255,255,255,0.1)'},
+  {id:'ocean',name:'🌊 Ocean',bg:'linear-gradient(160deg,#082c4e 0%,#0e4d73 35%,#1060a0 70%,#051a2e 100%)',primary:'#38bdf8',accent:'#7dd3fc',light:'rgba(255,255,255,0.08)'},
+  {id:'sunset',name:'🌅 Sunset',bg:'linear-gradient(160deg,#7c1e0a 0%,#b83224 30%,#d4622a 60%,#e8901c 100%)',primary:'#fb923c',accent:'#fbbf24',light:'rgba(255,255,255,0.1)'},
+  {id:'night',name:'🌙 Night',bg:'linear-gradient(160deg,#080818 0%,#141430 35%,#1a1a40 70%,#050510 100%)',primary:'#a78bfa',accent:'#c4b5fd',light:'rgba(255,255,255,0.06)'},
+  {id:'rose',name:'🌸 Blossom',bg:'linear-gradient(160deg,#5a0a2e 0%,#8b1a52 35%,#b52060 65%,#400020 100%)',primary:'#f472b6',accent:'#fbcfe8',light:'rgba(255,255,255,0.08)'},
+  {id:'autumn',name:'🍂 Harvest',bg:'linear-gradient(160deg,#3d1500 0%,#6b2e00 30%,#9a4b0a 65%,#2d0e00 100%)',primary:'#f97316',accent:'#fcd34d',light:'rgba(255,255,255,0.08)'},
+  {id:'lavender',name:'🪻 Mystic',bg:'linear-gradient(160deg,#130826 0%,#2e1052 35%,#4c1d8a 65%,#0d0418 100%)',primary:'#c084fc',accent:'#e9d5ff',light:'rgba(255,255,255,0.06)'},
+  {id:'teal',name:'💎 Crystal',bg:'linear-gradient(160deg,#022a2a 0%,#065252 30%,#0a7a7a 65%,#011818 100%)',primary:'#2dd4bf',accent:'#99f6e4',light:'rgba(255,255,255,0.08)'},
+];
 const SEASONS=[{name:'Spring',emoji:'🌸',col:'#c2185b',boost:{wheat:1.1,tomato:1.2,strawberry:1.3,blueberry:1.2}},{name:'Summer',emoji:'☀️',col:'#f57c00',boost:{corn:1.2,pumpkin:1.1,blueberry:1.3,golden:1.1}},{name:'Autumn',emoji:'🍂',col:'#5d4037',boost:{pumpkin:1.4,wheat:1.2,carrot:1.3,corn:1.1}},{name:'Winter',emoji:'❄️',col:'#1565c0',boost:{golden:1.5,carrot:1.2}}];
 // All crops max 5 minutes
 const CROPS=[{id:'wheat',name:'Wheat',emoji:'🌾',cost:10,base:25,xp:5,grow:30},{id:'corn',name:'Corn',emoji:'🌽',cost:15,base:38,xp:8,grow:45},{id:'tomato',name:'Tomato',emoji:'🍅',cost:20,base:52,xp:10,grow:60},{id:'strawberry',name:'Strawberry',emoji:'🍓',cost:25,base:68,xp:13,grow:90},{id:'carrot',name:'Carrot',emoji:'🥕',cost:18,base:46,xp:9,grow:45},{id:'pumpkin',name:'Pumpkin',emoji:'🎃',cost:30,base:80,xp:15,grow:120},{id:'blueberry',name:'Blueberry',emoji:'🫐',cost:35,base:95,xp:18,grow:180},{id:'golden',name:'Golden Grain',emoji:'✨',cost:100,base:300,xp:50,grow:300}];
-const ANIMALS=[{id:'cow',emoji:'🐄',name:'Cow',product:'Milk',pe:'🥛',value:40,ml:1,meat:'Beef',me:'🥩',ms:80,mv:120},{id:'chicken',emoji:'🐔',name:'Chicken',product:'Eggs',pe:'🥚',value:25,ml:1,meat:'Chicken',me:'🍗',ms:40,mv:60},{id:'sheep',emoji:'🐑',name:'Sheep',product:'Wool',pe:'🧶',value:55,ml:5,meat:'Lamb',me:'🍖',ms:60,mv:90},{id:'goat',emoji:'🐐',name:'Goat',product:'Goat Milk',pe:'🥛',value:35,ml:8,meat:'Goat Meat',me:'🍖',ms:55,mv:80},{id:'horse',emoji:'🐎',name:'Horse',product:'Stamina',pe:'⚡',value:0,ml:10,meat:null,me:null,ms:0,mv:0},{id:'duck',emoji:'🦆',name:'Duck',product:'Feathers',pe:'🪶',value:30,ml:12,meat:'Duck Meat',me:'🍗',ms:45,mv:70},{id:'rabbit',emoji:'🐇',name:'Rabbit',product:'Lucky Drops',pe:'🍀',value:45,ml:15,meat:'Rabbit Meat',me:'🍖',ms:35,mv:55}];
+const ANIMALS=[{id:'cow',emoji:'🐄',name:'Cow',product:'Milk',pe:'🥛',value:40,ml:1,meat:'Beef',me:'🥩',ms:80,mv:120,buyCost:300,feedItem:'wheat',feedEmoji:'🌾'},{id:'chicken',emoji:'🐔',name:'Chicken',product:'Eggs',pe:'🥚',value:25,ml:1,meat:'Chicken',me:'🍗',ms:40,mv:60,buyCost:150,feedItem:'corn',feedEmoji:'🌽'},{id:'sheep',emoji:'🐑',name:'Sheep',product:'Wool',pe:'🧶',value:55,ml:5,meat:'Lamb',me:'🍖',ms:60,mv:90,buyCost:350,feedItem:'carrot',feedEmoji:'🥕'},{id:'goat',emoji:'🐐',name:'Goat',product:'Goat Milk',pe:'🥛',value:35,ml:8,meat:'Goat Meat',me:'🍖',ms:55,mv:80,buyCost:280,feedItem:'wheat',feedEmoji:'🌾'},{id:'horse',emoji:'🐎',name:'Horse',product:'Stamina',pe:'⚡',value:0,ml:10,meat:null,me:null,ms:0,mv:0,buyCost:800,feedItem:'carrot',feedEmoji:'🥕'},{id:'duck',emoji:'🦆',name:'Duck',product:'Feathers',pe:'🪶',value:30,ml:12,meat:'Duck Meat',me:'🍗',ms:45,mv:70,buyCost:220,feedItem:'corn',feedEmoji:'🌽'},{id:'rabbit',emoji:'🐇',name:'Rabbit',product:'Lucky Drops',pe:'🍀',value:45,ml:15,meat:'Rabbit Meat',me:'🍖',ms:35,mv:55,buyCost:200,feedItem:'carrot',feedEmoji:'🥕'},{id:'camel',emoji:'🐪',name:'Camel',product:'Camel Milk',pe:'🥛',value:55,ml:8,meat:null,me:null,ms:0,mv:0,buyCost:400,feedItem:'pumpkin',feedEmoji:'🎃'},{id:'bee',emoji:'🐝',name:'Bee Hive',product:'Honey',pe:'🍯',value:35,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:180,feedItem:'sunflower',feedEmoji:'🌻'},{id:'turkey',emoji:'🦃',name:'Turkey',product:'Turkey Egg',pe:'🥚',value:22,ml:10,meat:'Turkey Meat',me:'🍗',ms:50,mv:85,buyCost:200,feedItem:'corn',feedEmoji:'🌽'},{id:'alpaca',emoji:'🦙',name:'Alpaca',product:'Alpaca Wool',pe:'🧶',value:45,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:280,feedItem:'wheat',feedEmoji:'🌾'}];
 const MINERALS=[{id:'coal',name:'Coal',emoji:'⚫',r:.35,v:30,xp:5},{id:'iron',name:'Iron',emoji:'🪨',r:.28,v:55,xp:8},{id:'copper',name:'Copper',emoji:'🔵',r:.18,v:80,xp:12},{id:'silver',name:'Silver',emoji:'🪙',r:.10,v:150,xp:18},{id:'goldore',name:'Gold Ore',emoji:'🟡',r:.06,v:300,xp:25},{id:'diamond',name:'Diamond',emoji:'💎',r:.02,v:800,xp:50},{id:'emerald',name:'Emerald',emoji:'🟢',r:.01,v:1200,xp:80}];
-const RECIPES=[{id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:3},sell:70,xp:15,desc:'3 Wheat'},{id:'vegSoup',name:'Veg Soup',emoji:'🍲',ing:{carrot:2,tomato:2},sell:130,xp:22,desc:'2 Carrot + 2 Tomato'},{id:'berryJam',name:'Berry Jam',emoji:'🍯',ing:{strawberry:3,blueberry:2},sell:200,xp:28,desc:'3 Strawberry + 2 Blueberry'},{id:'pumpkinPie',name:'Pumpkin Pie',emoji:'🥧',ing:{pumpkin:1,wheat:2},sell:160,xp:25,desc:'1 Pumpkin + 2 Wheat'},{id:'ironTool',name:'Iron Tool',emoji:'🔨',ing:{iron:2,coal:1},sell:210,xp:35,desc:'2 Iron + 1 Coal'},{id:'copperWire',name:'Copper Wire',emoji:'🔌',ing:{copper:3},sell:290,xp:40,desc:'3 Copper'},{id:'goldBar',name:'Gold Bar',emoji:'🏅',ing:{goldore:2},sell:720,xp:60,desc:'2 Gold Ore'},{id:'diamondGem',name:'Cut Diamond',emoji:'💍',ing:{diamond:1},sell:1900,xp:100,desc:'1 Diamond'}];
+
+// ─── FISHING ──────────────────────────────────────────────────────────────
+const BAITS=[
+  {id:'worm',name:'Earthworm',emoji:'🪱',cost:5,desc:'Basic bait, catches common fish',bonus:0},
+  {id:'bread',name:'Bread Crust',emoji:'🍞',cost:8,desc:'Cheap and effective for freshwater fish',bonus:0.05},
+  {id:'corn_bait',name:'Corn Kernel',emoji:'🌽',cost:12,desc:'Attracts medium fish',bonus:0.1},
+  {id:'cricket',name:'Cricket',emoji:'🦗',cost:20,desc:'Lively bait, better rare catch rate',bonus:0.2},
+  {id:'golden_lure',name:'Golden Lure',emoji:'✨',cost:80,desc:'Best bait — doubles rare fish chance',bonus:0.4},
+];
+const FISH=[
+  // Common (always catchable)
+  {id:'minnow',name:'Minnow',emoji:'🐟',rarity:'common',r:0.22,value:8,xp:3,bait:['worm','bread','corn_bait','cricket','golden_lure'],minLevel:1},
+  {id:'bluegill',name:'Bluegill',emoji:'🐡',rarity:'common',r:0.18,value:12,xp:4,bait:['worm','bread','corn_bait','cricket','golden_lure'],minLevel:1},
+  {id:'carp',name:'Carp',emoji:'🎏',rarity:'common',r:0.15,value:18,xp:5,bait:['bread','corn_bait','cricket','golden_lure'],minLevel:1},
+  {id:'catfish',name:'Catfish',emoji:'🐠',rarity:'common',r:0.14,value:22,xp:6,bait:['worm','corn_bait','cricket','golden_lure'],minLevel:2},
+  {id:'perch',name:'Yellow Perch',emoji:'🐟',rarity:'common',r:0.12,value:25,xp:7,bait:['worm','bread','corn_bait','cricket','golden_lure'],minLevel:2},
+  // Uncommon
+  {id:'bass',name:'Largemouth Bass',emoji:'🐟',rarity:'uncommon',r:0.07,value:45,xp:12,bait:['cricket','corn_bait','golden_lure'],minLevel:3},
+  {id:'trout',name:'Rainbow Trout',emoji:'🌈',rarity:'uncommon',r:0.06,value:55,xp:15,bait:['cricket','worm','golden_lure'],minLevel:3},
+  {id:'pike',name:'Northern Pike',emoji:'🐟',rarity:'uncommon',r:0.05,value:65,xp:18,bait:['cricket','golden_lure'],minLevel:4},
+  {id:'salmon',name:'Atlantic Salmon',emoji:'🍣',rarity:'uncommon',r:0.04,value:80,xp:20,bait:['cricket','golden_lure'],minLevel:5},
+  {id:'tilapia',name:'Tilapia',emoji:'🐡',rarity:'uncommon',r:0.04,value:70,xp:18,bait:['corn_bait','cricket','golden_lure'],minLevel:4},
+  // Rare
+  {id:'sturgeon',name:'Sturgeon',emoji:'🦈',rarity:'rare',r:0.025,value:150,xp:35,bait:['cricket','golden_lure'],minLevel:7},
+  {id:'eel',name:'Electric Eel',emoji:'🐍',rarity:'rare',r:0.02,value:180,xp:40,bait:['worm','golden_lure'],minLevel:6},
+  {id:'swordfish',name:'Swordfish',emoji:'🗡️',rarity:'rare',r:0.015,value:220,xp:50,bait:['golden_lure'],minLevel:8},
+  {id:'anglerfish',name:'Anglerfish',emoji:'🎣',rarity:'rare',r:0.012,value:280,xp:60,bait:['golden_lure'],minLevel:10},
+  {id:'puffer',name:'Puffer Fish',emoji:'🐡',rarity:'rare',r:0.01,value:320,xp:70,bait:['golden_lure'],minLevel:9},
+  // Legendary
+  {id:'goldfish',name:'Golden Koi',emoji:'🥇',rarity:'legendary',r:0.006,value:600,xp:120,bait:['golden_lure'],minLevel:10},
+  {id:'dragon_fish',name:'Dragon Fish',emoji:'🐉',rarity:'legendary',r:0.004,value:900,xp:180,bait:['golden_lure'],minLevel:15},
+  {id:'moonfish',name:'Moonfish',emoji:'🌕',rarity:'legendary',r:0.003,value:1200,xp:240,bait:['golden_lure'],minLevel:18},
+  {id:'phantom',name:'Phantom Eel',emoji:'👻',rarity:'legendary',r:0.002,value:2000,xp:400,bait:['golden_lure'],minLevel:20},
+  {id:'leviathan',name:'Leviathan',emoji:'🦕',rarity:'legendary',r:0.001,value:5000,xp:1000,bait:['golden_lure'],minLevel:25},
+];
+const FISH_RECIPES=[
+  {id:'fish_soup',name:'Fish Soup',emoji:'🍲',ing:{minnow:3,carrot:2},sell:120,xp:15,desc:'3 Minnow + 2 Carrot'},
+  {id:'grilled_bass',name:'Grilled Bass',emoji:'🍽️',ing:{bass:2,corn:2},sell:250,xp:28,desc:'2 Bass + 2 Corn'},
+  {id:'salmon_sushi',name:'Salmon Sushi',emoji:'🍣',ing:{salmon:2,wheat:3},sell:400,xp:45,desc:'2 Salmon + 3 Wheat'},
+  {id:'sturgeon_steak',name:'Sturgeon Steak',emoji:'🥩',ing:{sturgeon:1,pumpkin:2},sell:600,xp:70,desc:'1 Sturgeon + 2 Pumpkin'},
+  {id:'fish_pie',name:'Fisherman\'s Pie',emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:350,xp:40,desc:'2 Catfish + 4 Wheat + 2 Carrot'},
+  {id:'eel_curry',name:'Eel Curry',emoji:'🍛',ing:{eel:1,tomato:3,corn:2},sell:500,xp:60,desc:'1 Eel + 3 Tomato + 2 Corn'},
+  {id:'golden_koi_feast',name:'Golden Koi Feast',emoji:'🥗',ing:{goldfish:1,truffle:1,lavender:2},sell:2000,xp:200,desc:'1 Golden Koi + 1 Truffle + 2 Lavender'},
+];
+const FISH_RARITY_COL={common:'#888',uncommon:'#27ae60',rare:'#2980b9',legendary:'#f39c12'};
+// ──────────────────────────────────────────────────────────────────────────
+
+const RECIPES=[
+  // Basic
+  {id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:5},sell:80,xp:10,desc:'5 Wheat',tier:1},
+  {id:'cake',name:'Cake',emoji:'🎂',ing:{wheat:3,blueberry:2},sell:150,xp:18,desc:'3 Wheat + 2 Blueberry',tier:1},
+  {id:'jam',name:'Strawberry Jam',emoji:'🍓',ing:{strawberry:4},sell:120,xp:14,desc:'4 Strawberry',tier:1},
+  {id:'salad',name:'Farm Salad',emoji:'🥗',ing:{tomato:3,carrot:2},sell:140,xp:16,desc:'3 Tomato + 2 Carrot',tier:1},
+  {id:'juice',name:'Corn Juice',emoji:'🌽',ing:{corn:4},sell:90,xp:10,desc:'4 Corn',tier:1},
+  {id:'soup',name:'Pumpkin Soup',emoji:'🍲',ing:{pumpkin:2,carrot:2},sell:180,xp:22,desc:'2 Pumpkin + 2 Carrot',tier:1},
+  // Intermediate
+  {id:'grapejuice',name:'Grape Juice',emoji:'🍷',ing:{grape:4},sell:240,xp:30,desc:'4 Grapes',tier:2},
+  {id:'goldenbread',name:'Golden Bread',emoji:'✨',ing:{golden:2,wheat:3},sell:500,xp:60,desc:'2 Golden + 3 Wheat',tier:2},
+  {id:'irontools',name:'Iron Tools',emoji:'⚒️',ing:{iron:3,coal:2},sell:350,xp:40,desc:'3 Iron + 2 Coal',tier:2},
+  {id:'silverjewel',name:'Silver Jewel',emoji:'💍',ing:{silver:2,copper:3},sell:600,xp:55,desc:'2 Silver + 3 Copper',tier:2},
+  {id:'gemring',name:'Gem Ring',emoji:'💎',ing:{diamond:1,silver:2},sell:1200,xp:90,desc:'1 Diamond + 2 Silver',tier:2},
+  {id:'lavperfume',name:'Lavender Perfume',emoji:'🌸',ing:{lavender:5,sunflower:3},sell:400,xp:45,desc:'5 Lavender + 3 Sunflower',tier:2},
+  // Advanced
+  {id:'chocolatecake',name:'Chocolate Cake',emoji:'🍫',ing:{cocoa:3,wheat:4,blueberry:2},sell:800,xp:80,desc:'3 Cocoa + 4 Wheat + 2 Blueberry',tier:3},
+  {id:'oliveoil',name:'Olive Oil',emoji:'🫒',ing:{olive:5,sunflower:2},sell:650,xp:65,desc:'5 Olive + 2 Sunflower',tier:3},
+  {id:'goldenring',name:'Golden Crown',emoji:'👑',ing:{goldore:3,diamond:1,emerald:1},sell:3000,xp:150,desc:'3 Gold Ore + 1 Diamond + 1 Emerald',tier:3},
+  {id:'mysticpotion',name:'Mystic Potion',emoji:'🧪',ing:{truffle:2,lavender:3,crystal:1},sell:2500,xp:120,desc:'2 Truffle + 3 Lavender + 1 Crystal',tier:3},
+  {id:'trufflepasta',name:'Truffle Pasta',emoji:'🍝',ing:{truffle:2,wheat:5,tomato:3},sell:1800,xp:100,desc:'2 Truffle + 5 Wheat + 3 Tomato',tier:3},
+  {id:'coffeecake',name:'Coffee Cake',emoji:'☕',ing:{coffee:3,wheat:4,blueberry:3},sell:900,xp:85,desc:'3 Coffee + 4 Wheat + 3 Blueberry',tier:3},
+  // Legendary
+  {id:'legendbrew',name:'Legend Brew',emoji:'🏆',ing:{ruby:1,sapphire:1,golden:5},sell:8000,xp:300,desc:'1 Ruby + 1 Sapphire + 5 Golden Grain',tier:4},
+  {id:'diamondcrown',name:'Diamond Crown',emoji:'💠',ing:{diamond:3,goldore:5,crystal:2},sell:12000,xp:500,desc:'3 Diamond + 5 Gold Ore + 2 Crystal',tier:4},
+];
 const NPCS={joe:{name:'Farmer Joe',emoji:'👨‍🌾',col:'#27ae60',lines:['Hello neighbour!','Great work today!','Fields look wonderful!','Really appreciate you!','Best farmer I know!']},mary:{name:'Market Mary',emoji:'👩‍💼',col:'#2980b9',lines:['Perfect quality!','My stall thanks you!','Fair deal always!','Premium goods!','My best supplier!']},tom:{name:'Miner Tom',emoji:'⛏️',col:'#546e7a',lines:['Good ore today!','Mine yields well!','Solid work!','Sharp pick!','Best miner!']},lily:{name:'Florist Lily',emoji:'🌸',col:'#c2185b',lines:['Beautiful harvest!','Blooms lovely!','Nature smiles!','Wonderful!','Garden thanks you!']},chef:{name:'Chef Carlos',emoji:'👨‍🍳',col:'#e67e22',lines:['Delicious!','Soup perfect!','Customers love it!','Finest produce!','You feed the town!']}};
 const TASK_POOL=[{npcId:'joe',itemId:'wheat',qty:3,inv:'silo',coins:75,xp:15,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'chef',itemId:'tomato',qty:3,inv:'silo',coins:110,xp:18,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'lily',itemId:'corn',qty:4,inv:'silo',coins:95,xp:16,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'carrot',qty:5,inv:'silo',coins:140,xp:20,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'joe',itemId:'pumpkin',qty:2,inv:'silo',coins:130,xp:19,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'strawberry',qty:6,inv:'silo',coins:320,xp:45,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'chef',itemId:'blueberry',qty:5,inv:'silo',coins:380,xp:50,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'iron',qty:2,inv:'mineral',coins:200,xp:38,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'copper',qty:2,inv:'mineral',coins:260,xp:42,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'wheat',qty:10,inv:'silo',coins:350,xp:48,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'golden',qty:2,inv:'silo',coins:900,xp:120,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'tom',itemId:'diamond',qty:1,inv:'mineral',coins:1600,xp:160,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'mary',itemId:'emerald',qty:1,inv:'mineral',coins:2000,xp:180,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'chef',itemId:'strawberry',qty:15,inv:'silo',coins:1000,xp:130,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1}];
 const DR=[{coins:50,xp:10},{coins:100,xp:20},{coins:150,xp:30,petFood:1},{coins:200,xp:40},{coins:300,xp:50,petFood:2},{coins:400,xp:60,toys:1},{coins:600,xp:100,petFood:3,toys:1}];
 const DQ=[{id:'dq1',text:'Harvest 5 crops',key:'dqH',target:5,reward:{coins:80,xp:15}},{id:'dq2',text:'Mine 2 minerals',key:'dqM',target:2,reward:{coins:100,xp:20}},{id:'dq3',text:'Complete 1 NPC task',key:'dqT',target:1,reward:{coins:150,xp:25,petFood:1}}];
-const PET_TYPES=[{id:'dog',name:'Farm Dog',emoji:'🐕',bonus:'Finds bonus seeds',cost:200},{id:'cat',name:'Barn Cat',emoji:'🐈',bonus:'Animal product boost',cost:250},{id:'parrot',name:'Parrot',emoji:'🦜',bonus:'Market alerts',cost:300},{id:'bunny',name:'Lucky Bunny',emoji:'🐰',bonus:'Lucky crop drops',cost:350},{id:'fox',name:'Farm Fox',emoji:'🦊',bonus:'Mining bonus',cost:400}];
+const PET_TYPES=[
+  {id:'dog',name:'Farm Dog',emoji:'🐕',cost:200,bonus:'Barks when crops are ready',xpBoost:.1},
+  {id:'cat',name:'Lucky Cat',emoji:'🐈',cost:300,bonus:'+5% coin bonus on sells',xpBoost:.12},
+  {id:'parrot',name:'Wise Parrot',emoji:'🦜',cost:500,bonus:'+10% XP from all tasks',xpBoost:.2},
+  {id:'bunny',name:'Lucky Bunny',emoji:'🐇',cost:400,bonus:'Finds bonus crops when harvesting',xpBoost:.15},
+  {id:'fox',name:'Clever Fox',emoji:'🦊',cost:800,bonus:'+15% market sale price',xpBoost:.18},
+  {id:'bear',name:'Honey Bear',emoji:'🐻',cost:1200,bonus:'Doubles honey and bee products',xpBoost:.22},
+  {id:'owl',name:'Night Owl',emoji:'🦉',cost:600,bonus:'Earns coins while you sleep',xpBoost:.16},
+  {id:'horse',name:'Racing Horse',emoji:'🐎',cost:1500,bonus:'Auto-plows 2 extra fields',xpBoost:.25},
+  {id:'penguin',name:'Ice Penguin',emoji:'🐧',cost:700,bonus:'+20% mining rewards',xpBoost:.17},
+  {id:'dragon',name:'Mini Dragon',emoji:'🐲',cost:5000,bonus:'Doubles all XP earned',xpBoost:.5},
+  {id:'phoenix',name:'Phoenix',emoji:'🦅',cost:8000,bonus:'Revives dead crops automatically',xpBoost:.6},
+  {id:'unicorn',name:'Unicorn',emoji:'🦄',cost:10000,bonus:'+50% to all coin earnings',xpBoost:.8},
+];
 const BOOKS=[{id:'b1',title:"Beginner's Guide",emoji:'📗',ml:1,pages:[{t:'Welcome',c:"Plow fields, plant crops, wait for them to grow, harvest to Silo, sell for coins."},{t:'First Harvest',c:"1. Tap brown tile to plow\n2. Choose crop at top\n3. Tap plowed tile to plant\n4. Wait for the timer\n5. Tap glowing tile to harvest\n6. Go to Silo to sell!"}]},{id:'b2',title:'Farming Tips',emoji:'🌾',ml:1,pages:[{t:'Plant and Harvest All',c:"Use Plant All to plant your selected crop in every plowed tile at once. Use Harvest All to collect every ready crop in one tap."},{t:'Seasons',c:"Prices change each season. Pumpkins earn 40% more in Autumn. Golden Grain earns 50% more in Winter. Plan your planting!"}]},{id:'b3',title:'Missions',emoji:'📋',ml:1,pages:[{t:'Task Board',c:"NPCs post requests. Completing tasks earns coins, XP and pet supplies. Daily quests reset every day for extra bonuses."},{t:'NPC Friendship',c:"Each task builds friendship. Best Friend status gives a 20% coin bonus on that NPC's rewards. Check the NPC Friends tab."}]},{id:'b4',title:'Pets',emoji:'🐾',ml:1,pages:[{t:'Adopting',c:"Adopt up to 3 pets from My Pets. Each has a unique farm skill."},{t:'Care',c:"Feed pets with Pet Food earned from tasks. Play with Toys to boost happiness. Pets decay slowly and are forgiving."}]},{id:'b5',title:'Finance',emoji:'💰',ml:3,pages:[{t:'Bank Loans',c:"Emergency Loan is capped at 500 coins. 10% of every earning auto-debits until fully repaid. You can also repay manually at any time."},{t:'Gold Growth',c:"Deposit gold grams in the Gold Growth Account. Earn a simulated 2% return. Withdraw anytime with profits added."}]},{id:'b6',title:'Friends',emoji:'🤝',ml:1,pages:[{t:'Friend Bonuses',c:"Add friends by entering their Player ID in Farmhouse Friends tab. Send daily help to each other."},{t:'Mutual Streak',c:"When both you and a friend send help on the same day, your Mutual Help Streak grows. Each streak day adds a 5% earnings bonus up to 50%."}]}];
 const CHAT_CH=['General','Help','Missions','Trading'];
 const CH_COL={General:'#27ae60',Help:'#2980b9',Missions:'#8e44ad',Trading:'#e67e22'};
@@ -51,7 +145,26 @@ const SEED_CHAT={General:[{text:'Welcome to Harvest Haven!'},{text:'Anyone want 
 const MARKET_ITEMS=[{emoji:'🌾',name:'Wheat',price:45,trend:'+5%',up:true},{emoji:'🍅',name:'Tomato',price:80,trend:'-3%',up:false},{emoji:'🥛',name:'Milk',price:60,trend:'+8%',up:true},{emoji:'🥚',name:'Eggs',price:50,trend:'+2%',up:true},{emoji:'🪨',name:'Iron',price:120,trend:'+12%',up:true},{emoji:'🟡',name:'Gold Ore',price:350,trend:'+1%',up:true},{emoji:'🌹',name:'Roses',price:90,trend:'-1%',up:false},{emoji:'🧶',name:'Wool',price:75,trend:'+6%',up:true}];
 const STALL_THEMES=[{id:'green',label:'Forest Fresh',color:'#1a6b2a'},{id:'gold',label:'Golden Harvest',color:'#b7800a'},{id:'rose',label:'Rose Garden',color:'#b5174f'},{id:'blue',label:'Cool Morning',color:'#1a5276'},{id:'purple',label:'Lavender Dream',color:'#6c3483'},{id:'dark',label:'Midnight Farm',color:'#212f3c'}];
 const LAND_PRICES=[300,800,1800,3500,7000,14000,28000];
-const LONG_GOALS=[{id:'town',name:'Restore the Town',emoji:'🏘️',desc:'Complete 10 hard tasks',key:'hardTasks',target:10,reward:2000},{id:'greenhouse',name:'Unlock Greenhouse',emoji:'🌿',desc:'Reach Level 15',key:'level',target:15,reward:3000},{id:'fishing',name:'Fishing Pond',emoji:'🎣',desc:'Earn 50,000 total coins',key:'totalEarned',target:50000,reward:5000},{id:'mountain',name:'Mountain Mine',emoji:'⛰️',desc:'Mine 50 minerals',key:'minedTotal',target:50,reward:4000},{id:'rareCrops',name:'Rare Crop Field',emoji:'✨',desc:'Harvest 20 Golden Grain',key:'goldenHarv',target:20,reward:8000},{id:'megaBarn',name:'Mega Barn',emoji:'🐄',desc:'Collect from all 7 animals',key:'animalTypes',target:7,reward:6000}];
+const LONG_GOALS=[
+  {id:'g1',name:'First Steps',emoji:'👣',desc:'Reach Level 5',key:'level',target:5,reward:500},
+  {id:'g2',name:'Seasoned Farmer',emoji:'🌾',desc:'Reach Level 10',key:'level',target:10,reward:1500},
+  {id:'g3',name:'Master Farmer',emoji:'👨‍🌾',desc:'Reach Level 20',key:'level',target:20,reward:5000},
+  {id:'g4',name:'Legend',emoji:'🏆',desc:'Reach Level 50',key:'level',target:50,reward:20000},
+  {id:'g5',name:'First Sale',emoji:'🪙',desc:'Earn 1,000 coins total',key:'totalEarned',target:1000,reward:200},
+  {id:'g6',name:'Merchant',emoji:'💰',desc:'Earn 50,000 coins total',key:'totalEarned',target:50000,reward:2000},
+  {id:'g7',name:'Tycoon',emoji:'🏦',desc:'Earn 500,000 coins total',key:'totalEarned',target:500000,reward:15000},
+  {id:'g8',name:'Billionaire',emoji:'💎',desc:'Earn 5,000,000 coins',key:'totalEarned',target:5000000,reward:100000},
+  {id:'g9',name:'Hard Worker',emoji:'💪',desc:'Complete 10 hard tasks',key:'hardTasks',target:10,reward:800},
+  {id:'g10',name:'Task Champion',emoji:'📋',desc:'Complete 100 hard tasks',key:'hardTasks',target:100,reward:8000},
+  {id:'g11',name:'Prospector',emoji:'⛏️',desc:'Mine 50 minerals',key:'minedTotal',target:50,reward:500},
+  {id:'g12',name:'Mine Baron',emoji:'💎',desc:'Mine 1,000 minerals',key:'minedTotal',target:1000,reward:5000},
+  {id:'g13',name:'Deep Miner',emoji:'🕳️',desc:'Mine 10,000 minerals',key:'minedTotal',target:10000,reward:25000},
+  {id:'g14',name:'Golden Touch',emoji:'✨',desc:'Harvest 20 Golden Grain',key:'goldenHarv',target:20,reward:1000},
+  {id:'g15',name:'Golden Master',emoji:'👑',desc:'Harvest 500 Golden Grain',key:'goldenHarv',target:500,reward:15000},
+  {id:'g16',name:'Animal Lover',emoji:'🐄',desc:'Own 3 animal types',key:'animalTypes',target:3,reward:600},
+  {id:'g17',name:'Rancher',emoji:'🐎',desc:'Own 7 animal types',key:'animalTypes',target:7,reward:3000},
+  {id:'g18',name:'Zoo Owner',emoji:'🦒',desc:'Own all 11 animal types',key:'animalTypes',target:11,reward:10000},
+];
 const MACH_DEF={
   plow:{id:'plow',name:'Plow Tractor',emoji:'🚜',desc:'Automatically plows empty tiles each cycle',cost:800,tiers:[{t:1,s:30,f:2,l:'Mk1'},{t:2,s:24,f:2.5,l:'Mk2'},{t:4,s:18,f:3,l:'Mk3'},{t:8,s:12,f:3.5,l:'Mk4'},{t:16,s:7,f:4,l:'Mk5'}],upg:[0,600,1400,3000,6000]},
   seeder:{id:'seeder',name:'Seeder Tractor',emoji:'🌱',desc:'Plants queued crops in plowed tiles automatically',cost:1000,tiers:[{t:1,s:35,f:2,l:'Mk1'},{t:2,s:28,f:2.5,l:'Mk2'},{t:3,s:22,f:3,l:'Mk3'},{t:4,s:16,f:3.5,l:'Mk4'},{t:6,s:10,f:4,l:'Mk5'}],upg:[0,800,2000,4000,8000]},
@@ -60,18 +173,50 @@ const MACH_DEF={
   harvester:{id:'harvester',name:'Combine Harvester',emoji:'🌾',desc:'Auto-harvests ready crops directly into silo',cost:2000,tiers:[{t:2,s:20,f:3,bc:.05,l:'Mk1'},{t:4,s:15,f:3.5,bc:.1,l:'Mk2'},{t:6,s:11,f:4,bc:.15,l:'Mk3'},{t:8,s:8,f:4.5,bc:.2,l:'Mk4'},{t:16,s:5,f:5,bc:.3,l:'Mk5'}],upg:[0,1200,2800,5500,10000]},
 };
 const FUEL_SHOP=[{name:'Small Can',emoji:'⛽',amt:25,cost:120},{name:'Large Can',emoji:'🪣',amt:75,cost:320},{name:'Full Tank',emoji:'🚛',amt:200,cost:750}];
-const UPGRADES=[{id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow all empty fields instantly',cost:2000},{id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},{id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},{id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower — less daily care needed',cost:1500},{id:'goldVault',name:'Gold Vault',emoji:'🥇',desc:'Unlocks Gold Growth Account and Joint Fund',cost:3000},{id:'siloBoost',name:'Super Silo',emoji:'🏗️',desc:'All crop sell prices permanently +10%',cost:1800}];
+const UPGRADES=[
+  {id:'autoPlow',name:'Auto-Plower',emoji:'🚜',desc:'One-tap plow ALL fields instantly — no limit',cost:2000},
+  {id:'mineBoost',name:'Mine Elevator',emoji:'⛏️',desc:'Double rare mineral drop rates permanently',cost:5000},
+  {id:'premiumBank',name:'Premium Banking',emoji:'🏦',desc:'Profit share increases from 5% to 8%',cost:2500},
+  {id:'petHouse',name:'Pet Luxury House',emoji:'🏠',desc:'Pets decay 60% slower',cost:1500},
+  {id:'goldVault',name:'Gold Vault',emoji:'🥇',desc:'Unlocks Gold Growth Account in Bank',cost:3000},
+  {id:'siloBoost',name:'Super Silo',emoji:'🏗️',desc:'All crop sell prices +10% permanently',cost:1800},
+  {id:'greenhouse',name:'Greenhouse',emoji:'🌿',desc:'All crops grow 40% faster permanently',cost:4000},
+  {id:'richSoil',name:'Rich Soil',emoji:'🌱',desc:'Every harvest yields +1 extra crop',cost:3500},
+  {id:'staminaBoost',name:'Iron Farmer',emoji:'💪',desc:'Max stamina +50, drains 50% slower',cost:2800},
+  {id:'animalFeed',name:'Auto Feeder',emoji:'🐾',desc:'Animals produce 2x more per collection',cost:3200},
+  {id:'marketBoost',name:'Premium Stall',emoji:'🏪',desc:'Your market listings last 48hrs',cost:2200},
+  {id:'fuelTank2',name:'Large Fuel Tank',emoji:'⛽',desc:'Increases max fuel capacity to 500',cost:4500},
+  {id:'fuelTank3',name:'Mega Fuel Tank',emoji:'🏭',desc:'Increases max fuel capacity to 1000',cost:9000},
+  {id:'doubleXp',name:'XP Booster',emoji:'⭐',desc:'+50% XP from all activities permanently',cost:6000},
+];
 const MENU_DEF=[
-  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting',desc:'Craft items for higher value',ac:'#795548',ml:3},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
+  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting',desc:'Craft items for higher value',ac:'#795548',ml:3},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'fishing',emoji:'🎣',label:'Farm Lake',desc:'Fish, craft and trade catches',ac:'#2980b9',ml:1},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
   {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1},{id:'visitstalls',emoji:'🏘️',label:'Visit Stalls',desc:'Browse and buy from other players',ac:'#16a085',ml:1}]},
   {title:'FINANCE',items:[{id:'bank',emoji:'🏦',label:'Bank',desc:'Savings, loans and profit share',ac:'#1a5276',ml:1},{id:'gold',emoji:'🥇',label:'Gold Store',desc:'Buy and sell at live rates',ac:'#b7800a',ml:1},{id:'finance',emoji:'💰',label:'Financial Dashboard',desc:'Income, expenses and net worth',ac:'#1a6b2a',ml:1}]},
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','market','gmb','stall','visitstalls','bank','gold','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
+const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
 const xpFor=l=>l*100;
 const todayStr=()=>new Date().toISOString().split('T')[0];
-const genTasks=lvl=>[...TASK_POOL].filter(t=>!(t.diff==='hard'&&lvl<10)&&!(t.diff==='medium'&&lvl<4)).sort(()=>Math.random()-.5).slice(0,8).map((t,i)=>({...t,id:`t${Date.now()}${i}`,accepted:false,expiresAt:Date.now()+t.hrs*3600000}));
+const genTasks=lvl=>{
+  const lvScale=Math.max(1,Math.floor(lvl/5));
+  const base=[...TASK_POOL].filter(t=>!(t.diff==='hard'&&lvl<10)&&!(t.diff==='medium'&&lvl<4)).sort(()=>Math.random()-.5).slice(0,6);
+  // Add crafted item tasks at level 5+
+  const crafted=lvl>=5?RECIPES.slice(0,Math.min(RECIPES.length,Math.floor(lvl/4)+1)).sort(()=>Math.random()-.5).slice(0,2).map((r,i)=>({
+    id:`craft_${r.id}_${i}`,itemId:r.id,itemEmoji:r.emoji,itemName:r.name,inv:'crafted',
+    qty:Math.max(1,Math.floor(Math.random()*2)+1),diff:'medium',coins:r.sell*1.5,xp:r.xp*2,
+    npcId:Object.keys(NPCS)[Math.floor(Math.random()*Object.keys(NPCS).length)],
+    hrs:24,rfood:1,rtoy:0
+  })):[];
+  return [...base,...crafted].map((t,i)=>({
+    ...t,
+    id:`t${Date.now()}${i}`,
+    qty:Math.max(t.qty||1,Math.round((t.qty||1)*(1+lvScale*0.2))),
+    accepted:false,
+    expiresAt:Date.now()+(t.hrs||24)*3600000
+  }));
+};
 const getMood=a=>a>=80?{mood:'Thriving',emoji:'😄',col:'#27ae60'}:a>=60?{mood:'Happy',emoji:'😊',col:'#2ecc71'}:a>=40?{mood:'Content',emoji:'😐',col:'#f39c12'}:a>=20?{mood:'Sad',emoji:'😟',col:'#e67e22'}:{mood:'Hungry',emoji:'😢',col:'#e74c3c'};
 const getFP=p=>p>=200?{label:'Best Friend',col:'#8e44ad'}:p>=100?{label:'Good Friend',col:'#2980b9'}:p>=50?{label:'Friend',col:'#27ae60'}:p>=20?{label:'Acquaintance',col:'#f39c12'}:{label:'Stranger',col:'#aaa'};
 
@@ -80,7 +225,7 @@ const Btn=({onClick,color='#27ae60',disabled,children,style={}})=><button onClic
 const Bar=({v,c})=><div style={{height:8,background:'#eee',borderRadius:4,overflow:'hidden'}}><div style={{height:'100%',width:`${Math.max(0,Math.min(100,v))}%`,background:c,borderRadius:4,transition:'width .5s'}}/></div>;
 const DiffBadge=({d})=>{const c=d==='easy'?'#27ae60':d==='medium'?'#e67e22':'#e74c3c';return<span style={{background:c,color:'#fff',borderRadius:20,padding:'2px 8px',fontSize:10,fontWeight:800}}>{d.toUpperCase()}</span>;};
 const SecHead=({label,color='#777'})=><div style={{fontSize:11,fontWeight:800,color,letterSpacing:1.1,marginBottom:8,paddingLeft:2}}>{label}</div>;
-const TabRow=({tabs,active,onSelect,ac='#1a6b2a'})=><div style={{display:'flex',gap:6,marginBottom:14}}>{tabs.map(([id,lb])=><button key={id} onClick={()=>onSelect(id)} style={{flex:1,background:active===id?ac:'#fff',color:active===id?'#fff':'#555',border:`1.5px solid ${active===id?ac:'#ddd'}`,borderRadius:12,padding:'8px 4px',fontSize:11,fontWeight:700,cursor:'pointer'}}>{lb}</button>)}</div>;
+const TabRow=({tabs,active,onSelect,ac='#1a6b2a'})=><div style={{display:'flex',gap:4,marginBottom:14,background:'rgba(0,0,0,0.07)',borderRadius:16,padding:3}}>{tabs.map(([id,lb])=><button key={id} onClick={()=>onSelect(id)} style={{flex:1,background:active===id?'#fff':'transparent',color:active===id?ac:'#666',border:'none',borderRadius:13,padding:'8px 4px',fontSize:11,fontWeight:active===id?800:600,cursor:'pointer',transition:'all .2s',boxShadow:active===id?'0 2px 8px rgba(0,0,0,0.12)':'none'}}>{lb}</button>)}</div>;
 
 function HarvestHaven({user,onSignOut}){
   const [screen,setScreen]=useState('home');
@@ -109,6 +254,7 @@ function HarvestHaven({user,onSignOut}){
   const [goldSell,setGoldSell]=useState('');
   const [stallCfg,setStall]=useState({name:'My Farm Stall',welcome:'Welcome! Freshest goods in the valley',goodbye:'Thanks for visiting! Come back soon',theme:'green'});
   const [allStalls,setAllStalls]=useState([]);
+  const [visitingStall,setVisitingStall]=useState(null);
   const [notifs,setNotifs]=useState([]);
   const [farmName,setFarmName]=useState('Sunny Acres Farm');
   const [themeId,setThemeId]=useState('forest');
@@ -119,6 +265,9 @@ function HarvestHaven({user,onSignOut}){
   const [petInv,setPetInv]=useState({petFood:5,toys:3,treats:2});
   const [chatMsgs,setChat]=useState(()=>Object.fromEntries(CHAT_CH.map(c=>[c,SEED_CHAT[c].map((m,i)=>({id:i,author:'NPC',farm:'Village',text:m.text,time:Date.now()-i*60000}))])));
   const [blocked,setBlocked]=useState([]);
+  const [unreadChat,setUnreadChat]=useState(0);
+  const [lastSeenChat,setLastSeenChat]=useState(()=>parseInt(localStorage.getItem('hh_lastseen_chat')||'0'));
+  const [globalEvents,setGlobalEvents]=useState([]); // in-game event feed
   const [seasonIdx,setSeasonIdx]=useState(0);
   const [streak,setStreak]=useState(0);
   const [lastLogin,setLastLogin]=useState('');
@@ -141,6 +290,9 @@ function HarvestHaven({user,onSignOut}){
   const [goldGrowth,setGG]=useState(0);
   const [goldGrowthBal,setGGB]=useState(0);
   const [jointBal,setJB]=useState(0);
+  const [poolTotal,setPoolTotal]=useState(0);
+  const [myPoolShare,setMyPoolShare]=useState(0);
+  const [lastPoolDist,setLastPoolDist]=useState('');
   const [mach,setMach]=useState({
     plow:{owned:false,tier:0,active:false,dur:100,lastCycle:0},
     seeder:{owned:false,tier:0,active:false,dur:100,lastCycle:0,queue:[],qCrop:'wheat'},
@@ -150,6 +302,16 @@ function HarvestHaven({user,onSignOut}){
   });
   const [fuel,setFuel]=useState(50);
   const [offRep,setOffRep]=useState(null);
+  // Fishing state
+  const [fishInv,setFishInv]=useState({});
+  const [baitInv,setBaitInv]=useState({worm:5});
+  const [fishCd,setFishCd]=useState(false);
+  const [selBait,setSelBait]=useState('worm');
+  const [totalFishCaught,setTFC]=useState(0);
+  const [fishChatMsgs,setFishChat]=useState([]);
+  const [ownedAnimals,setOwnedAnimals]=useState({});
+  const [animalLevels,setAnimalLevels]=useState({});
+  const [animalXp,setAnimalXp]=useState({});
   const machR=useRef(null);const tilesR=useRef(null);const siloR=useRef(null);const fuelR=useRef(null);const coinsRf=useRef(500);const upgradesR=useRef({});
 
   const T=THEMES.find(t=>t.id===themeId)||THEMES[0];
@@ -176,21 +338,21 @@ function HarvestHaven({user,onSignOut}){
         if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
-          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,listings:setListings};
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC};
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
-          if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));
+          if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));if(s.mach)setMach(s.mach);if(s.fuel!==undefined)setFuel(s.fuel);
         }
 }catch(e){console.log('Load error',e);}      try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
       try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
-      try{const r=await window.storage.get('world_code');if(r)setWC(r.value);else{const c=`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`;await window.storage.set('world_code',c);setWC(c);}}catch{setWC(`HVN${Math.random().toString(36).substr(2,3).toUpperCase()}`);}
+      setWC('GLOBAL'); // All users share one global community
       setTasks(genTasks(1));
     })();
   },[]);
 
 const saveGame=useCallback(async()=>{
     try{
-      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
+      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
       localStorage.setItem('hh7',JSON.stringify(s));
       if(db&&auth?.currentUser){
         try{await set(ref(db,`saves/${auth.currentUser.uid}`),JSON.stringify(s));}catch(e){console.log('Firebase save error',e);}
@@ -213,6 +375,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       earn(coinReward);
       if(newLevel>=5)setPetInv(p=>({...p,petFood:p.petFood+2}));
       notify(`🎉 Level ${newLevel}! +🪙${coinReward}`,'gold');
+      if(db){const evId=`lvl_${Date.now()}_${playerId}`;set(ref(db,`globalevents/${evId}`),{type:'level_up',farm:farmName,level:newLevel,time:Date.now()}).catch(()=>{});}
     }
   },[xp]);
   useEffect(()=>{const t=setInterval(()=>{setTiles(ts=>{const now=Date.now();let ch=false;const nx=ts.map(ti=>{if(ti.state==='planted'&&ti.growsAt>0&&now>=ti.growsAt){ch=true;return{...ti,state:'ready'};}return ti;});return ch?nx:ts;});},2000);return()=>clearInterval(t);},[]);
@@ -221,7 +384,48 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   // Gold Growth Account returns (simulated monthly)
   useEffect(()=>{const t=setInterval(()=>{if(goldGrowthBal>0){const ret=+(goldGrowthBal*.02).toFixed(2);setGG(g=>+(g+ret).toFixed(2));notify(`Gold Growth +${ret}g return!`,'gold');}},120000);return()=>clearInterval(t);},[goldGrowthBal]);
   // Joint fund growth
-  useEffect(()=>{const t=setInterval(()=>{if(jointBal>0){const ret=Math.floor(jointBal*.02);setJB(b=>b+ret);notify(`Joint Fund earned 🪙${ret}!`,'gold');}},90000);return()=>clearInterval(t);},[jointBal]);
+  // Global Joint Fund - sync to Firebase
+  useEffect(()=>{
+    if(!db||!playerId||!jointBal)return;
+    set(ref(db,`jointfund/${playerId}`),{amount:jointBal,name:farmName,time:Date.now()}).catch(()=>{});
+  },[jointBal,farmName,playerId]);
+
+  // ─── Global Events Feed ───
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'globalevents'),sn=>{
+      if(!sn.exists())return;
+      const events=Object.values(sn.val())
+        .filter(e=>e&&e.time&&Date.now()-e.time<3600000) // last hour only
+        .sort((a,b)=>b.time-a.time)
+        .slice(0,20);
+      setGlobalEvents(events);
+      // Show in-game notification for very recent events from others
+      events.filter(e=>e.farm!==farmName&&Date.now()-e.time<8000).forEach(e=>{
+        if(e.type==='chat')notify(`💬 ${e.farm} in ${e.ch}: "${e.preview}"...`,'blue');
+        else if(e.type==='pool')notify(`🌍 ${e.farm} pooled 🪙${e.amount?.toLocaleString()}!`,'green');
+        else if(e.type==='rare_fish')notify(`🎣 ${e.farm} caught a ${e.fishName}!`,'#2980b9');
+        else if(e.type==='level_up')notify(`⭐ ${e.farm} reached Level ${e.level}!`,'gold');
+        else if(e.type==='legendary')notify(`🏆 ${e.farm} found ${e.item}!`,'gold');
+      });
+    });
+    return()=>unsub();
+  },[farmName]);
+
+  // Daily profit distribution from global pool
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'jointfund'),sn=>{
+      if(!sn.exists())return;
+      const data=sn.val();
+      const total=Object.values(data).reduce((s,p)=>s+(p?.amount||0),0);
+      const myShare=jointBal>0&&total>0?jointBal/total:0;
+      // Store total pool for display
+      setPoolTotal(total);
+      setMyPoolShare(myShare);
+    });
+    return()=>unsub();
+  },[jointBal]);
 
   const notify=(msg,type='green')=>{const id=Date.now()+Math.random();setNotifs(n=>[...n,{id,msg,type}]);setTimeout(()=>setNotifs(n=>n.filter(x=>x.id!==id)),2800);};
 
@@ -275,14 +479,82 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     notify(`Harvested ${ready.length} crops! +${txp}XP${lucky>0?` Lucky +🪙${lucky}`:''}`, 'gold');
   };
 
+  const autoPlow=()=>{
+    const limit=upgrades.autoPlow?9999:(mach&&mach.plow&&mach.plow.owned?MACH_DEF.plow.tiers[mach.plow.tier].t:4);
+    let cnt=0;
+    setTiles(ts=>{
+      const n=[...ts].map(t=>{
+        if(t.state==='empty'&&cnt<limit){cnt++;return{...t,state:'plowed'};}
+        return t;
+      });
+      return n;
+    });
+    setTimeout(()=>{if(cnt>0)notify(`Auto-plowed ${cnt} fields! 🚜`,'green');else notify('No empty fields!','orange');},100);
+  };
+
   const waterAll=()=>{let cnt=0;setTiles(ts=>ts.map(t=>{if(t.state!=='planted'||t.watered)return t;cnt++;const rem=Math.max(0,t.growsAt-Date.now());return{...t,watered:true,growsAt:Date.now()+rem*.7};}));if(cnt>0)notify(`Watered ${cnt} crops! -30% grow time`,'blue');else notify('No growing crops!','orange');};
 
   const sellFrom=(crop,qty)=>{if(!qty)return;const sp=cropPrice(crop);earn(qty*sp);setSilo(s=>({...s,[crop.id]:0}));notify(`Sold ${qty}x ${crop.emoji} 🪙${(qty*sp).toLocaleString()}`,'gold');};
   const sellOne=crop=>{if(!silo[crop.id])return;earn(cropPrice(crop));setSilo(s=>({...s,[crop.id]:s[crop.id]-1}));notify(`Sold 1x ${crop.emoji}`,'gold');};
   const sellAll=()=>{if(!siloTotal){notify('Silo empty!','orange');return;}earn(siloValue);setSilo({});notify(`Sold all 🪙${siloValue.toLocaleString()}`,'gold');};
 
-  const collectAnimal=a=>{if(animalCd[a.id]){notify('Resting...','orange');return;}if(a.value===0){setStamina(s=>Math.min(100,s+15));notify('+15 Stamina!','green');return;}earn(a.value);setXp(x=>x+5);notify(`+🪙${a.value} ${a.pe}`,'gold');setAT(at=>{const n=new Set(at);n.add(a.id);return n;});setAnimalCd(c=>({...c,[a.id]:true}));setDQP(p=>({...p,dqM:p.dqM}));setTimeout(()=>setAnimalCd(c=>{const n={...c};delete n[a.id];return n;}),12000);};
-  const slaughter=a=>{if(!a.meat)return;setMeatInv(p=>({...p,[a.id]:(p[a.id]||0)+1}));notify(`${a.me} ${a.meat} added!`,'green');};
+  const collectAnimal=a=>{
+    if(animalCd[a.id]){notify('Animal is resting! Come back in 1 hour.','orange');return;}
+    if(a.value===0){setStamina(s=>Math.min(100,s+15));notify('+15 Stamina!','green');return;}
+    const qty=ownedAnimals[a.id]||1;
+    const levels=animalLevels[a.id]||Array(qty).fill(1);
+    const avgLevel=Math.max(1,Math.round(levels.reduce((s,l)=>s+l,0)/Math.max(1,levels.length)));
+    const levelBonus=1+(avgLevel-1)*0.15; // +15% per level
+    const total=Math.round(a.value*qty*levelBonus);
+    earn(total);
+    setXp(x=>x+5*qty);
+    setAT(at=>{const n=new Set(at);n.add(a.id);return n;});
+    // Give XP to animals
+    setAnimalXp(p=>{
+      const arr=[...(p[a.id]||Array(qty).fill(0))];
+      const newArr=arr.map(x=>x+10);
+      return {...p,[a.id]:newArr};
+    });
+    // Level up animals that have enough XP
+    setAnimalLevels(p=>{
+      const xpArr=animalXp[a.id]||Array(qty).fill(0);
+      const lvArr=[...(p[a.id]||Array(qty).fill(1))];
+      const newLv=lvArr.map((lv,i)=>{const xp=(xpArr[i]||0)+10;return xp>=(lv*50)?lv+1:lv;});
+      if(newLv.some((l,i)=>l>(p[a.id]||[])[i]||0))notify(`🎉 ${a.emoji} leveled up!`,'gold');
+      return {...p,[a.id]:newLv};
+    });
+    setAnimalCd(c=>({...c,[a.id]:true}));
+    setTimeout(()=>setAnimalCd(c=>{const n={...c};delete n[a.id];return n;}),3600000);
+    notify(`+🪙${total} from ${qty}x ${a.emoji} (Lv${avgLevel} avg)`,'gold');
+  };
+  const buyAnimal=a=>{
+    const cost=a.buyCost||300;
+    if(coins<cost){notify(`Need 🪙${cost.toLocaleString()}!`,'orange');return;}
+    const totalOwned=Object.values(ownedAnimals).reduce((s,v)=>s+(v||0),0);
+    if(totalOwned>=level){notify(`Reach Level ${totalOwned+1} to own more animals!`,'orange');return;}
+    spend(cost);
+    setOwnedAnimals(p=>({...p,[a.id]:(p[a.id]||0)+1}));
+    setAnimalLevels(p=>({...p,[a.id]:[...(p[a.id]||[]),1]}));
+    setAnimalXp(p=>({...p,[a.id]:[...(p[a.id]||[]),0]}));
+    notify(`${a.emoji} ${a.name} bought! Total: ${(ownedAnimals[a.id]||0)+1}`,'green');
+  };
+
+  const slaughter=a=>{
+    if(!a.meat){notify('This animal cannot be slaughtered!','orange');return;}
+    const owned=ownedAnimals[a.id]||0;
+    if(owned<1){notify(`You don't own any ${a.name}!`,'orange');return;}
+    if(owned<=1){notify(`Keep at least 1 ${a.name} alive for ongoing rewards! Buy more to slaughter.`,'orange');return;}
+    // Deduct one animal
+    setOwnedAnimals(p=>({...p,[a.id]:p[a.id]-1}));
+    // Remove its level data
+    setAnimalLevels(p=>{const n={...p};const arr=[...(n[a.id]||[1])];arr.pop();n[a.id]=arr;return n;});
+    // Meat yield scales with animal level (avg level of herd)
+    const levels=animalLevels[a.id]||[1];
+    const avgLevel=Math.round(levels.reduce((s,l)=>s+l,0)/levels.length);
+    const meatQty=Math.max(1,avgLevel);
+    setMeatInv(p=>({...p,[a.id]:(p[a.id]||0)+meatQty}));
+    notify(`Slaughtered 1x ${a.emoji} ${a.name} (Lv${avgLevel}) → ${meatQty}x ${a.me} ${a.meat}!`,'green');
+  };
   const eatMeat=a=>{if(!meatInv[a.id]){notify('No meat!','orange');return;}setMeatInv(p=>({...p,[a.id]:p[a.id]-1}));setStamina(s=>Math.min(100,s+a.ms));notify(`+${a.ms} Stamina!`,'green');};
   const sellMeat=a=>{const q=meatInv[a.id]||0;if(!q){notify('No meat!','orange');return;}earn(q*a.mv);setMeatInv(p=>({...p,[a.id]:0}));notify(`Sold ${q}x ${a.me} 🪙${(q*a.mv).toLocaleString()}`,'gold');};
 
@@ -304,7 +576,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
 
   const acceptTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:true}:t));
   const abandonTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:false}:t));
-  const canComplete=task=>(task.inv==='silo'?(silo[task.itemId]||0):(minerals[task.itemId]||0))>=task.qty;
+  const canComplete=task=>{if(task.inv==='silo')return(silo[task.itemId]||0)>=task.qty;if(task.inv==='crafted')return(craftInv[task.itemId]||0)>=task.qty;return(minerals[task.itemId]||0)>=task.qty;};
   const completeTask=task=>{
     if(!canComplete(task)){notify('Not enough items!','orange');return;}
     if(task.inv==='silo')setSilo(s=>({...s,[task.itemId]:(s[task.itemId]||0)-task.qty}));
@@ -330,18 +602,18 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     notify(`Quest done! +🪙${dq.reward.coins} +${dq.reward.xp}XP`,'gold');
   };
 
-  const claimDaily=()=>{if(dailyClaimed){notify('Already claimed today!','orange');return;}const dayIdx=Math.min(streak%7,6);const r=DR[dayIdx];earn(r.coins);setXp(x=>x+r.xp);if(r.petFood)setPetInv(p=>({...p,petFood:p.petFood+r.petFood}));if(r.toys)setPetInv(p=>({...p,toys:p.toys+r.toys}));setStreak(s=>s+1);setLastLogin(todayStr());setDC(true);notify(`Day ${dayIdx+1} reward! +🪙${r.coins}`,'gold');};
+  const claimDaily=()=>{const today=todayStr();const lastClaim=localStorage.getItem('hh_lastclaim');if(lastClaim===today){notify('Already claimed today! Come back tomorrow 🌅','orange');setDC(true);return;}const dayIdx=Math.min(streak%7,6);const r=DR[dayIdx];earn(r.coins);setXp(x=>x+r.xp);if(r.petFood)setPetInv(p=>({...p,petFood:p.petFood+r.petFood}));if(r.toys)setPetInv(p=>({...p,toys:p.toys+r.toys}));setStreak(s=>s+1);setLastLogin(today);setDC(true);localStorage.setItem('hh_lastclaim',today);notify(`Day ${dayIdx+1} reward! +🪙${r.coins}`,'gold');};
 
   const adoptPet=pt=>{if(coins<pt.cost){notify(`Need 🪙${pt.cost}!`,'orange');return;}if(pets.length>=3){notify('Max 3 pets!','orange');return;}spend(pt.cost);setPets(p=>[...p,{id:`pet_${Date.now()}`,typeId:pt.id,name:pt.name,hunger:100,happiness:100,petXp:0,petLevel:1}]);notify(`${pt.emoji} ${pt.name} adopted!`,'green');};
   const feedPet=id=>{if(petInv.petFood<=0){notify('No Pet Food!','orange');return;}setPetInv(p=>({...p,petFood:p.petFood-1}));setPets(ps=>ps.map(p=>{if(p.id!==id)return p;const nx=p.petXp+5,nl=nx>=p.petLevel*50?p.petLevel+1:p.petLevel;return{...p,hunger:Math.min(100,p.hunger+35),petXp:nx,petLevel:nl};}));setXp(x=>x+5);notify('Pet fed! +5 XP','green');};
   const playPet=id=>{const ht=petInv.toys>0;if(ht)setPetInv(p=>({...p,toys:p.toys-1}));setPets(ps=>ps.map(p=>{if(p.id!==id)return p;const nx=p.petXp+5,nl=nx>=p.petLevel*50?p.petLevel+1:p.petLevel;return{...p,happiness:Math.min(100,p.happiness+(ht?30:15)),petXp:nx,petLevel:nl};}));setXp(x=>x+5);notify(ht?'Played with toy! +5 XP':'Played! +5 XP','green');};
 
   const sendFriendHelp=async fid=>{
-    if(!fid||!worldCode)return;
+    if(!fid)return;
     const today=todayStr();
     try{
-      await window.storage.set(`fhelp:${worldCode}:${playerId}:${fid}:${today}`,'1',true);
-      const r=await window.storage.get(`fhelp:${worldCode}:${fid}:${playerId}:${today}`,true);
+      await window.storage.set(`fhelp:GLOBAL:${playerId}:${fid}:${today}`,'1',true);
+      const r=await window.storage.get(`fhelp:GLOBAL:${fid}:${playerId}:${today}`,true);
       if(r){
         const ns=lastFriendHelp===today?friendStreak:friendStreak+1;
         setFS(ns);setLFH(today);
@@ -378,9 +650,10 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       if(!m.owned||!m.active||m.dur<=0)return;
       const def=MACH_DEF[mId],tier=def.tiers[m.tier];
       if(now-m.lastCycle<tier.s*1000)return;
-      if(nF<tier.f){setMach(p=>({...p,[mId]:{...p[mId],active:false}}));notify(`${def.name} stopped — out of fuel!`,'orange');return;}
-      nF-=tier.f;durUpd[mId]=Math.max(0,m.dur-0.4);anyChg=true;
-      if(mId==='plow'){let c=tier.t||1;nT=nT.map(t=>t.state==='empty'&&c-->0?{...t,state:'plowed'}:t);}
+      if(nF<tier.f){setMach(p=>({...p,[mId]:{...p[mId],active:false}}));notify(`${def.name} stopped — out of fuel! ⛽`,'orange');return;}
+      // Only consume fuel if machine actually does useful work
+      let didWork=false;
+      if(mId==='plow'){const before=nT.filter(t=>t.state==='empty').length;let c=tier.t||1;nT=nT.map(t=>t.state==='empty'&&c-->0?{...t,state:'plowed'}:t);if(nT.filter(t=>t.state==='empty').length<before)didWork=true;}
       else if(mId==='seeder'){
         const q=[...machR.current.seeder.queue];let c=tier.t||1,qi=0;
         nT=nT.map(t=>{if(t.state==='plowed'&&c>0&&qi<q.length){const cr=CROPS.find(x=>x.id===q[qi]);if(cr&&coinsRf.current-cD>=cr.cost){cD+=cr.cost;qi++;c--;return{...t,state:'planted',crop:cr,growsAt:now+cr.grow*1000,watered:false};}return t;}return t;});
@@ -388,7 +661,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       }
       else if(mId==='fertiliser'){let c=8;nT=nT.map(t=>t.state==='planted'&&!t.fertilised&&c-->0?{...t,fertilised:true,growsAt:now+Math.max(0,t.growsAt-now)*(1-tier.sb)}:t);}
       else if(mId==='irrigation'){let c=tier.cv;nT=nT.map(t=>t.state==='planted'&&!t.watered&&c-->0?{...t,watered:true,growsAt:now+Math.max(0,t.growsAt-now)*.65}:t);}
-      else if(mId==='harvester'){let c=tier.t;nT=nT.map(t=>{if(t.state==='ready'&&c-->0){const cr=t.crop,qty=Math.random()<tier.bc?2:1;nS[cr.id]=(nS[cr.id]||0)+qty;cE+=cr.base*smult*qty;xpG+=cr.xp;return{...t,state:'empty',crop:null,growsAt:0,watered:false,fertilised:false};}return t;});}
+      else if(mId==='harvester'){const before=nT.filter(t=>t.state==='ready').length;let c=tier.t;nT=nT.map(t=>{if(t.state==='ready'&&c-->0){const cr=t.crop,qty=Math.random()<tier.bc?2:1;nS[cr.id]=(nS[cr.id]||0)+qty;cE+=cr.base*smult*qty;xpG+=cr.xp;didWork=true;return{...t,state:'empty',crop:null,growsAt:0,watered:false,fertilised:false};}return t;});}
+      if(didWork){nF-=tier.f;durUpd[mId]=Math.max(0,m.dur-0.4);anyChg=true;}
     });
     if(anyChg){
       setTiles(nT);setSilo(nS);setFuel(nF);
@@ -435,48 +709,46 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     return()=>clearTimeout(t);
   },[]);
 
-
-  // Sync own stall to Firebase
+  // Sync stall to Firebase
   useEffect(()=>{
     if(!db||!playerId)return;
-    const stall={...stallCfg,playerId,farmName,listings:listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now()),lastSeen:Date.now()};
+    const myListings=listings.filter(l=>l.sellerId===playerId&&l.expiresAt>Date.now());
+    const stall={...stallCfg,playerId,farmName,listings:myListings,lastSeen:Date.now()};
     set(ref(db,`stalls/${playerId}`),stall).catch(()=>{});
   },[stallCfg,listings,farmName,playerId]);
-
-  // Load all other players stalls from Firebase
   useEffect(()=>{
     if(!db)return;
     const unsub=onValue(ref(db,'stalls'),sn=>{
-      if(sn.exists()){
-        const data=sn.val();
-        const stalls=Object.values(data).filter(s=>s.playerId!==playerId&&Date.now()-s.lastSeen<3600000);
-        setAllStalls(stalls);
-      }else setAllStalls([]);
+      if(sn.exists()){const seen=new Set();const data=sn.val();const stalls=Object.values(data).filter(s=>{if(!s.playerId||s.playerId===playerId)return false;if(Date.now()-s.lastSeen>3600000)return false;if(seen.has(s.playerId))return false;seen.add(s.playerId);return true;});setAllStalls(stalls);}else setAllStalls([]);
     });
     return()=>unsub();
   },[playerId]);
-
-  // Load market listings from Firebase
   useEffect(()=>{
     if(!db)return;
     const unsub=onValue(ref(db,'market'),sn=>{
-      if(sn.exists()){
-        const data=sn.val();
-        if(data&&typeof data==='object'){
-          const now=Date.now();
-          setListings(Object.values(data).filter(l=>l&&l.expiresAt>now).sort((a,b)=>b.expiresAt-a.expiresAt));
-        }
-      }else setListings([]);
+      if(sn.exists()){const data=sn.val();if(data&&typeof data==='object'){const now=Date.now();setListings(Object.values(data).filter(l=>l&&l.expiresAt>now).sort((a,b)=>b.expiresAt-a.expiresAt));}}else setListings([]);
     });
     return()=>unsub();
   },[]);
-
+  useEffect(()=>{
+    if(!db||!playerId)return;
+    const unsub=onValue(ref(db,`payments/${playerId}`),sn=>{
+      if(sn.exists()){const data=sn.val();Object.entries(data).forEach(([id,p])=>{if(p&&p.amount&&p.time&&Date.now()-p.time<60000){earn(p.amount);notify(`💰 ${p.item} sold! +🪙${p.amount}`,'gold');set(ref(db,`payments/${playerId}/${id}`),null).catch(()=>{});}});}
+    });
+    return()=>unsub();
+  },[playerId]);
   // Machine management
   const buyMach=mId=>{const def=MACH_DEF[mId];if(coins<def.cost){notify(`Need 🪙${def.cost.toLocaleString()}!`,'orange');return;}spend(def.cost);setMach(p=>({...p,[mId]:{...p[mId],owned:true}}));notify(`${def.name} purchased!`,'green');};
   const upgMach=mId=>{const m=mach[mId],def=MACH_DEF[mId];if(m.tier>=4){notify('Already max tier!','orange');return;}const cost=def.upg[m.tier+1];if(coins<cost){notify(`Need 🪙${cost.toLocaleString()}!`,'orange');return;}spend(cost);setMach(p=>({...p,[mId]:{...p[mId],tier:p[mId].tier+1}}));notify(`${def.name} → ${def.tiers[m.tier+1].l}!`,'gold');};
   const toggleMach=mId=>{const m=mach[mId];if(!m.owned)return;if(m.dur<=0){notify('Repair first!','orange');return;}if(fuel<=0&&!m.active){notify('Buy fuel first!','orange');return;}const wasActive=m.active;setMach(p=>({...p,[mId]:{...p[mId],active:!p[mId].active,lastCycle:Date.now()}}));notify(!wasActive?'Machine started! 🟢':'Machine stopped.','green');};
   const repairMach=mId=>{if(coins<200){notify('Need 🪙200!','orange');return;}spend(200);setMach(p=>({...p,[mId]:{...p[mId],dur:100}}));notify('Machine repaired! ✅','green');};
-  const buyFuelF=item=>{if(coins<item.cost){notify(`Need 🪙${item.cost}!`,'orange');return;}spend(item.cost);setFuel(f=>Math.min(200,f+item.amt));notify(`+${item.amt} fuel! ⛽`,'green');};
+  const buyFuelF=item=>{
+    if(coins<item.cost){notify(`Need 🪙${item.cost}!`,'orange');return;}
+    const maxFuel=upgrades.fuelTank3?1000:upgrades.fuelTank2?500:200;
+    spend(item.cost);
+    setFuel(f=>Math.min(maxFuel,f+item.amt));
+    notify(`+${item.amt} fuel! ⛽`,'green');
+  };
   const addToQueue=(cropId,qty=5)=>{setMach(p=>({...p,seeder:{...p.seeder,queue:[...p.seeder.queue,...Array(qty).fill(cropId)]}}));const cr=CROPS.find(c=>c.id===cropId);notify(`Added ${qty}x ${cr?.emoji} to seeder queue!`,'green');};
   const clearQueue=()=>{setMach(p=>({...p,seeder:{...p.seeder,queue:[]}}));notify('Queue cleared.','orange');};
 
@@ -484,25 +756,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const craft=r=>{if(!canCraft(r)){notify('Not enough ingredients!','orange');return;}const ns={...silo},nm={...minerals};Object.entries(r.ing).forEach(([id,qty])=>{const inS=CROPS.find(c=>c.id===id);if(inS)ns[id]=(ns[id]||0)-qty;else nm[id]=(nm[id]||0)-qty;});setSilo(ns);setMin(nm);setCraftInv(c=>({...c,[r.id]:(c[r.id]||0)+1}));setXp(x=>x+r.xp);addCollected(r.id);notify(`Crafted ${r.emoji} ${r.name}!`,'gold');};
   const sellCrafted=r=>{const q=craftInv[r.id]||0;if(!q)return;earn(q*r.sell);setCraftInv(c=>({...c,[r.id]:0}));notify(`Sold ${q}x ${r.emoji} 🪙${(q*r.sell).toLocaleString()}`,'gold');};
 
-  const addListing=async(itemId,qty,price,type,emoji,name)=>{
-    if(type==='silo'&&(silo[itemId]||0)<qty){notify('Not enough in Silo!','orange');return;}
-    if(type==='mineral'&&(minerals[itemId]||0)<qty){notify('Not enough minerals!','orange');return;}
-    if(type==='silo')setSilo(s=>({...s,[itemId]:(s[itemId]||0)-qty}));
-    else setMin(m=>({...m,[itemId]:(m[itemId]||0)-qty}));
-    const listing={id:`${Date.now()}_${playerId}`,itemId,qty,price,type,emoji,name,seller:farmName,sellerId:playerId,expiresAt:Date.now()+24*3600000};
-    if(db){try{await set(ref(db,`market/${listing.id}`),listing);}catch(e){console.log('Listing error:',e);}}
-    notify(`Listed ${qty}x ${name}!`,'green');
-  };
-  const buyListing=async l=>{
-    if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}
-    const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}
-    spend(total);
-    if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
-    else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
-    if(db){try{await set(ref(db,`market/${l.id}`),null);}catch(e){console.log('Buy error:',e);}}
-    setListings(ls=>ls.filter(x=>x.id!==l.id));
-    notify(`Bought ${l.qty}x ${l.name}!`,'gold');
-  };
+  const addListing=async(itemId,qty,price,type,emoji,name)=>{if(type==='silo'&&(silo[itemId]||0)<qty){notify('Not enough in Silo!','orange');return;}if(type==='mineral'&&(minerals[itemId]||0)<qty){notify('Not enough minerals!','orange');return;}if(type==='silo')setSilo(s=>({...s,[itemId]:(s[itemId]||0)-qty}));else setMin(m=>({...m,[itemId]:(m[itemId]||0)-qty}));const listing={id:`${Date.now()}_${playerId}`,itemId,qty,price,type,emoji,name,seller:farmName,sellerId:playerId,expiresAt:Date.now()+24*3600000};if(db){try{await set(ref(db,`market/${listing.id}`),listing);}catch{}}notify(`Listed ${qty}x ${name}!`,'green');};
+  const buyListing=async l=>{if(l.sellerId===playerId){notify('Cannot buy own listing!','orange');return;}const total=l.price*l.qty;if(coins<total){notify('Not enough coins!','orange');return;}spend(total);if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));if(db){try{await set(ref(db,`market/${l.id}`),null);await set(ref(db,`payments/${l.sellerId}/${l.id}`),{amount:total,from:playerId,item:l.name,time:Date.now()});}catch{}}setListings(ls=>ls.filter(x=>x.id!==l.id));notify(`Bought ${l.qty}x ${l.name}!`,'gold');};
 
   const sendChat=async(ch,text)=>{
     if(['spam','scam','hack'].some(w=>text.toLowerCase().includes(w))){notify('Blocked.','orange');return false;}
@@ -511,6 +766,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     if(db){
       try{
         await set(ref(db,`globalchat/${ch}/${msg.id}`),msg);
+        // Post global event
+        await set(ref(db,`globalevents/${msg.id}`),{type:'chat',farm:farmName,ch,preview:text.slice(0,40),time:Date.now()});
       }catch(e){console.log('Chat send error:',e);}
     }
     return true;
@@ -522,49 +779,178 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const isHome=screen==='home';
   const screenLabel=MENU_DEF.flatMap(s=>s.items).find(i=>i.id===screen);
 
-  const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,friendBonus,plantAll,harvestAll,waterAll,allStalls,saveGame};
+  // ─── Fishing functions ───
+  const castLine=()=>{
+    if(fishCd){notify('Wait for your line! 🎣','orange');return;}
+    const bait=BAITS.find(b=>b.id===selBait);
+    if(!baitInv[selBait]||baitInv[selBait]<1){notify(`No ${bait?.name||'bait'} left! Buy more from the Tackle Shop.`,'orange');return;}
+    setBaitInv(b=>({...b,[selBait]:b[selBait]-1}));
+    setFishCd(true);
+    // Fishing takes 2-4 seconds (suspense!)
+    const waitTime=2000+Math.random()*2000;
+    setTimeout(()=>{
+      const bonus=bait?.bonus||0;
+      // Roll for fish
+      const roll=Math.random();
+      let cumulative=0;
+      let caught=null;
+      const availFish=FISH.filter(f=>level>=f.minLevel&&f.bait.includes(selBait));
+      // Apply bait bonus to rare fish
+      for(const f of availFish){
+        const chance=f.rarity==='rare'||f.rarity==='legendary'?f.r*(1+bonus*2):f.r*(1+bonus);
+        cumulative+=chance;
+        if(roll<cumulative){caught=f;break;}
+      }
+      // Fallback to minnow if nothing caught
+      if(!caught&&Math.random()<0.85)caught=FISH.find(f=>f.id==='minnow');
+      if(caught){
+        setFishInv(fi=>({...fi,[caught.id]:(fi[caught.id]||0)+1}));
+        setXp(x=>x+caught.xp);
+        setTFC(t=>t+1);
+        addCollected(caught.id);
+        const rarityMsg=caught.rarity==='legendary'?'🏆 LEGENDARY! ':caught.rarity==='rare'?'⭐ RARE! ':'';
+        notify(`${rarityMsg}Caught ${caught.emoji} ${caught.name}! +🪙${caught.value} value, +${caught.xp}XP`,'#2980b9');
+        // Post to fish chat
+        if(caught.rarity!=='common'){
+          const msg={id:Date.now(),author:playerId,farm:farmName,text:`🎣 Just caught a ${caught.rarity==='legendary'?'LEGENDARY ':'rare '}${caught.emoji} ${caught.name}!`,time:Date.now(),type:'fish'};
+          if(db)set(ref(db,`fishchat/${Date.now()}`),msg).catch(()=>{});
+        }
+      }else{
+        notify('Nothing bit this time... try a different bait! 🎣','#aaa');
+      }
+      setFishCd(false);
+    },waitTime);
+  };
+
+  const sellFish=(fish,qty=1)=>{
+    if((fishInv[fish.id]||0)<qty){notify('Not enough fish!','orange');return;}
+    const total=fish.value*qty;
+    earn(total);
+    setFishInv(fi=>({...fi,[fish.id]:(fi[fish.id]||0)-qty}));
+    notify(`Sold ${qty}x ${fish.emoji} ${fish.name} for 🪙${total.toLocaleString()}!`,'gold');
+  };
+
+  const sellAllFish=()=>{
+    let total=0;
+    const updates={};
+    FISH.forEach(f=>{const q=fishInv[f.id]||0;if(q>0){total+=f.value*q;updates[f.id]=0;}});
+    if(!total){notify('No fish to sell!','orange');return;}
+    earn(total);
+    setFishInv(fi=>({...fi,...updates}));
+    notify(`Sold all fish for 🪙${total.toLocaleString()}!`,'gold');
+  };
+
+  const buyBait=(bait,qty=5)=>{
+    const cost=bait.cost*qty;
+    if(coins<cost){notify(`Need 🪙${cost}!`,'orange');return;}
+    spend(cost);
+    setBaitInv(b=>({...b,[bait.id]:(b[bait.id]||0)+qty}));
+    notify(`Bought ${qty}x ${bait.emoji} ${bait.name}!`,'green');
+  };
+
+  const craftFishRecipe=(recipe)=>{
+    // Check ingredients (fish + crops)
+    for(const [id,qty] of Object.entries(recipe.ing)){
+      const inFish=(fishInv[id]||0)>=qty;
+      const inSilo=(silo[id]||0)>=qty;
+      const inMin=(minerals[id]||0)>=qty;
+      if(!inFish&&!inSilo&&!inMin){notify(`Need ${qty}x ${id}!`,'orange');return;}
+    }
+    // Deduct
+    for(const [id,qty] of Object.entries(recipe.ing)){
+      if((fishInv[id]||0)>=qty)setFishInv(fi=>({...fi,[id]:fi[id]-qty}));
+      else if((silo[id]||0)>=qty)setSilo(s=>({...s,[id]:s[id]-qty}));
+      else setMin(m=>({...m,[id]:m[id]-qty}));
+    }
+    setCraftInv(c=>({...c,[recipe.id]:(c[recipe.id]||0)+1}));
+    setXp(x=>x+recipe.xp);
+    notify(`Crafted ${recipe.emoji} ${recipe.name}! (+${recipe.xp}XP)`,'green');
+  };
+
+  const canCraftFish=(recipe)=>{
+    for(const [id,qty] of Object.entries(recipe.ing)){
+      const have=(fishInv[id]||0)+(silo[id]||0)+(minerals[id]||0);
+      if(have<qty)return false;
+    }
+    return true;
+  };
+
+    const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
 
   return(
-    <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:isHome?T.bg:'#f3f4f3',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
-      <div style={{background:'#fff',padding:isHome?'12px 16px 10px':'10px 16px',borderBottom:'1px solid #e4e4e4',flexShrink:0,boxShadow:'0 1px 6px rgba(0,0,0,.06)'}}>
+    <div style={{width:'100%',maxWidth:430,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:T.bg,fontFamily:'"Nunito","Trebuchet MS",system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
+
+      {/* ── HEADER ── */}
+      <div style={{
+        background:isHome?'transparent':'rgba(0,0,0,0.4)',
+        backdropFilter:isHome?'none':'blur(16px)',
+        WebkitBackdropFilter:isHome?'none':'blur(16px)',
+        padding:isHome?'14px 16px 10px':'10px 14px',
+        flexShrink:0,
+        borderBottom:isHome?'none':'1px solid rgba(255,255,255,0.1)',
+        position:'relative',zIndex:10
+      }}>
         {isHome?(
           <>
-            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:6}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
               <div>
-                <div style={{display:'flex',alignItems:'center',gap:6}}>
-                  <div style={{display:'flex',alignItems:'center',gap:6}}>
-                  <div style={{fontSize:11,fontWeight:800,color:T.primary,letterSpacing:1.2}}>🌾 HARVEST HAVEN</div>
-                  <button onClick={onSignOut} style={{background:'none',border:'1px solid #ddd',borderRadius:8,padding:'2px 8px',fontSize:10,color:'#888',cursor:'pointer',fontWeight:600}}>Sign Out</button>
+                <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,flexWrap:'wrap'}}>
+                  <div style={{fontSize:9,fontWeight:900,color:'rgba(255,255,255,0.6)',letterSpacing:2.5,textTransform:'uppercase'}}>🌾 Harvest Haven</div>
+                  <div style={{background:season.col,color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800,boxShadow:'0 2px 6px rgba(0,0,0,0.3)'}}>{season.emoji} {season.name}</div>
+                  {loanDebt>0&&<div style={{background:'rgba(220,38,38,0.85)',backdropFilter:'blur(8px)',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800}}>⚠️ Loan</div>}
                 </div>
-                  <div style={{background:season.col,color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:10,fontWeight:700}}>{season.emoji} {season.name}</div>
-                  {loanDebt>0&&<div style={{background:'#e74c3c',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:10,fontWeight:700}}>Loan 🪙{loanDebt}</div>}
+                <div style={{fontSize:26,fontWeight:900,color:'#fff',textShadow:'0 3px 12px rgba(0,0,0,0.5)',lineHeight:1.1,letterSpacing:-.5}}>{farmName}</div>
+                <div style={{fontSize:10,color:'rgba(255,255,255,0.7)',fontWeight:700,marginTop:3,display:'flex',gap:8}}>
+                  <span>⭐ Lv {level}</span><span>🏡 {tiles.length} fields</span><span>🔥 {streak}d</span>
                 </div>
-                <div style={{fontSize:20,fontWeight:900,color:'#111',lineHeight:1.1}}>{farmName}</div>
-                <div style={{fontSize:10,color:'#777',fontWeight:600,marginTop:1}}>Lv {level} · {tiles.length} fields · Streak {streak}{friendStreak>0?` · Friend x${friendStreak}`:''}</div>
               </div>
-              <div style={{background:'linear-gradient(135deg,#b7800a,#d4a017)',borderRadius:14,padding:'7px 12px',textAlign:'right'}}>
-                <div style={{fontSize:17,fontWeight:800,color:'#fff'}}>🪙 {coins.toLocaleString()}</div>
-                {friendBonus>0&&<div style={{fontSize:9,color:'rgba(255,255,255,.85)'}}>+{Math.round(friendBonus*100)}% friend bonus</div>}
+              <div style={{display:'flex',flexDirection:'column',gap:5,alignItems:'flex-end'}}>
+                <div style={{background:'rgba(0,0,0,0.4)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',borderRadius:16,padding:'8px 16px',border:'1px solid rgba(255,215,0,0.3)',boxShadow:'0 4px 16px rgba(0,0,0,0.3)'}}>
+                  <div style={{fontSize:20,fontWeight:900,color:'#ffd700',textShadow:'0 2px 8px rgba(255,200,0,0.5)',letterSpacing:-.5}}>🪙 {coins.toLocaleString()}</div>
+                  {friendBonus>0&&<div style={{fontSize:8,color:'rgba(255,255,255,0.6)',textAlign:'right'}}>+{Math.round(friendBonus*100)}% bonus</div>}
+                </div>
+                <button onClick={onSignOut} style={{background:'rgba(255,255,255,0.08)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:10,padding:'3px 10px',fontSize:9,color:'rgba(255,255,255,0.55)',cursor:'pointer',fontWeight:700,letterSpacing:.5,textTransform:'uppercase'}}>Sign Out</button>
               </div>
             </div>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:10,color:'#777',marginBottom:3}}><span>XP Level {level}</span><span>{xpCur}/{xpNeeded}</span></div>
-            <div style={{height:5,background:'#e8e8e8',borderRadius:3,overflow:'hidden'}}><div style={{height:'100%',width:`${(xpCur/xpNeeded)*100}%`,background:`linear-gradient(90deg,${T.primary},${T.accent})`,borderRadius:3,transition:'width .4s'}}/></div>
-            {stamina<75&&<><div style={{display:'flex',justifyContent:'space-between',fontSize:10,color:'#777',marginTop:4,marginBottom:2}}><span>Stamina</span><span>{Math.round(stamina)}%</span></div><div style={{height:4,background:'#e8e8e8',borderRadius:2,overflow:'hidden'}}><div style={{height:'100%',width:`${stamina}%`,background:stamina>50?'#f1c40f':'#e74c3c',borderRadius:2}}/></div></>}
+            <div style={{background:'rgba(0,0,0,0.25)',borderRadius:16,padding:'7px 12px',border:'1px solid rgba(255,255,255,0.08)'}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:9,color:'rgba(255,255,255,0.65)',marginBottom:4,fontWeight:800,textTransform:'uppercase',letterSpacing:.8}}>
+                <span>⭐ Experience</span><span>{xpCur} / {xpNeeded} XP</span>
+              </div>
+              <div style={{height:7,background:'rgba(0,0,0,0.35)',borderRadius:20,overflow:'hidden',marginBottom:stamina<80?4:0}}>
+                <div style={{height:'100%',width:`${(xpCur/xpNeeded)*100}%`,background:`linear-gradient(90deg,${T.primary},${T.accent})`,borderRadius:20,transition:'width .5s',boxShadow:`0 0 10px ${T.accent}88`}}/>
+              </div>
+              {stamina<80&&<>
+                <div style={{display:'flex',justifyContent:'space-between',fontSize:9,color:'rgba(255,255,255,0.55)',marginBottom:3,fontWeight:700}}>
+                  <span>💪 Stamina</span><span>{Math.round(stamina)}%</span>
+                </div>
+                <div style={{height:5,background:'rgba(0,0,0,0.35)',borderRadius:20,overflow:'hidden'}}>
+                  <div style={{height:'100%',width:`${stamina}%`,background:stamina>60?'#facc15':stamina>30?'#f97316':'#ef4444',borderRadius:20,boxShadow:stamina<30?'0 0 8px #ef4444':'none'}}/>
+                </div>
+              </>}
+            </div>
           </>
         ):(
           <div style={{display:'flex',alignItems:'center',gap:10}}>
-            <button onClick={()=>setScreen('home')} style={{background:T.light,border:'none',borderRadius:10,padding:'7px 12px',fontSize:13,fontWeight:800,cursor:'pointer',color:T.primary,flexShrink:0}}>Home</button>
-            <div style={{flex:1,fontSize:15,fontWeight:800,color:'#111',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{screenLabel?`${screenLabel.emoji} ${screenLabel.label}`:screen}</div>
-            <div style={{fontWeight:800,color:'#b7800a',fontSize:14,flexShrink:0}}>🪙{coins.toLocaleString()}</div>
+            <button onClick={()=>setScreen('home')} style={{background:'rgba(255,255,255,0.12)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:12,padding:'7px 14px',fontSize:12,fontWeight:900,cursor:'pointer',color:'#fff',flexShrink:0,letterSpacing:.5,textTransform:'uppercase'}}>← Back</button>
+            <div style={{flex:1,fontSize:15,fontWeight:900,color:'#fff',overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',textShadow:'0 2px 6px rgba(0,0,0,0.4)',letterSpacing:-.2}}>{screenLabel?`${screenLabel.emoji} ${screenLabel.label}`:screen}</div>
+            <div style={{background:'rgba(0,0,0,0.35)',backdropFilter:'blur(8px)',borderRadius:12,padding:'6px 12px',fontWeight:900,color:'#ffd700',fontSize:14,textShadow:'0 1px 6px rgba(0,0,0,0.4)',border:'1px solid rgba(255,215,0,0.25)',letterSpacing:-.3}}>🪙{coins.toLocaleString()}</div>
           </div>
         )}
       </div>
-      <div style={{position:'absolute',top:isHome?128:68,right:10,zIndex:300,display:'flex',flexDirection:'column',gap:5,pointerEvents:'none'}}>
-        {notifs.map(n=><div key={n.id} style={{background:nc[n.type]||'#27ae60',color:'#fff',padding:'5px 13px',borderRadius:20,fontSize:12,fontWeight:700,boxShadow:'0 2px 12px rgba(0,0,0,.2)',whiteSpace:'nowrap'}}>{n.msg}</div>)}
+
+      {/* ── NOTIFICATIONS ── */}
+      <div style={{position:'absolute',top:isHome?150:66,left:'50%',transform:'translateX(-50%)',zIndex:999,display:'flex',flexDirection:'column',gap:5,alignItems:'center',pointerEvents:'none',width:'90%',maxWidth:380}}>
+        {notifs.map(n=>(
+          <div key={n.id} style={{background:nc[n.type]||'#16a34a',color:'#fff',padding:'8px 18px',borderRadius:24,fontSize:12,fontWeight:800,boxShadow:'0 6px 24px rgba(0,0,0,0.35)',whiteSpace:'nowrap',letterSpacing:.3,border:'1px solid rgba(255,255,255,0.15)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)'}}>
+            {n.msg}
+          </div>
+        ))}
       </div>
-      <div style={{flex:1,overflowY:'auto'}}>
+
+      {/* ── SCREEN CONTENT ── */}
+      <div style={{flex:1,overflowY:'auto',overscrollBehavior:'contain',background:'rgba(0,0,0,0.18)',backdropFilter:'blur(2px)'}}>
         {screen==='home'&&<HomeScreen G={G} siloTotal={siloTotal} siloValue={siloValue} minCount={minCount} activeTasks={activeTasks}/>}
-        {screen==='farm'&&<FarmScreen G={G} tiles={tiles} tapTile={tapTile} td={t=>{if(t.state==='empty')return{bg:'#b5835a',emoji:'',sub:'Plow'};if(t.state==='plowed')return{bg:'#7a5230',emoji:'🌱',sub:'Plant'};if(t.state==='planted'){const p=Math.max(0,Math.min(100,((t.growsAt-Date.now())/(t.crop?.grow*1000||1))*100));return{bg:'#2d7a27',emoji:t.watered?'💧':'🌱',sub:`${Math.round(100-p)}%`};}if(t.state==='ready')return{bg:'#27ae60',emoji:t.crop?.emoji,sub:'Harvest!',glow:true};return{bg:'#b5835a',emoji:'',sub:''};}} selCrop={selCrop} setSelCrop={setSelCrop} landPlots={landPlots} buyLand={buyLand}/>}
+        {screen==='farm'&&<FarmScreen G={G} tiles={tiles} tapTile={tapTile} td={t=>{if(t.state==='empty')return{bg:'#7a5c2a',emoji:'🌍',sub:'Plow'};if(t.state==='plowed')return{bg:'#4a3010',emoji:'🟫',sub:'Plant'};if(t.state==='planted'){const p=Math.max(0,Math.min(100,((t.growsAt-Date.now())/(t.crop?.grow*1000||1))*100));const growEmoji=t.watered?'💧'+(t.crop?.emoji||''):t.crop?.emoji||'🌱';return{bg:'#1a5c20',emoji:growEmoji,sub:`${Math.round(100-p)}%`};}if(t.state==='ready')return{bg:'#166534',emoji:t.crop?.emoji,sub:'✅',glow:true};return{bg:'#6b5010',emoji:'',sub:''};}} selCrop={selCrop} setSelCrop={setSelCrop} landPlots={landPlots} buyLand={buyLand}/>}
         {screen==='silo'&&<SiloScreen G={G}/>}
         {screen==='daily'&&<DailyScreen G={G}/>}
         {screen==='crafting'&&<CraftingScreen G={G}/>}
@@ -575,25 +961,27 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         {screen==='animals'&&<AnimalsScreen G={G}/>}
         {screen==='butchery'&&<ButcheryScreen G={G}/>}
         {screen==='mine'&&<MineScreen G={G}/>}
+        {screen==='fishing'&&<FishingScreen G={G}/>}
         {screen==='market'&&<MarketScreen G={G}/>}
         {screen==='gmb'&&<GmbScreen G={G}/>}
         {screen==='stall'&&<StallScreen G={G}/>}
         {screen==='bank'&&<BankScreen G={G}/>}
-        {screen==='gold'&&<GoldScreen G={G}/>}
         {screen==='finance'&&<FinanceScreen G={G}/>}
         {screen==='chat'&&<ChatScreen G={G}/>}
         {screen==='garage'&&<GarageScreen G={G}/>}
         {screen==='visitstalls'&&<VisitStallsListScreen G={G}/>}
         {screen==='farmhouse'&&<FarmhouseScreen G={G}/>}
-        {!ACTIVE.includes(screen)&&screen!=='home'&&<div style={{textAlign:'center',padding:'60px 30px'}}><div style={{fontSize:56,marginBottom:14}}>🚧</div><div style={{fontWeight:800,fontSize:18,color:'#777',marginBottom:8}}>Coming Soon</div></div>}
+        {!ACTIVE.includes(screen)&&screen!=='home'&&<div style={{textAlign:'center',padding:'80px 30px'}}><div style={{fontSize:64,marginBottom:16}}>🚧</div><div style={{fontWeight:900,fontSize:18,color:'rgba(255,255,255,0.6)'}}>Coming Soon</div></div>}
       </div>
+      <style>{`@keyframes rippleAnim{from{transform:translate(-50%,-50%) scale(0);opacity:1}to{transform:translate(-50%,-50%) scale(3);opacity:0}}*{-webkit-tap-highlight-color:transparent}::-webkit-scrollbar{width:0;height:0}`}</style>
     </div>
   );
-}
 
 function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
-  const{coins,goldHeld,setScreen,T,level,pets,dailyClaimed,loanDebt,dqDone,friendStreak}=G;
-  const badges={silo:siloTotal>0?`${siloTotal}`:null,mine:minCount>0?`${minCount}`:null,taskboard:activeTasks.length>0?`${activeTasks.length}`:null,pets:pets.length>0?`${pets.length}`:null,daily:!dailyClaimed?'Claim!':null};
+  const{coins,setScreen,T,level,pets,dailyClaimed,loanDebt,dqDone,friendStreak,streak,farmName,totalEarned,xp,fishInv}=G;
+  const totalFish=Object.values(fishInv||{}).reduce((a,b)=>a+b,0);
+  const{unreadChat}=G;
+  const badges={silo:siloTotal>0?`${siloTotal}`:null,mine:minCount>0?`${minCount}`:null,taskboard:activeTasks.length>0?`${activeTasks.length}`:null,pets:pets.length>0?`${pets.length}`:null,daily:!dailyClaimed?'!':null,chat:unreadChat>0?`${unreadChat}`:null};
   const menu=MENU_DEF.map(sec=>{
     if(sec.title!=='YOUR FARM')return sec;
     const daily=sec.items.find(i=>i.id==='daily');
@@ -601,40 +989,78 @@ function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
     return{...sec,items:dailyClaimed?[...rest,daily]:[daily,...rest]};
   });
   return(
-    <div style={{padding:'14px 14px 28px'}}>
-      {loanDebt>0&&<div style={{background:'linear-gradient(135deg,#e74c3c,#c0392b)',borderRadius:14,padding:'10px 16px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center',boxShadow:'0 3px 12px rgba(231,76,60,.25)'}}>
-        <div><div style={{fontSize:12,fontWeight:800,color:'#fff'}}>Active Loan</div><div style={{fontSize:11,color:'rgba(255,255,255,.8)'}}>10% of earnings auto-debited</div></div>
-        <div style={{textAlign:'right'}}><div style={{fontSize:16,fontWeight:800,color:'#fff'}}>🪙{loanDebt}</div><div style={{fontSize:10,color:'rgba(255,255,255,.7)'}}>remaining</div></div>
-      </div>}
-      {friendStreak>0&&<div style={{background:'linear-gradient(135deg,#16a085,#1abc9c)',borderRadius:14,padding:'8px 16px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-        <div style={{fontSize:12,fontWeight:800,color:'#fff'}}>Friend Streak {friendStreak} days</div>
-        <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,.9)'}}>+{Math.round(friendStreak*.05*100)}% earnings bonus</div>
-      </div>}
-      <div style={{display:'flex',gap:8,marginBottom:14}}>
-        {[{emoji:'🏗️',label:'Silo',value:siloTotal>0?`🪙${siloValue.toLocaleString()}`:'Empty',s:'silo'},{emoji:'📋',label:'Tasks',value:activeTasks.length>0?`${activeTasks.length} active`:'View tasks',s:'taskboard'},{emoji:'💰',label:'Wallet',value:`🪙${coins.toLocaleString()}`,s:'finance'}].map((st,i)=>(
-          <button key={i} onClick={()=>setScreen(st.s)} style={{flex:1,background:'rgba(255,255,255,.92)',border:`1.5px solid ${T.primary}22`,borderRadius:14,padding:'10px 6px',cursor:'pointer',textAlign:'center',boxShadow:'0 2px 8px rgba(0,0,0,.07)'}}>
+    <div style={{padding:'14px 14px 32px'}}>
+      {/* Quick stats strip */}
+      <div style={{display:'flex',gap:8,marginBottom:16}}>
+        {[
+          {emoji:'🏗️',label:'Silo',value:siloTotal>0?`🪙${siloValue.toLocaleString()}`:'Empty',s:'silo',color:'#f59e0b'},
+          {emoji:'📋',label:'Tasks',value:activeTasks.length>0?`${activeTasks.length} active`:'No tasks',s:'taskboard',color:'#8b5cf6'},
+          {emoji:'🎣',label:'Fish',value:totalFish>0?`${totalFish} fish`:'Go fish!',s:'fishing',color:'#0ea5e9'},
+        ].map((st,i)=>(
+          <button key={i} onClick={()=>setScreen(st.s)} style={{flex:1,background:'rgba(255,255,255,0.12)',backdropFilter:'blur(12px)',WebkitBackdropFilter:'blur(12px)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:16,padding:'10px 6px',cursor:'pointer',textAlign:'center',boxShadow:'0 4px 16px rgba(0,0,0,0.2)'}}>
             <div style={{fontSize:22}}>{st.emoji}</div>
-            <div style={{fontSize:11,fontWeight:800,color:'#222',marginTop:2}}>{st.value}</div>
-            <div style={{fontSize:9,color:'#888'}}>{st.label}</div>
+            <div style={{fontSize:11,fontWeight:900,color:'#fff',marginTop:3,textShadow:'0 1px 4px rgba(0,0,0,0.4)'}}>{st.value}</div>
+            <div style={{fontSize:9,color:'rgba(255,255,255,0.6)',fontWeight:700,letterSpacing:.5,textTransform:'uppercase'}}>{st.label}</div>
           </button>
         ))}
       </div>
+
+      {/* Global Events Ticker */}
+      {G.globalEvents&&G.globalEvents.length>0&&<div style={{background:'rgba(0,0,0,0.25)',backdropFilter:'blur(8px)',borderRadius:16,padding:'8px 14px',marginBottom:10,border:'1px solid rgba(255,255,255,0.1)',overflow:'hidden'}}>
+        <div style={{fontSize:9,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2,marginBottom:6,textTransform:'uppercase'}}>🌍 Live Activity</div>
+        <div style={{display:'flex',flexDirection:'column',gap:4}}>
+          {G.globalEvents.slice(0,4).map((e,i)=>{
+            const icon=e.type==='chat'?'💬':e.type==='pool'?'🏦':e.type==='rare_fish'?'🎣':e.type==='level_up'?'⭐':'🏆';
+            const msg=e.type==='chat'?`${e.farm} in ${e.ch}: "${e.preview}"`:e.type==='pool'?`${e.farm} pooled 🪙${(e.amount||0).toLocaleString()} to Global Pool`:e.type==='level_up'?`${e.farm} reached Level ${e.level}!`:e.type==='rare_fish'?`${e.farm} caught a ${e.fishName||'rare fish'}!`:`${e.farm}: ${e.item||'big catch!'}`;
+            const ago=Math.floor((Date.now()-e.time)/60000);
+            return(
+              <div key={i} style={{display:'flex',alignItems:'center',gap:8}}>
+                <span style={{fontSize:14}}>{icon}</span>
+                <div style={{flex:1,fontSize:11,color:'rgba(255,255,255,0.8)',fontWeight:600,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{msg}</div>
+                <span style={{fontSize:9,color:'rgba(255,255,255,0.35)',flexShrink:0}}>{ago===0?'now':`${ago}m`}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>}
+
+      {/* Alerts */}
+      {loanDebt>0&&<div style={{background:'rgba(220,38,38,0.85)',backdropFilter:'blur(8px)',borderRadius:16,padding:'10px 16px',marginBottom:10,display:'flex',justifyContent:'space-between',alignItems:'center',border:'1px solid rgba(255,255,255,0.15)',boxShadow:'0 4px 16px rgba(220,38,38,0.3)'}}>
+        <div><div style={{fontSize:12,fontWeight:900,color:'#fff'}}>⚠️ Active Loan</div><div style={{fontSize:10,color:'rgba(255,255,255,0.8)'}}>10% auto-debited from earnings</div></div>
+        <div style={{fontSize:16,fontWeight:900,color:'#fff'}}>🪙{loanDebt}</div>
+      </div>}
+      {friendStreak>0&&<div style={{background:'rgba(5,150,105,0.75)',backdropFilter:'blur(8px)',borderRadius:16,padding:'8px 16px',marginBottom:10,display:'flex',justifyContent:'space-between',border:'1px solid rgba(255,255,255,0.12)'}}>
+        <div style={{fontSize:12,fontWeight:900,color:'#fff'}}>🤝 Friend Streak {friendStreak} days</div>
+        <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,0.9)'}}>+{Math.round(friendStreak*.05*100)}% bonus</div>
+      </div>}
+
+      {/* Menu sections */}
       {menu.map((sec,si)=>(
-        <div key={si} style={{marginBottom:16}}>
-          <SecHead label={sec.title} color={T.primary}/>
-          <div style={{background:'#fff',borderRadius:18,overflow:'hidden',boxShadow:'0 2px 12px rgba(0,0,0,.07)',border:'1px solid #ececec'}}>
+        <div key={si} style={{marginBottom:20}}>
+          <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2.5,marginBottom:8,paddingLeft:2,textTransform:'uppercase'}}>{sec.title}</div>
+          <div style={{background:'rgba(255,255,255,0.08)',backdropFilter:'blur(8px)',borderRadius:20,overflow:'hidden',border:'1px solid rgba(255,255,255,0.12)',boxShadow:'0 4px 24px rgba(0,0,0,0.2)'}}>
             {sec.items.map((item,ii)=>{
               const locked=level<(item.ml||1),badge=badges[item.id],isLast=ii===sec.items.length-1;
               const isDailyClaimed=item.id==='daily'&&dailyClaimed;
               return(
-                <button key={item.id} onClick={()=>!locked&&setScreen(item.id)} style={{width:'100%',background:isDailyClaimed?'#fafafa':'none',border:'none',cursor:locked?'default':'pointer',display:'flex',alignItems:'center',gap:14,padding:'11px 16px',borderBottom:isLast?'none':'1px solid #f2f2f2',opacity:locked?.4:isDailyClaimed?.7:1,textAlign:'left'}}>
-                  <div style={{width:44,height:44,background:locked?'#f5f5f5':item.ac+'18',borderRadius:13,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0,border:`1.5px solid ${locked?'#eee':item.ac+'30'}`}}>{item.emoji}</div>
-                  <div style={{flex:1,minWidth:0}}>
-                    <div style={{fontWeight:700,fontSize:14,color:locked?'#ccc':'#111',marginBottom:1}}>{item.label}{isDailyClaimed?' ✓':''}</div>
-                    <div style={{fontSize:11,color:'#999',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis'}}>{locked?`Unlocks at Level ${item.ml}`:isDailyClaimed?'Claimed — come back tomorrow':item.desc}</div>
+                <button key={item.id} onClick={()=>!locked&&setScreen(item.id)} style={{
+                  width:'100%',background:'transparent',border:'none',
+                  borderBottom:isLast?'none':'1px solid rgba(255,255,255,0.07)',
+                  padding:'13px 16px',cursor:locked?'default':'pointer',
+                  display:'flex',alignItems:'center',gap:14,textAlign:'left',
+                  opacity:locked?0.4:1,
+                  transition:'background .15s'
+                }}>
+                  <div style={{width:42,height:42,background:locked?'rgba(255,255,255,0.06)':`${item.ac}22`,borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22,flexShrink:0,border:`1px solid ${item.ac}44`}}>{item.emoji}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:900,fontSize:14,color:isDailyClaimed?'rgba(255,255,255,0.4)':'#fff',textShadow:'0 1px 4px rgba(0,0,0,0.3)',display:'flex',alignItems:'center',gap:6}}>
+                      {item.label}
+                      {badge&&!locked&&<span style={{background:item.ac,color:'#fff',borderRadius:20,padding:'1px 7px',fontSize:9,fontWeight:900,boxShadow:`0 2px 6px ${item.ac}66`}}>{badge}</span>}
+                      {isDailyClaimed&&<span style={{fontSize:10,color:'rgba(255,255,255,0.35)',fontWeight:600}}>claimed</span>}
+                    </div>
+                    <div style={{fontSize:11,color:'rgba(255,255,255,0.5)',marginTop:1,fontWeight:600}}>{locked?`🔒 Unlocks at Level ${item.ml}`:item.desc}</div>
                   </div>
-                  {badge&&!locked&&!isDailyClaimed&&<span style={{background:item.ac,color:'#fff',borderRadius:20,padding:'2px 9px',fontSize:11,fontWeight:700,flexShrink:0}}>{badge}</span>}
-                  <span style={{color:locked?'#e0e0e0':'#ccc',fontSize:18,flexShrink:0}}>{locked?'🔒':'›'}</span>
+                  {!locked&&<div style={{color:'rgba(255,255,255,0.3)',fontSize:16}}>›</div>}
                 </button>
               );
             })}
@@ -663,7 +1089,7 @@ function FarmScreen({G,tiles,tapTile,td,selCrop,setSelCrop,landPlots,buyLand}){
       </div>
       {/* Action buttons */}
       <div style={{display:'flex',gap:8,marginBottom:12}}>
-        {upgrades.autoPlow&&<button onClick={()=>{let cnt=0;setTiles(ts=>{const n=[...ts];for(let i=0;i<n.length;i++){if(n[i].state==='empty'){n[i]={...n[i],state:'plowed'};cnt++;}}return n;});if(cnt>0)notify(`Auto-plowed ${cnt} fields! 🚜`,'green');}} style={{flex:1,background:'#795548',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
+        {upgrades.autoPlow&&<button onClick={()=>G.autoPlow()} style={{flex:1,background:'#795548',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:'pointer'}}>🚜 Auto-Plow</button>}
         <button onClick={plantAll} disabled={plowedCount===0} style={{flex:1,background:plowedCount>0?T.primary:'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:plowedCount>0?'pointer':'default'}}>🌱 Plant All ({plowedCount})</button>
         <button onClick={harvestAll} disabled={readyCount===0} style={{flex:1,background:readyCount>0?'#27ae60':'#bbb',color:'#fff',border:'none',borderRadius:12,padding:'9px 8px',fontSize:12,fontWeight:700,cursor:readyCount>0?'pointer':'default'}}>🌾 Harvest All ({readyCount})</button>
       </div>
@@ -895,7 +1321,7 @@ function TaskBoardScreen({G}){
 }
 
 function PetsScreen({G}){
-  const{pets,petInv,adoptPet,feedPet,playPet,coins,T}=G;
+  const{pets,petInv,adoptPet,feedPet,playPet,coins,T,level}=G;
   const[view,setView]=useState('mypets');
   return(
     <div style={{padding:14}}>
@@ -906,7 +1332,7 @@ function PetsScreen({G}){
           </div>
         ))}
       </div>
-      <TabRow tabs={[['mypets',`My Pets (${pets.length}/3)`],['adopt','Adopt']]} active={view} onSelect={setView} ac={T.primary}/>
+      <TabRow tabs={[['mypets',`My Pets (${pets.length}/${Math.floor(level/2)+2})`],['adopt','Adopt']]} active={view} onSelect={setView} ac={T.primary}/>
       {view==='mypets'&&(pets.length===0?<div style={{textAlign:'center',padding:'30px 20px'}}><div style={{fontSize:52}}>🐾</div><div style={{fontWeight:800,fontSize:15,color:'#777',marginTop:8}}>No pets yet!</div><Btn onClick={()=>setView('adopt')} style={{marginTop:12,padding:'9px 22px'}} color={T.primary}>Adopt a Pet</Btn></div>
         :pets.map(pet=>{const pt=PET_TYPES.find(p=>p.id===pet.typeId)||PET_TYPES[0],mood=getMood((pet.hunger+pet.happiness)/2);return(
           <Card key={pet.id}>
@@ -927,11 +1353,11 @@ function PetsScreen({G}){
       )}
       {view==='adopt'&&<>
         {PET_TYPES.map(pt=>{const owned=pets.some(p=>p.typeId===pt.id),canAff=coins>=pt.cost,mx=pets.length>=3;return(
-          <Card key={pt.id} style={{opacity:owned?.6:1}}>
+          <Card key={pt.id} style={{opacity:owned?0.6:1}}>
             <div style={{display:'flex',alignItems:'center',gap:12}}>
               <div style={{fontSize:42}}>{pt.emoji}</div>
               <div style={{flex:1}}><div style={{fontWeight:800,fontSize:15,color:'#111'}}>{pt.name}</div><div style={{fontSize:12,color:'#666',marginBottom:4}}>{pt.bonus}</div><div style={{fontSize:13,fontWeight:700,color:'#b7800a'}}>🪙{pt.cost.toLocaleString()}</div></div>
-              {owned?<span style={{background:'#27ae60',color:'#fff',borderRadius:20,padding:'4px 12px',fontSize:12,fontWeight:700}}>Owned</span>:<Btn onClick={()=>adoptPet(pt)} disabled={!canAff||mx} color={T.primary} style={{fontSize:12,padding:'7px 13px'}}>{mx?'Max':canAff?'Adopt':'Need 🪙'}</Btn>}
+              {owned?<span style={{background:'#27ae60',color:'#fff',borderRadius:20,padding:'4px 12px',fontSize:12,fontWeight:700}}>Owned</span>:<Btn onClick={()=>adoptPet(pt)} disabled={!canAff||mx||(pets.length>=(Math.floor(level/2)+2))} color={T.primary} style={{fontSize:12,padding:'7px 13px'}}>{mx?'Owned':pets.length>=(Math.floor(level/2)+2)?`Max (Lv${((pets.length-2)*2)+1}+)`:canAff?'Adopt':'Need 🪙'}</Btn>}
             </div>
           </Card>
         );})}
@@ -942,7 +1368,7 @@ function PetsScreen({G}){
 
 function CollectionsScreen({G}){
   const{collected,T}=G;
-  const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'}))];
+  const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'})),...FISH.map(f=>({id:f.id,name:f.name,emoji:f.emoji,cat:'Fish'}))];
   const total=collected.length,max=allItems.length;
   return(
     <div style={{padding:14}}>
@@ -951,7 +1377,7 @@ function CollectionsScreen({G}){
         <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>📖 {total}/{max} Discovered</div>
         <div style={{height:6,background:'rgba(255,255,255,.3)',borderRadius:3,overflow:'hidden',marginTop:6}}><div style={{height:'100%',width:`${(total/max)*100}%`,background:'#fff',borderRadius:3}}/></div>
       </div>
-      {['Crops','Minerals','Crafted'].map(cat=>{
+      {['Crops','Minerals','Crafted','Fish'].map(cat=>{
         const items=allItems.filter(i=>i.cat===cat),found=items.filter(i=>collected.includes(i.id)).length;
         return(<Card key={cat}>
           <div style={{display:'flex',justifyContent:'space-between',marginBottom:10}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{cat}</div><div style={{fontSize:12,fontWeight:700,color:found===items.length?'#27ae60':'#888'}}>{found}/{items.length}</div></div>
@@ -994,14 +1420,95 @@ function GoalsScreen({G}){
 }
 
 function AnimalsScreen({G}){
-  const{level,animalCd,collectAnimal}=G;
-  return(<div style={{padding:14}}>{ANIMALS.map(a=>{const ok=level>=a.ml,cd=animalCd[a.id];return(<Card key={a.id} style={{opacity:ok?1:.4,display:'flex',alignItems:'center',gap:13}}><span style={{fontSize:40}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:15,color:ok?'#111':'#ccc'}}>{a.name}</div><div style={{fontSize:12,color:'#888'}}>{a.pe} {a.product}</div><div style={{fontSize:11,fontWeight:700,color:ok?(cd?'#e67e22':'#27ae60'):'#ddd',marginTop:2}}>{ok?(cd?'Resting...':'Ready'): `Level ${a.ml}`}</div></div>{ok&&<button onClick={()=>collectAnimal(a)} style={{background:cd?'#eee':'#27ae60',color:cd?'#aaa':'#fff',border:'none',borderRadius:12,padding:'8px 14px',fontSize:13,fontWeight:700,cursor:cd?'default':'pointer'}}>{a.value===0?'Ride':cd?'...': `+🪙${a.value}`}</button>}</Card>);})}</div>);
+  const{level,animalCd,collectAnimal,ownedAnimals,buyAnimal,coins,notify,silo,T,animalLevels,animalXp,setSilo}=G;
+  const[tab,setTab]=useState('owned');
+  const maxOwn=level;
+  const totalOwned=Object.values(ownedAnimals||{}).reduce((a,b)=>a+(b||0),0);
+  const feedAnimal=(a)=>{
+    if((silo[a.feedItem]||0)<1){notify(`Need 1x ${a.feedEmoji} to feed ${a.name}!`,'orange');return;}
+    G.setSilo(s=>({...s,[a.feedItem]:(s[a.feedItem]||0)-1}));
+    collectAnimal(a);
+    notify(`Fed ${a.emoji} ${a.name}! +🪙${a.value}`,'gold');
+  };
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:`linear-gradient(135deg,#27ae60,#2ecc71)`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>LIVESTOCK</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🐄 Animals</div>
+        <div style={{fontSize:12,opacity:.85}}>{totalOwned}/{maxOwn} animals · Feed hourly for rewards</div>
+      </div>
+      <TabRow tabs={[['owned','My Animals'],['buy','Buy Animals']]} active={tab} onSelect={setTab} ac='#27ae60'/>
+      {tab==='owned'&&<>
+        {totalOwned===0?<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:48}}>🐄</div><div style={{fontWeight:700,marginTop:8}}>No animals yet</div><div style={{fontSize:12,marginTop:4}}>Buy some animals to start earning!</div></div>
+        :ANIMALS.filter(a=>(ownedAnimals[a.id]||0)>0).map(a=>{
+          const qty=ownedAnimals[a.id]||0;
+          const cd=animalCd[a.id];
+          const canFeed=(silo[a.feedItem]||0)>=1;
+          return(
+            <Card key={a.id}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                <div style={{fontSize:36}}>{a.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:15}}>{a.name} <span style={{fontSize:12,color:'#888'}}>×{qty}</span></div>
+                  <div style={{fontSize:12,color:'#888'}}>{a.pe} {a.product} · 🪙{a.value} per collect</div>
+                  <div style={{fontSize:11,color:'#888',marginTop:2}}>Feed: {a.feedEmoji} · Avg Lv{Math.round(((animalLevels[a.id]||[1]).reduce((s,l)=>s+l,0))/Math.max(1,(animalLevels[a.id]||[1]).length))}</div>
+                </div>
+                <div style={{textAlign:'center'}}>
+                  <div style={{fontSize:11,color:cd?'#e67e22':'#27ae60',fontWeight:700}}>{cd?'⏳ Resting':'✅ Ready'}</div>
+                </div>
+              </div>
+              <div style={{display:'flex',gap:6}}>
+                <Btn onClick={()=>feedAnimal(a)} disabled={!!cd||!canFeed} color='#e67e22' style={{flex:1,padding:9,fontSize:12}}>
+                  {cd?'Resting...':canFeed?`Feed ${a.feedEmoji}`:`Need ${a.feedEmoji}`}
+                </Btn>
+                <Btn onClick={()=>collectAnimal(a)} disabled={!!cd} color='#27ae60' style={{flex:1,padding:9,fontSize:12}}>
+                  {cd?'⏳':'Collect'}
+                </Btn>
+              </div>
+            </Card>
+          );
+        })}
+      </>}
+      {tab==='buy'&&<>
+        <div style={{background:'#fffbea',borderRadius:12,padding:10,marginBottom:12,fontSize:12,color:'#b7800a',fontWeight:600}}>
+          You can own {maxOwn} animals total (increases with level). Currently {totalOwned}/{maxOwn}.
+        </div>
+        {ANIMALS.map(a=>{
+          const ok=level>=a.ml;
+          const owned=ownedAnimals[a.id]||0;
+          const full=totalOwned>=maxOwn;
+          return(
+            <Card key={a.id} style={{opacity:ok?1:.5}}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                <div style={{fontSize:36}}>{a.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:14}}>{a.name}</div>
+                  <div style={{fontSize:11,color:'#888'}}>{a.pe} {a.product} · Feed: {a.feedEmoji}</div>
+                  <div style={{fontSize:11,color:'#b7800a',fontWeight:700}}>🪙{a.buyCost||300} · Lv{a.ml}+</div>
+                </div>
+                <div style={{textAlign:'center'}}>
+                  <div style={{fontSize:13,fontWeight:800,color:T.primary}}>×{owned}</div>
+                  <div style={{fontSize:10,color:'#aaa'}}>owned</div>
+                </div>
+              </div>
+              {ok
+                ?<Btn onClick={()=>buyAnimal(a)} disabled={!ok||coins<(a.buyCost||300)||full} color='#27ae60' style={{width:'100%',padding:9,fontSize:12}}>
+                  {full?`Full (Lv${totalOwned+1} to expand)`:coins<(a.buyCost||300)?'Need 🪙':`Buy 🪙${(a.buyCost||300).toLocaleString()}`}
+                </Btn>
+                :<div style={{background:'#f5f5f5',borderRadius:10,padding:8,textAlign:'center',fontSize:12,color:'#aaa'}}>🔒 Unlock at Level {a.ml}</div>
+              }
+            </Card>
+          );
+        })}
+      </>}
+    </div>
+  );
 }
 
 function ButcheryScreen({G}){
-  const{level,meatInv,slaughter,eatMeat,sellMeat}=G;
-  const avail=ANIMALS.filter(a=>a.meat&&level>=a.ml);
-  return(<div style={{padding:14}}><div style={{background:'#fff5f5',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #fce4e4'}}><div style={{fontSize:13,fontWeight:800,color:'#c0392b',marginBottom:3}}>Butchery</div><div style={{fontSize:11,color:'#555',lineHeight:1.5}}>Slaughter animals for meat. Eat for stamina or sell for coins. Horse cannot be slaughtered.</div></div>{avail.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}>Raise animals first</div>:avail.map(a=>{const qty=meatInv[a.id]||0;return(<Card key={a.id}><div style={{display:'flex',alignItems:'center',gap:12,marginBottom:qty>0?10:0}}><span style={{fontSize:32}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{a.name} — {a.me} {a.meat}</div><div style={{fontSize:11,color:'#888'}}>+{a.ms} stamina · 🪙{a.mv}</div></div><Btn onClick={()=>slaughter(a)} color='#c0392b' style={{fontSize:11,padding:'7px 11px'}}>Slaughter</Btn></div>{qty>0&&<div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,borderTop:'1px solid #f0f0f0'}}><span style={{flex:1,fontSize:13,fontWeight:700,color:'#333'}}>{a.me} {qty} in stock</span><Btn onClick={()=>eatMeat(a)} style={{fontSize:11,padding:'6px 11px'}}>Eat (+{a.ms})</Btn><Btn onClick={()=>sellMeat(a)} color='#b7800a' style={{fontSize:11,padding:'6px 11px'}}>Sell All</Btn></div>}</Card>);})}</div>);
+  const{level,meatInv,slaughter,eatMeat,sellMeat,ownedAnimals,animalLevels}=G;
+  const avail=ANIMALS.filter(a=>a.meat&&(ownedAnimals[a.id]||0)>0);
+  return(<div style={{padding:14}}><div style={{background:'#fff5f5',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #fce4e4'}}><div style={{fontSize:13,fontWeight:800,color:'#c0392b',marginBottom:3}}>Butchery</div><div style={{fontSize:11,color:'#555',lineHeight:1.5}}>Slaughter animals for meat. Eat for stamina or sell for coins. Horse cannot be slaughtered.</div></div>{avail.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}>Raise animals first</div>:avail.map(a=>{const qty=meatInv[a.id]||0;return(<Card key={a.id}><div style={{display:'flex',alignItems:'center',gap:12,marginBottom:qty>0?10:0}}><span style={{fontSize:32}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{a.name} — {a.me} {a.meat}</div><div style={{fontSize:11,color:'#888'}}>+{a.ms} stamina · 🪙{a.mv}</div></div><div style={{textAlign:'right'}}><div style={{fontSize:10,color:'#888'}}>Owned: {ownedAnimals[a.id]||0}</div><Btn onClick={()=>slaughter(a)} disabled={(ownedAnimals[a.id]||0)<=1} color='#c0392b' style={{fontSize:11,padding:'7px 11px'}}>{(ownedAnimals[a.id]||0)<=1?'Keep 1 alive':'Slaughter'}</Btn></div></div>{qty>0&&<div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,borderTop:'1px solid #f0f0f0'}}><span style={{flex:1,fontSize:13,fontWeight:700,color:'#333'}}>{a.me} {qty} in stock</span><Btn onClick={()=>eatMeat(a)} style={{fontSize:11,padding:'6px 11px'}}>Eat (+{a.ms})</Btn><Btn onClick={()=>sellMeat(a)} color='#b7800a' style={{fontSize:11,padding:'6px 11px'}}>Sell All</Btn></div>}</Card>);})}</div>);
 }
 
 function MineScreen({G}){
@@ -1064,141 +1571,249 @@ function GmbScreen({G}){
 }
 
 function StallScreen({G}){
-  const{stallCfg,setStall,notify}=G;
-  const[d,setD]=useState({...stallCfg});const theme=STALL_THEMES.find(t=>t.id===d.theme)||STALL_THEMES[0];
-  return(<div style={{padding:14}}><div style={{background:theme.color,borderRadius:20,padding:18,marginBottom:14,color:'#fff',textAlign:'center'}}><div style={{fontSize:11,opacity:.8,marginBottom:4}}>PREVIEW</div><div style={{fontSize:20,fontWeight:800}}>🏪 {d.name||'Your Stall'}</div><div style={{fontSize:12,opacity:.85,marginTop:4,fontStyle:'italic'}}>"{d.welcome}"</div></div>
-    {[['Stall Name','name',30,false],['Welcome Message','welcome',80,true],['Goodbye Message','goodbye',80,true]].map(([lb,key,mx,multi])=>(<Card key={key}><div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:6}}>{lb} <span style={{color:'#bbb',fontWeight:400}}>({d[key].length}/{mx})</span></div>{multi?<textarea value={d[key]} onChange={e=>setD(x=>({...x,[key]:e.target.value.slice(0,mx)}))} rows={2} style={{width:'100%',padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',resize:'none',boxSizing:'border-box',color:'#333'}}/>:<input value={d[key]} onChange={e=>setD(x=>({...x,[key]:e.target.value.slice(0,mx)}))} style={{width:'100%',padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',boxSizing:'border-box',color:'#333'}}/>}</Card>))}
-    <Card><div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:8}}>Colour Theme</div><div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}}>{STALL_THEMES.map(t=><button key={t.id} onClick={()=>setD(x=>({...x,theme:t.id}))} style={{background:d.theme===t.id?t.color:'#f5f5f5',color:d.theme===t.id?'#fff':'#333',border:`2px solid ${d.theme===t.id?t.color:'#eee'}`,borderRadius:12,padding:'7px 10px',fontSize:12,cursor:'pointer',fontWeight:600}}>{t.label}</button>)}</div></Card>
-    <Btn onClick={()=>{setStall({...d});notify('Stall saved!','green');}} style={{width:'100%',padding:12,fontSize:14}}>Save My Stall</Btn>
-  </div>);
-}
-
-// ─── BANK (Fixed: Emergency Loan cap + auto-debit, Savings, Loans, Services) ──
-function BankScreen({G}){
-  const{coins,earn,spend,notify,bankBal,setBankBal,loanDebt,takeEmergencyLoan,setLoanDebt,upgrades,goldGrowthBal,setGGB,goldGrowth,setGG,goldHeld,jointBal,setJB}=G;
-  const[tab,setTab]=useState('savings');
-  const[amt,setAmt]=useState('');
-  const[lAmt,setLA]=useState('');
-  const[eLoan,setEL]=useState('');
-  const profitRate=upgrades.premiumBank?.08:.05;
-  const deposit=()=>{const n=parseInt(amt);if(!n||n<=0||n>coins){notify('Invalid amount!','orange');return;}spend(n);setBankBal(b=>b+n);setAmt('');notify(`Deposited 🪙${n.toLocaleString()}!`,'green');};
-  const withdraw=()=>{if(!bankBal){notify('Nothing to withdraw!','orange');return;}const p=Math.floor(bankBal*profitRate);earn(bankBal+p);notify(`Withdrew 🪙${(bankBal+p).toLocaleString()} (+🪙${p} profit!)`,'gold');setBankBal(0);};
-  const takeLoan=fee=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter an amount!','orange');return;}const f=Math.round(n*fee);earn(n);notify(`Loan of 🪙${n} approved. Fixed fee 🪙${f} deducted now.`,'blue');spend(f);setLA('');};
-  const repayLoan=()=>{const repay=Math.min(loanDebt,coins);if(!repay){notify('No loan to repay!','orange');return;}spend(repay);setLoanDebt(0);notify(`Loan fully repaid! 🪙${repay}`,'green');};
-  const depositGoldGrowth=()=>{if(goldHeld<=0){notify('No gold held!','orange');return;}setGGB(b=>+(b+goldHeld).toFixed(2));G.setGold&&G.setGold(0);notify(`Deposited ${goldHeld}g to Gold Growth Account!`,'gold');};
-  const withdrawGoldGrowth=()=>{if(!goldGrowthBal){notify('Nothing deposited!','orange');return;}const tot=+(goldGrowthBal+goldGrowth).toFixed(2);earn(Math.floor(tot*G.goldPrice));setGGB(0);setGG(0);notify(`Withdrew ${tot}g worth 🪙${Math.floor(tot*G.goldPrice).toLocaleString()}!`,'gold');};
-  const joinFund=()=>{const n=parseInt(lAmt);if(!n||n>coins){notify('Invalid!','orange');return;}spend(n);setJB(b=>b+n);setLA('');notify(`🪙${n} added to Joint Fund. Returns every 90s!`,'green');};
-  const withdrawJoint=()=>{if(!jointBal){notify('Nothing in fund!','orange');return;}earn(jointBal);setJB(0);notify(`Withdrew 🪙${jointBal.toLocaleString()} from Joint Fund!`,'gold');};
+  const{stallCfg,setStall,notify,silo,minerals,addListing,listings,playerId,farmName,allStalls,coins,T}=G;
+  const[tab,setTab]=useState('market');
+  const[selItem,setSelItem]=useState('');
+  const[qty,setQty]=useState(1);
+  const[price,setPrice]=useState(10);
+  const[visiting,setVisiting]=useState(null);
+  const myListings=listings.filter(l=>l.sellerId===playerId);
+  const theme=STALL_THEMES.find(t=>t.id===stallCfg.theme)||STALL_THEMES[0];
+  const allSellable=[
+    ...CROPS.filter(c=>(silo[c.id]||0)>0).map(c=>({id:c.id,name:c.name,emoji:c.emoji,type:'silo',stock:silo[c.id]||0})),
+    ...MINERALS.filter(m=>(minerals[m.id]||0)>0).map(m=>({id:m.id,name:m.name,emoji:m.emoji,type:'mineral',stock:minerals[m.id]||0})),
+  ];
+  if(visiting)return<VisitStallScreen stall={visiting} onClose={()=>setVisiting(null)} G={G}/>;
   return(
     <div style={{padding:14}}>
-      <div style={{background:'linear-gradient(135deg,#1a3a50,#2471a3)',borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>HARVEST HAVEN BANK</div>
-        <div style={{fontSize:28,fontWeight:800,margin:'4px 0'}}>🪙 {bankBal.toLocaleString()}</div>
-        <div style={{fontSize:11,opacity:.75}}>{(profitRate*100).toFixed(0)}% monthly profit share{upgrades.premiumBank?' (Premium)':''}</div>
+      <div style={{background:theme.color,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:700}}>MARKET</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🏪 {stallCfg.name}</div>
+        <div style={{fontSize:12,opacity:.85}}>{myListings.length} listed · {allStalls.length} other stalls open</div>
       </div>
-      {loanDebt>0&&<div style={{background:'linear-gradient(135deg,#e74c3c,#c0392b)',borderRadius:14,padding:'10px 16px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-        <div><div style={{fontSize:12,fontWeight:800,color:'#fff'}}>Active Emergency Loan</div><div style={{fontSize:11,color:'rgba(255,255,255,.8)'}}>10% of earnings auto-debiting</div></div>
-        <div style={{textAlign:'right'}}><div style={{fontSize:16,fontWeight:800,color:'#fff'}}>🪙{loanDebt} left</div><button onClick={repayLoan} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1px solid rgba(255,255,255,.4)',borderRadius:10,padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',marginTop:4}}>Repay Now</button></div>
-      </div>}
-      <TabRow tabs={[['savings','Savings'],['loans','Loans'],['services','Services']]} active={tab} onSelect={setTab} ac='#1a5276'/>
-      {tab==='savings'&&<>
-        <Card>
-          <div style={{fontWeight:800,fontSize:14,color:'#1a3a50',marginBottom:6}}>Profit Share Account</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:10,lineHeight:1.5}}>Deposit coins and earn {(profitRate*100).toFixed(0)}% monthly profit share. No interest — returns come from real farm economy activity.</div>
-          <div style={{display:'flex',gap:8,marginBottom:8}}>
-            <input value={amt} onChange={e=>setAmt(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-            <Btn onClick={deposit}>Deposit</Btn>
-          </div>
-          {bankBal>0&&<>
-            <div style={{background:'#e8f4f8',borderRadius:12,padding:'9px 14px',marginBottom:8}}>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:13}}><span style={{color:'#555'}}>Balance</span><span style={{fontWeight:800,color:'#1a3a50'}}>🪙{bankBal.toLocaleString()}</span></div>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:4}}><span style={{color:'#888'}}>Profit Share ({(profitRate*100).toFixed(0)}%)</span><span style={{fontWeight:700,color:'#27ae60'}}>+🪙{Math.floor(bankBal*profitRate).toLocaleString()}</span></div>
-            </div>
-            <Btn onClick={withdraw} color='#e67e22' style={{width:'100%',padding:10}}>Withdraw + Claim Profit</Btn>
-          </>}
-        </Card>
+      <TabRow tabs={[['market','🏘️ Market'],['sell','+ List Item'],['my','My Listings'],['setup','⚙️ Setup']]} active={tab} onSelect={setTab} ac={theme.color}/>
+
+      {tab==='market'&&<>
+        {allStalls.length===0&&myListings.length===0
+          ?<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:48}}>🛖</div><div style={{fontWeight:700,marginTop:8}}>No stalls open yet</div><div style={{fontSize:12,marginTop:4}}>List your first item to get started!</div></div>
+          :<>
+            {/* Own listings first */}
+            {myListings.length>0&&<>
+              <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:6,paddingLeft:2}}>YOUR LISTINGS</div>
+              {myListings.map(l=>(
+                <Card key={l.id}>
+                  <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{fontSize:26}}>{l.emoji}</div>
+                    <div style={{flex:1}}><div style={{fontWeight:700}}>{l.name} ×{l.qty}</div><div style={{fontSize:11,color:'#888'}}>🪙{l.price} each</div></div>
+                    <div style={{fontWeight:800,color:'#f39c12'}}>🪙{(l.price*l.qty).toLocaleString()}</div>
+                  </div>
+                </Card>
+              ))}
+            </>}
+            {/* Other stalls */}
+            {allStalls.length>0&&<>
+              <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:6,paddingLeft:2,marginTop:8}}>FRIEND STALLS</div>
+              {allStalls.map(stall=>{const st=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];return(
+                <Card key={stall.playerId}>
+                  <div style={{display:'flex',alignItems:'center',gap:10}}>
+                    <div style={{width:44,height:44,background:st.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:22}}>🏪</div>
+                    <div style={{flex:1}}><div style={{fontWeight:800,fontSize:14}}>{stall.name}</div><div style={{fontSize:11,color:'#777'}}>by {stall.farmName} · {stall.listings?.length||0} items</div></div>
+                    <Btn onClick={()=>setVisiting(stall)} color={st.color} style={{fontSize:12,padding:'8px 12px'}}>Visit</Btn>
+                  </div>
+                </Card>
+              );})}
+            </>}
+          </>
+        }
       </>}
-      {tab==='loans'&&<>
-        <div style={{background:'#e8f4f8',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #bee3f8'}}>
-          <div style={{fontSize:12,fontWeight:800,color:'#1a5276',marginBottom:3}}>Fixed-Fee Loans</div>
-          <div style={{fontSize:11,color:'#555',lineHeight:1.5}}>All loans use a one-time fixed fee. Zero interest. Full transparency before you confirm.</div>
-        </div>
-        <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#e74c3c',marginBottom:6}}>🆘 Emergency Loan</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Cap: 🪙500 per loan. No fee. 10% of every earning auto-debits until fully repaid. One loan at a time only. You can also repay manually at any time.</div>
-          {loanDebt>0?<div style={{background:'#fff5f5',borderRadius:12,padding:'8px 12px',fontSize:12,color:'#c0392b',fontWeight:700,textAlign:'center'}}>Loan active: 🪙{loanDebt} remaining. Repay before taking another.</div>:<>
-            <div style={{display:'flex',gap:8}}>
-              <input value={eLoan} onChange={e=>setEL(e.target.value)} type="number" placeholder="Amount (max 500)" max="500" style={{flex:1,padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-              <Btn onClick={()=>{const n=parseInt(eLoan);takeEmergencyLoan(n);setEL('');}} color='#e74c3c' style={{fontSize:12,padding:'8px 12px'}}>Apply</Btn>
+
+      {tab==='sell'&&<Card>
+        <div style={{fontSize:13,fontWeight:800,marginBottom:10}}>Select item to list</div>
+        {allSellable.length===0
+          ?<div style={{textAlign:'center',padding:20,color:'#aaa'}}>Harvest crops or mine minerals first!</div>
+          :<div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:12}}>
+            {allSellable.map(i=>(
+              <button key={i.id} onClick={()=>setSelItem(i.id)} style={{background:selItem===i.id?theme.color:'#f5f5f5',color:selItem===i.id?'#fff':'#333',border:`2px solid ${selItem===i.id?theme.color:'#eee'}`,borderRadius:10,padding:'6px 10px',fontSize:12,fontWeight:700,cursor:'pointer'}}>
+                {i.emoji} {i.name} ({i.stock})
+              </button>
+            ))}
+          </div>
+        }
+        {selItem&&<>
+          <div style={{display:'flex',gap:8,marginBottom:10}}>
+            <div style={{flex:1}}><div style={{fontSize:11,color:'#888',marginBottom:4}}>Qty</div><input type="number" value={qty} onChange={e=>setQty(Math.max(1,+e.target.value))} min={1} style={{width:'100%',border:'1.5px solid #eee',borderRadius:8,padding:8,fontSize:13,boxSizing:'border-box'}}/></div>
+            <div style={{flex:1}}><div style={{fontSize:11,color:'#888',marginBottom:4}}>Price each 🪙</div><input type="number" value={price} onChange={e=>setPrice(Math.max(1,+e.target.value))} min={1} style={{width:'100%',border:'1.5px solid #eee',borderRadius:8,padding:8,fontSize:13,boxSizing:'border-box'}}/></div>
+          </div>
+          <Btn onClick={()=>{const item=allSellable.find(i=>i.id===selItem);if(!item)return;if(qty>item.stock){notify(`Only ${item.stock} available!`,'orange');return;}addListing(selItem,qty,price,item.type,item.emoji,item.name);setSelItem('');setQty(1);setPrice(10);setTab('my');}} color={theme.color} style={{width:'100%',padding:11}}>List in Stall</Btn>
+        </>}
+      </Card>}
+
+      {tab==='my'&&(myListings.length===0
+        ?<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:40}}>📭</div><div style={{marginTop:8,fontWeight:700}}>Nothing listed yet</div></div>
+        :myListings.map(l=>(
+          <Card key={l.id}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:28}}>{l.emoji}</div>
+              <div style={{flex:1}}><div style={{fontWeight:800}}>{l.name}</div><div style={{fontSize:11,color:'#888'}}>×{l.qty} · 🪙{l.price} each</div><div style={{fontSize:10,color:'#aaa'}}>Expires {new Date(l.expiresAt).toLocaleDateString()}</div></div>
+              <div style={{fontWeight:800,color:'#f39c12'}}>🪙{(l.price*l.qty).toLocaleString()}</div>
             </div>
-            {eLoan&&<div style={{fontSize:11,color:'#888',marginTop:5}}>You receive 🪙{Math.min(parseInt(eLoan)||0,500)} · Zero fee · Auto-debits 10% of earnings</div>}
-          </>}
-        </Card>
-        {[{label:'Equipment Loan',desc:'Buy machinery or farm upgrades',fee:.08,icon:'🏗️'},{label:'Seed and Supply Loan',desc:'Fund seeds, fertilizer and supplies',fee:.05,icon:'🌱'},{label:'Expansion Loan',desc:'Fund land purchases and expansions',fee:.10,icon:'🌍'}].map((l,i)=>(
-          <Card key={i}>
-            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}><span style={{fontSize:26}}>{l.icon}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13,color:'#111'}}>{l.label}</div><div style={{fontSize:11,color:'#777'}}>{l.desc}</div><div style={{fontSize:12,fontWeight:700,color:'#b7800a',marginTop:2}}>Fixed fee: {(l.fee*100).toFixed(0)}%</div></div></div>
-            <div style={{display:'flex',gap:8}}>
-              <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Loan amount..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-              <Btn onClick={()=>takeLoan(l.fee)} color='#1a5276' style={{fontSize:12,padding:'7px 12px'}}>Apply</Btn>
-            </div>
-            {lAmt&&parseInt(lAmt)>0&&<div style={{fontSize:11,color:'#777',marginTop:5}}>Receive 🪙{parseInt(lAmt)||0} · Fee 🪙{Math.round((parseInt(lAmt)||0)*l.fee)} deducted now</div>}
+          </Card>
+        ))
+      )}
+
+      {tab==='setup'&&<>
+        {[['Stall Name','name',30,false],['Welcome Message','welcome',80,true],['Goodbye Message','goodbye',80,true]].map(([lb,key,mx,multi])=>(
+          <Card key={key}>
+            <div style={{fontSize:12,fontWeight:800,marginBottom:6}}>{lb}</div>
+            {multi?<textarea value={stallCfg[key]} onChange={e=>setStall(s=>({...s,[key]:e.target.value.slice(0,mx)}))} rows={2} style={{width:'100%',padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',resize:'none',boxSizing:'border-box'}}/>:<input value={stallCfg[key]} onChange={e=>setStall(s=>({...s,[key]:e.target.value.slice(0,mx)}))} style={{width:'100%',padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box'}}/>}
           </Card>
         ))}
-      </>}
-      {tab==='services'&&<>
         <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#b7800a',marginBottom:6}}>💛 Gold Growth Account{!upgrades.goldVault?<span style={{fontSize:10,color:'#aaa',fontWeight:400}}> — Buy Gold Vault in Garage</span>:''}</div>
-          {!upgrades.goldVault?<div style={{fontSize:11,color:'#aaa',lineHeight:1.5}}>Purchase the Gold Vault upgrade in the Garage (🪙3,000) to unlock this account.</div>:<>
-            <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Deposit your gold and earn 2% returns automatically. Credited every 2 minutes in demo. Withdraw anytime with profits.</div>
-            <div style={{background:'#fff9e6',borderRadius:12,padding:'8px 12px',marginBottom:8}}>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#666'}}>Deposited</span><span style={{fontWeight:800,color:'#b7800a'}}>{goldGrowthBal}g</span></div>
-              <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:3}}><span style={{color:'#666'}}>Returns earned</span><span style={{fontWeight:700,color:'#27ae60'}}>+{G.goldGrowth}g</span></div>
-            </div>
-            <div style={{display:'flex',gap:8}}>
-              <Btn onClick={depositGoldGrowth} color='#b7800a' style={{flex:1,padding:9,fontSize:12}}>Deposit All Gold ({G.goldHeld}g)</Btn>
-              {goldGrowthBal>0&&<Btn onClick={withdrawGoldGrowth} style={{flex:1,padding:9,fontSize:12}}>Withdraw</Btn>}
-            </div>
-          </>}
-        </Card>
-        <Card>
-          <div style={{fontWeight:800,fontSize:13,color:'#16a085',marginBottom:6}}>👥 Joint Investment Fund</div>
-          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Pool coins with your world. Earn 2% returns every 90 seconds. All players in your world benefit from contributions.</div>
-          <div style={{background:'#e8f8f5',borderRadius:12,padding:'8px 12px',marginBottom:8}}>
-            <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#555'}}>Your contribution</span><span style={{fontWeight:800,color:'#16a085'}}>🪙{jointBal.toLocaleString()}</span></div>
-          </div>
-          <div style={{display:'flex',gap:8}}>
-            <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Amount to pool..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',color:'#333'}}/>
-            <Btn onClick={joinFund} color='#16a085' style={{fontSize:12,padding:'7px 12px'}}>Pool</Btn>
-            {jointBal>0&&<Btn onClick={withdrawJoint} color='#e67e22' style={{fontSize:12,padding:'7px 12px'}}>Withdraw</Btn>}
+          <div style={{fontSize:12,fontWeight:800,marginBottom:8}}>Theme</div>
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:7}}>
+            {STALL_THEMES.map(t=><button key={t.id} onClick={()=>setStall(s=>({...s,theme:t.id}))} style={{background:stallCfg.theme===t.id?t.color:'#f5f5f5',color:stallCfg.theme===t.id?'#fff':'#333',border:`2px solid ${stallCfg.theme===t.id?t.color:'#eee'}`,borderRadius:12,padding:'7px 10px',fontSize:12,cursor:'pointer',fontWeight:600}}>{t.label}</button>)}
           </div>
         </Card>
+        <Btn onClick={()=>{setStall(s=>({...s}));notify('Stall saved! ✅','green');}} style={{width:'100%',padding:12}}>Save Stall</Btn>
       </>}
     </div>
   );
 }
 
-function GoldScreen({G}){
-  const{coins,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF}=G;
-  const bc=goldBuy?Math.ceil(parseFloat(goldBuy)*goldPrice):0,sr=goldSell?Math.floor(parseFloat(goldSell)*goldPrice):0;
-  return(<div style={{padding:14}}>
-    <div style={{background:'linear-gradient(135deg,#7d6008,#b7800a)',borderRadius:20,padding:18,marginBottom:14,color:'#fff',boxShadow:'0 4px 18px rgba(183,128,10,.3)'}}>
-      <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>HARVEST GOLD STORE</div>
-      <div style={{fontSize:28,fontWeight:800,margin:'4px 0'}}>🥇 {goldHeld}g held</div>
-      <div style={{display:'flex',justifyContent:'space-between'}}><div><div style={{fontSize:11,opacity:.8}}>Live Price</div><div style={{fontSize:19,fontWeight:800}}>🪙{goldPrice.toFixed(2)}/g</div></div><div style={{textAlign:'right'}}><div style={{fontSize:11,opacity:.8}}>Portfolio</div><div style={{fontSize:17,fontWeight:800}}>🪙{(goldHeld*goldPrice).toFixed(0)}</div></div></div>
+function BankScreen({G}){
+  const{coins,earn,spend,notify,bankBal,setBankBal,loanDebt,takeEmergencyLoan,setLoanDebt,upgrades,goldGrowthBal,setGGB,goldGrowth,setGG,goldHeld,jointBal,setJB,poolTotal,myPoolShare,farmName,playerId}=G;
+  const[tab,setTab]=useState('savings');
+  const[amt,setAmt]=useState('');
+  const[jAmt,setJAmt]=useState('');
+  const[lAmt,setLA]=useState('');
+  const[eLoan,setEL]=useState('');
+  const profitRate=upgrades.premiumBank?.08:.05;
+  const myDailyReturn=poolTotal>0&&jointBal>0?Math.floor(poolTotal*0.02*(jointBal/poolTotal)):0;
+
+  const deposit=()=>{const n=parseInt(amt);if(!n||n<=0||n>coins){notify('Invalid amount!','orange');return;}spend(n);setBankBal(b=>b+n);setAmt('');notify(`Deposited 🪙${n.toLocaleString()}!`,'green');};
+  const withdraw=()=>{if(!bankBal){notify('Nothing to withdraw!','orange');return;}const p=Math.floor(bankBal*profitRate);earn(bankBal+p);notify(`Withdrew 🪙${(bankBal+p).toLocaleString()} (+🪙${p} profit!)`,'gold');setBankBal(0);};
+  const repayLoan=()=>{const repay=Math.min(loanDebt,coins);if(!repay){notify('No loan!','orange');return;}spend(repay);setLoanDebt(0);notify(`Loan repaid! 🪙${repay}`,'green');};
+  const poolCoins=async()=>{
+    const n=parseInt(jAmt);
+    if(!n||n<=0||n>coins){notify('Invalid!','orange');return;}
+    spend(n);setJB(b=>b+n);setJAmt('');
+    notify(`🪙${n.toLocaleString()} pooled with all players! 🌍`,'green');
+    // Post global event
+    if(db){
+      const evId=`pool_${Date.now()}_${playerId}`;
+      try{await set(ref(db,`globalevents/${evId}`),{type:'pool',farm:farmName,amount:n,time:Date.now()});}catch{}
+    }
+  };
+  const withdrawPool=()=>{if(!jointBal){notify('Nothing pooled!','orange');return;}earn(jointBal);setJB(0);if(db)set(ref(db,`jointfund/${playerId}`),null).catch(()=>{});notify(`Withdrew 🪙${jointBal.toLocaleString()} from pool`,'gold');};
+  const claimDailyProfit=()=>{
+    const today=todayStr();
+    const lastDist=localStorage.getItem('hh_lastdist');
+    if(lastDist===today){notify('Already claimed today! Come back tomorrow 🌅','orange');return;}
+    if(!jointBal||myDailyReturn<=0){notify('Pool something first to earn daily profit!','orange');return;}
+    earn(myDailyReturn);
+    localStorage.setItem('hh_lastdist',today);
+    notify(`🏦 Daily pool profit: +🪙${myDailyReturn.toLocaleString()}!`,'gold');
+  };
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#1a3a50,#2471a3)',borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>HARVEST HAVEN BANK</div>
+        <div style={{fontSize:28,fontWeight:800,margin:'4px 0'}}>🪙 {bankBal.toLocaleString()}</div>
+        <div style={{fontSize:11,opacity:.75}}>{(profitRate*100).toFixed(0)}% profit share{upgrades.premiumBank?' (Premium)':''} · Pool: 🪙{poolTotal.toLocaleString()}</div>
+      </div>
+
+      {loanDebt>0&&<div style={{background:'linear-gradient(135deg,#e74c3c,#c0392b)',borderRadius:14,padding:'10px 16px',marginBottom:12,display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+        <div><div style={{fontSize:12,fontWeight:800,color:'#fff'}}>Active Emergency Loan</div><div style={{fontSize:11,color:'rgba(255,255,255,.8)'}}>10% auto-debiting</div></div>
+        <div style={{textAlign:'right'}}><div style={{fontSize:16,fontWeight:800,color:'#fff'}}>🪙{loanDebt} left</div><button onClick={repayLoan} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1px solid rgba(255,255,255,.4)',borderRadius:10,padding:'4px 10px',fontSize:11,fontWeight:700,cursor:'pointer',marginTop:4}}>Repay Now</button></div>
+      </div>}
+
+      <TabRow tabs={[['savings','💰 Savings'],['pool','🌍 Global Pool'],['loans','🤝 Loans']]} active={tab} onSelect={setTab} ac='#1a5276'/>
+
+      {tab==='savings'&&<>
+        <Card>
+          <div style={{fontWeight:800,fontSize:14,color:'#1a3a50',marginBottom:6}}>Profit Share Account</div>
+          <div style={{fontSize:11,color:'#777',marginBottom:10,lineHeight:1.5}}>Deposit coins, earn {(profitRate*100).toFixed(0)}% profit share. Withdraw anytime with profits.</div>
+          <div style={{display:'flex',gap:8,marginBottom:8}}>
+            <input value={amt} onChange={e=>setAmt(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+            <Btn onClick={deposit}>Deposit</Btn>
+          </div>
+          {bankBal>0&&<>
+            <div style={{background:'#e8f4f8',borderRadius:12,padding:'9px 14px',marginBottom:8}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:13}}><span style={{color:'#555'}}>Balance</span><span style={{fontWeight:800,color:'#1a3a50'}}>🪙{bankBal.toLocaleString()}</span></div>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:4}}><span style={{color:'#888'}}>Profit ({(profitRate*100).toFixed(0)}%)</span><span style={{fontWeight:700,color:'#27ae60'}}>+🪙{Math.floor(bankBal*profitRate).toLocaleString()}</span></div>
+            </div>
+            <Btn onClick={withdraw} color='#e67e22' style={{width:'100%',padding:10}}>Withdraw + Claim Profit</Btn>
+          </>}
+        </Card>
+        {upgrades.goldVault&&<Card>
+          <div style={{fontWeight:800,fontSize:13,color:'#b7800a',marginBottom:6}}>💛 Gold Growth Account</div>
+          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Deposit gold and earn 2% returns every 2 minutes.</div>
+          <div style={{background:'#fff9e6',borderRadius:12,padding:'8px 12px',marginBottom:8}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span>Deposited</span><span style={{fontWeight:800,color:'#b7800a'}}>{goldGrowthBal}g</span></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginTop:3}}><span>Returns</span><span style={{fontWeight:700,color:'#27ae60'}}>+{goldGrowth}g</span></div>
+          </div>
+          <div style={{display:'flex',gap:8}}>
+            <Btn onClick={()=>{if(goldHeld<=0){notify('No gold!','orange');return;}setGGB(b=>+(b+goldHeld).toFixed(2));G.setGold&&G.setGold(0);notify(`Deposited ${goldHeld}g!`,'gold');}} color='#b7800a' style={{flex:1,padding:9,fontSize:12}}>Deposit ({goldHeld}g)</Btn>
+            {goldGrowthBal>0&&<Btn onClick={()=>{const tot=+(goldGrowthBal+goldGrowth).toFixed(2);earn(Math.floor(tot*G.goldPrice));setGGB(0);setGG(0);notify(`Withdrew ${tot}g!`,'gold');}} style={{flex:1,padding:9,fontSize:12}}>Withdraw</Btn>}
+          </div>
+        </Card>}
+      </>}
+
+      {tab==='pool'&&<>
+        <div style={{background:'linear-gradient(135deg,#16a085,#1abc9c)',borderRadius:16,padding:14,marginBottom:12,color:'#fff'}}>
+          <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:700}}>GLOBAL POOL</div>
+          <div style={{fontSize:24,fontWeight:900,margin:'4px 0'}}>🌍 🪙{poolTotal.toLocaleString()}</div>
+          <div style={{fontSize:12,opacity:.85}}>All players pooled · Daily profit distributed</div>
+          <div style={{background:'rgba(255,255,255,.2)',borderRadius:10,height:8,marginTop:8}}>
+            <div style={{background:'#fff',height:8,borderRadius:10,width:`${Math.min(100,poolTotal/10000*100)}%`}}/>
+          </div>
+        </div>
+        <Card>
+          <div style={{fontWeight:800,fontSize:14,marginBottom:4}}>Your Contribution</div>
+          <div style={{fontSize:11,color:'#777',marginBottom:10,lineHeight:1.5}}>Pool coins with ALL players worldwide. Pool earns 2% daily. You receive your share every 24hrs. The more pooled by everyone, the bigger the daily payout.</div>
+          <div style={{background:'#e8f8f5',borderRadius:12,padding:10,marginBottom:10}}>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:13,marginBottom:3}}><span style={{color:'#555'}}>Your pool</span><span style={{fontWeight:800,color:'#16a085'}}>🪙{jointBal.toLocaleString()}</span></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12,marginBottom:3}}><span style={{color:'#888'}}>Your share</span><span style={{fontWeight:700,color:'#16a085'}}>{poolTotal>0?((jointBal/poolTotal)*100).toFixed(1):0}%</span></div>
+            <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}><span style={{color:'#888'}}>Daily profit est.</span><span style={{fontWeight:700,color:'#27ae60'}}>🪙{myDailyReturn.toLocaleString()}</span></div>
+          </div>
+          <div style={{display:'flex',gap:8,marginBottom:8}}>
+            <input value={jAmt} onChange={e=>setJAmt(e.target.value)} type="number" placeholder="Amount to pool..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+            <Btn onClick={poolCoins} color='#16a085' style={{fontSize:12,padding:'7px 12px'}}>Pool</Btn>
+          </div>
+          {jointBal>0&&<div style={{display:'flex',gap:8}}>
+            <Btn onClick={claimDailyProfit} color='#f39c12' style={{flex:2,padding:10,fontSize:13}}>Claim Daily Profit 🪙{myDailyReturn}</Btn>
+            <Btn onClick={withdrawPool} color='#e74c3c' style={{flex:1,padding:10,fontSize:12}}>Withdraw</Btn>
+          </div>}
+        </Card>
+      </>}
+
+      {tab==='loans'&&<>
+        <Card>
+          <div style={{fontWeight:800,fontSize:13,color:'#e74c3c',marginBottom:6}}>🆘 Emergency Loan</div>
+          <div style={{fontSize:11,color:'#777',marginBottom:8,lineHeight:1.5}}>Cap 🪙500. No fee. 10% of earnings auto-debits until repaid.</div>
+          {loanDebt>0?<div style={{background:'#fff5f5',borderRadius:12,padding:'8px 12px',fontSize:12,color:'#c0392b',fontWeight:700,textAlign:'center'}}>Active: 🪙{loanDebt} remaining</div>:<>
+            <div style={{display:'flex',gap:8}}>
+              <input value={eLoan} onChange={e=>setEL(e.target.value)} type="number" placeholder="Amount (max 500)" max="500" style={{flex:1,padding:'8px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+              <Btn onClick={()=>{const n=parseInt(eLoan);takeEmergencyLoan(n);setEL('');}} color='#e74c3c' style={{fontSize:12,padding:'8px 12px'}}>Apply</Btn>
+            </div>
+          </>}
+        </Card>
+        {[{label:'Equipment Loan',desc:'Buy machinery or upgrades',fee:.08,icon:'🏗️'},{label:'Seed & Supply Loan',desc:'Fund seeds and supplies',fee:.05,icon:'🌱'},{label:'Expansion Loan',desc:'Fund land purchases',fee:.10,icon:'🌍'}].map((l,i)=>(
+          <Card key={i}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}><span style={{fontSize:26}}>{l.icon}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:13}}>{l.label}</div><div style={{fontSize:11,color:'#777'}}>{l.desc} · Fee: {(l.fee*100).toFixed(0)}%</div></div></div>
+            <div style={{display:'flex',gap:8}}>
+              <input value={lAmt} onChange={e=>setLA(e.target.value)} type="number" placeholder="Amount..." style={{flex:1,padding:'8px 12px',borderRadius:10,border:'1.5px solid #ddd',fontSize:13,outline:'none',color:'#333'}}/>
+              <Btn onClick={()=>{const n=parseInt(lAmt);if(!n||n<=0){notify('Enter amount!','orange');return;}const f=Math.round(n*l.fee);earn(n);spend(f);setLA('');notify(`Loan 🪙${n} approved. Fee 🪙${f} deducted.`,'blue');}} color='#1a5276' style={{fontSize:12,padding:'7px 12px'}}>Apply</Btn>
+            </div>
+            {lAmt&&parseInt(lAmt)>0&&<div style={{fontSize:11,color:'#777',marginTop:5}}>Receive 🪙{parseInt(lAmt)||0} · Fee 🪙{Math.round((parseInt(lAmt)||0)*l.fee)}</div>}
+          </Card>
+        ))}
+      </>}
     </div>
-    <Card><div style={{fontWeight:800,fontSize:13,color:'#b7800a',marginBottom:8}}>Buy Gold</div>
-      <input value={goldBuy} onChange={e=>setGoldBuy(e.target.value)} type="number" step="0.1" placeholder="Grams to buy" style={{width:'100%',padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',boxSizing:'border-box',marginBottom:6,color:'#333'}}/>
-      {goldBuy&&<div style={{fontSize:11,color:'#777',marginBottom:6}}>Cost: 🪙{bc.toLocaleString()} · Wallet: 🪙{coins.toLocaleString()}</div>}
-      <Btn onClick={buyGoldF} color='#b7800a' style={{width:'100%',padding:9}}>Buy Gold</Btn>
-    </Card>
-    {goldHeld>0&&<Card><div style={{fontWeight:800,fontSize:13,color:'#27ae60',marginBottom:8}}>Sell Gold</div>
-      <input value={goldSell} onChange={e=>setGoldSell(e.target.value)} type="number" step="0.1" placeholder={`Max ${goldHeld}g`} style={{width:'100%',padding:'9px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',fontFamily:'inherit',boxSizing:'border-box',marginBottom:6,color:'#333'}}/>
-      {goldSell&&<div style={{fontSize:11,color:'#777',marginBottom:6}}>You receive: 🪙{sr.toLocaleString()}</div>}
-      <Btn onClick={sellGoldF} style={{width:'100%',padding:9}}>Sell Gold</Btn>
-    </Card>}
-    <Card><div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8}}>TIP</div><div style={{fontSize:12,color:'#555',lineHeight:1.5}}>Deposit gold in the Gold Growth Account (Bank Services) to earn automatic returns without selling!</div></Card>
-  </div>);
+  );
 }
+
 
 function FinanceScreen({G}){
   const{coins,bankBal,goldHeld,goldPrice,totalEarned,todayEarned,todaySpent,loanDebt,friendBonus,jointBal}=G;
@@ -1228,37 +1843,122 @@ function FinanceScreen({G}){
 }
 
 function GarageScreen({G}){
-  const{upgrades,buyUpgrade,coins,T}=G;
+  const{upgrades,buyUpgrade,coins,T,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,MACH_DEF,FUEL_SHOP}=G;
+  const[tab,setTab]=useState('machines');
+  const maxFuel=upgrades.fuelTank3?1000:upgrades.fuelTank2?500:200;
+  const fuelPct=Math.min(100,(fuel/maxFuel)*100);
+  const fuelCol=fuel>maxFuel*0.5?'#27ae60':fuel>maxFuel*0.2?'#f39c12':'#e74c3c';
   return(
     <div style={{padding:14}}>
       <div style={{background:'linear-gradient(135deg,#37474f,#546e7a)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>GARAGE AND UPGRADES</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🔧 Permanent Farm Upgrades</div>
-        <div style={{fontSize:11,opacity:.8}}>Buy once, benefit forever. These are the big investments!</div>
-      </div>
-      {UPGRADES.map(up=>{const owned=upgrades[up.id],canAff=coins>=up.cost;return(
-        <Card key={up.id} style={owned?{border:'2px solid #27ae60',opacity:.85}:{}}>
-          <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <span style={{fontSize:40}}>{up.emoji}</span>
-            <div style={{flex:1}}>
-              <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{up.name}</div>
-              <div style={{fontSize:12,color:'#666',marginBottom:4,lineHeight:1.4}}>{up.desc}</div>
-              {!owned&&<div style={{fontSize:14,fontWeight:800,color:'#b7800a'}}>🪙{up.cost.toLocaleString()}</div>}
-            </div>
-            {owned?<div style={{textAlign:'center'}}><div style={{fontSize:24}}>✅</div><div style={{fontSize:10,color:'#27ae60',fontWeight:700}}>Active</div></div>:<Btn onClick={()=>buyUpgrade(up)} disabled={!canAff} color={T.primary} style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>{canAff?'Buy Now':'Need 🪙'}</Btn>}
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>GARAGE & UPGRADES</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🔧 Machines & Upgrades</div>
+        <div style={{marginTop:8}}>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:11,opacity:.85,marginBottom:4}}>
+            <span>⛽ Fuel Tank</span>
+            <span style={{fontWeight:800,color:fuel<maxFuel*0.2?'#ffcccc':'#fff'}}>{fuel.toFixed(0)}/{maxFuel} {fuel<maxFuel*0.2?'⚠️ LOW':fuel===0?'🚨 EMPTY':''}</span>
           </div>
+          <div style={{background:'rgba(255,255,255,.2)',borderRadius:20,height:10}}>
+            <div style={{background:fuelCol,height:10,borderRadius:20,width:`${fuelPct}%`,transition:'width .5s'}}/>
+          </div>
+        </div>
+      </div>
+      <TabRow tabs={[['machines','🚜 Machines'],['fuel','⛽ Fuel'],['upgrades','⬆️ Upgrades']]} active={tab} onSelect={setTab} ac='#546e7a'/>
+
+      {tab==='machines'&&Object.entries(MACH_DEF).map(([id,def])=>{
+        const m=mach[id];
+        const tier=def.tiers[m.tier];
+        const maxTier=def.tiers.length-1;
+        const durCol=m.dur>60?'#27ae60':m.dur>25?'#f39c12':'#e74c3c';
+        return(
+          <Card key={id}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:10}}>
+              <div style={{fontSize:36}}>{def.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15}}>{def.name}</div>
+                <div style={{fontSize:11,color:'#888'}}>{def.desc}</div>
+                {m.owned&&<div style={{display:'flex',gap:8,marginTop:4,alignItems:'center',flexWrap:'wrap'}}>
+                  <span style={{fontSize:11,fontWeight:700,color:T.primary}}>{tier.l}</span>
+                  <span style={{fontSize:11,color:durCol,fontWeight:700}}>Dur: {Math.round(m.dur)}%</span>
+                  <span style={{fontSize:11,color:m.active?'#27ae60':'#aaa',fontWeight:700}}>{m.active?'🟢 Running':'⚫ Idle'}</span>
+                  {m.active&&<span style={{fontSize:10,color:'#888'}}>⛽{tier.f}/cycle (only when working)</span>}
+                </div>}
+              </div>
+            </div>
+            {m.owned&&<div style={{marginBottom:8}}>
+              <div style={{display:'flex',justifyContent:'space-between',fontSize:10,color:'#aaa',marginBottom:2}}><span>Durability</span><span>{Math.round(m.dur)}%</span></div>
+              <div style={{background:'#eee',borderRadius:10,height:6}}><div style={{background:durCol,height:6,borderRadius:10,width:`${m.dur}%`,transition:'width .3s'}}/></div>
+            </div>}
+            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+              {!m.owned&&<Btn onClick={()=>buyMach(id)} color={T.primary} style={{flex:1,padding:9,fontSize:12}}>Buy 🪙{def.cost.toLocaleString()}</Btn>}
+              {m.owned&&<Btn onClick={()=>toggleMach(id)} color={m.active?'#e74c3c':'#27ae60'} style={{flex:1,padding:9,fontSize:12}}>{m.active?'Stop ⏹':'Start ▶'}</Btn>}
+              {m.owned&&m.tier<maxTier&&<Btn onClick={()=>upgMach(id)} color='#f39c12' style={{flex:1,padding:9,fontSize:12}}>→{def.tiers[m.tier+1]?.l} 🪙{(def.upg[m.tier+1]||0).toLocaleString()}</Btn>}
+              {m.owned&&m.dur<50&&<Btn onClick={()=>repairMach(id)} color='#e74c3c' style={{flex:1,padding:9,fontSize:12}}>Repair 🪙200</Btn>}
+              {m.owned&&m.tier>=maxTier&&<div style={{flex:1,background:'#f0fff4',borderRadius:10,padding:9,textAlign:'center',fontSize:12,fontWeight:700,color:'#27ae60'}}>✅ Max Tier</div>}
+            </div>
+          </Card>
+        );
+      })}
+
+      {tab==='fuel'&&<>
+        <Card>
+          <div style={{textAlign:'center',marginBottom:12}}>
+            <div style={{fontSize:48}}>⛽</div>
+            <div style={{fontSize:28,fontWeight:900,color:fuelCol}}>{fuel.toFixed(0)}</div>
+            <div style={{fontSize:12,color:'#888'}}>out of {maxFuel} units{upgrades.fuelTank3?' (Mega Tank 🏭)':upgrades.fuelTank2?' (Large Tank)':' (Standard)'}</div>
+          </div>
+          <div style={{background:'#eee',borderRadius:20,height:16,marginBottom:8,overflow:'hidden'}}>
+            <div style={{background:`linear-gradient(90deg,${fuelCol},${fuelCol}cc)`,height:16,borderRadius:20,width:`${fuelPct}%`,transition:'width .5s'}}/>
+          </div>
+          <div style={{display:'flex',justifyContent:'space-between',fontSize:11,color:'#888',marginBottom:4}}>
+            <span>Empty</span>
+            <span style={{fontWeight:700,color:fuelCol}}>{fuel===0?'🚨 Buy fuel now!':fuel<maxFuel*0.2?'⚠️ Running low!':'✅ Good'}</span>
+            <span>Full ({maxFuel})</span>
+          </div>
+          <div style={{fontSize:11,color:'#aaa',textAlign:'center',marginTop:4}}>Fuel only consumed when machines are running AND actively working</div>
         </Card>
-      );})}
-      <Card style={{background:'#f9f9f9'}}>
-        <div style={{fontSize:12,fontWeight:800,color:'#555',marginBottom:6}}>Why buy upgrades?</div>
-        {['Auto-Plower saves time plowing many fields','Mine Elevator doubles rare mineral drops','Premium Banking raises profit share 5% to 8%','Gold Vault unlocks the Gold Growth Account','Silo Boost raises all crop sell prices by 10%','Pet Luxury House slows pet hunger and happiness decay by 60%'].map((t,i)=><div key={i} style={{fontSize:11,color:'#777',lineHeight:1.8}}>• {t}</div>)}
-      </Card>
+        {!upgrades.fuelTank2&&<Card style={{background:'#fffbea',border:'1px solid #f39c12'}}>
+          <div style={{fontSize:12,fontWeight:800,color:'#b7800a',marginBottom:4}}>💡 Upgrade your tank!</div>
+          <div style={{fontSize:11,color:'#888'}}>Buy Large Tank (🪙4,500) or Mega Tank (🪙9,000) in the Upgrades tab to hold more fuel.</div>
+        </Card>}
+        <div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8,paddingLeft:2}}>REFUEL OPTIONS</div>
+        {FUEL_SHOP.map(item=>(
+          <Card key={item.name}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{fontSize:36}}>{item.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15}}>{item.name}</div>
+                <div style={{fontSize:12,color:'#27ae60',fontWeight:700}}>+{item.amt} fuel</div>
+                <div style={{fontSize:11,color:'#888'}}>→ {Math.min(maxFuel,fuel+item.amt).toFixed(0)}/{maxFuel}</div>
+              </div>
+              <Btn onClick={()=>buyFuelF(item)} disabled={coins<item.cost||fuel>=maxFuel} color='#e67e22' style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>🪙{item.cost.toLocaleString()}</Btn>
+            </div>
+          </Card>
+        ))}
+      </>}
+
+      {tab==='upgrades'&&<>
+        {UPGRADES.map(up=>{const owned=upgrades[up.id],canAff=coins>=up.cost;return(
+          <Card key={up.id} style={owned?{border:'2px solid #27ae60'}:{}}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <span style={{fontSize:36}}>{up.emoji}</span>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{up.name}</div>
+                <div style={{fontSize:12,color:'#666',lineHeight:1.4}}>{up.desc}</div>
+                {!owned&&<div style={{fontSize:13,fontWeight:800,color:'#b7800a',marginTop:4}}>🪙{up.cost.toLocaleString()}</div>}
+              </div>
+              {owned?<div style={{textAlign:'center'}}><div style={{fontSize:22}}>✅</div><div style={{fontSize:10,color:'#27ae60',fontWeight:700}}>Active</div></div>
+              :<Btn onClick={()=>buyUpgrade(up)} disabled={!canAff} color={T.primary} style={{fontSize:12,padding:'9px 14px',flexShrink:0}}>{canAff?'Buy':'Need 🪙'}</Btn>}
+            </div>
+          </Card>
+        );})}
+      </>}
     </div>
   );
 }
 
 function ChatScreen({G}){
-  const{chatMsgs,sendChat,setChat,playerId,blocked,setBlocked,notify}=G;
+  const{chatMsgs,sendChat,setChat,playerId,blocked,setBlocked,notify,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,T}=G;
   const[ch,setCh]=useState('General');
   const[input,setInput]=useState('');
   const[last,setLast]=useState(0);
@@ -1276,6 +1976,9 @@ function ChatScreen({G}){
             .sort((a,b)=>a.time-b.time)
             .slice(-50);
           G.setChat(m=>({...m,[ch]:msgs}));
+          // Count unread messages (newer than last seen, not from self)
+          const newMsgs=msgs.filter(m=>m.time>G.lastSeenChat&&m.author!==G.playerId);
+          if(newMsgs.length>0)G.setUnreadChat(n=>Math.max(n,newMsgs.length));
         }
       }
     });
@@ -1324,7 +2027,7 @@ function ChatScreen({G}){
 }
 
 function FarmhouseScreen({G}){
-  const{farmName,updateFN,themeId,updateTheme,worldCode,setWC,playerId,level,totalEarned,notify,T,friendsList,setFriendsList,friendStreak,sendFriendHelp,lastFriendHelp}=G;
+  const{farmName,updateFN,themeId,updateTheme,playerId,level,totalEarned,notify,T,friendsList,setFriendsList,friendStreak,sendFriendHelp,lastFriendHelp}=G;
   const[tab,setTab]=useState('identity');
   const[nameInput,setNI]=useState(farmName);
   const[joinInput,setJI]=useState('');
@@ -1335,16 +2038,16 @@ function FarmhouseScreen({G}){
   const today=todayStr();
 
   const regAndLoad=useCallback(async()=>{
-    if(!worldCode||!playerId)return;
-    try{await window.storage.set(`world:${worldCode}:${playerId}`,JSON.stringify({name:farmName,level,lastSeen:Date.now()}),true);}catch{}
+    if(!playerId)return;
+    try{await window.storage.set(`world:GLOBAL:${playerId}`,JSON.stringify({name:farmName,level,lastSeen:Date.now()}),true);}catch{}
     try{
-      const r=await window.storage.list(`world:${worldCode}:`,true);
+      const r=await window.storage.list(`world:GLOBAL:`,true);
       if(r?.keys?.length){
         const data=await Promise.all(r.keys.map(async k=>{try{const x=await window.storage.get(k,true);return x?{key:k,isMe:k.includes(playerId),...JSON.parse(x.value)}:null;}catch{return null;}}));
         setPlayers(data.filter(Boolean));
       }else setPlayers([]);
     }catch{setPlayers([]);}
-  },[worldCode,playerId,farmName,level]);
+  },[playerId,farmName,level]);
 
   useEffect(()=>{if(tab==='multiplayer'){regAndLoad();const t=setInterval(regAndLoad,8000);return()=>clearInterval(t);}},[tab,regAndLoad]);
 
@@ -1363,7 +2066,7 @@ function FarmhouseScreen({G}){
     return(
       <div style={{padding:14}}>
         <button onClick={()=>{setSelBook(null);setPg(0);}} style={{background:'none',border:'none',color:T.primary,fontSize:14,fontWeight:800,cursor:'pointer',marginBottom:12}}>Back to Guide</button>
-        <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
+        <div style={{background:`linear-gradient(135deg,${T.primary}dd,${T.accent}cc)`,backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
           <div style={{fontSize:28,marginBottom:6}}>{selBook.emoji}</div>
           <div style={{fontSize:16,fontWeight:900}}>{selBook.title}</div>
           <div style={{fontSize:11,opacity:.75,marginTop:2}}>Page {pg+1} of {selBook.pages.length}</div>
@@ -1385,7 +2088,7 @@ function FarmhouseScreen({G}){
     <div style={{padding:14}}>
       <TabRow tabs={tabs} active={tab} onSelect={setTab} ac={T.primary}/>
       {tab==='identity'&&<>
-        <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:18,marginBottom:14,color:'#fff',textAlign:'center'}}>
+        <div style={{background:`linear-gradient(135deg,${T.primary}dd,${T.accent}cc)`,backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:20,padding:18,marginBottom:14,color:'#fff',textAlign:'center'}}>
           <div style={{fontSize:22,fontWeight:900}}>{nameInput||'My Farm'}</div>
           <div style={{fontSize:12,opacity:.8,marginTop:4}}>Level {level} Farmer</div>
         </div>
@@ -1399,7 +2102,7 @@ function FarmhouseScreen({G}){
         </Card>
         <Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:10}}>Stats</div>
-          {[['Level',level],['Total Earned',`🪙${totalEarned.toLocaleString()}`],['World Code',worldCode],['Player ID',playerId]].map(([l,v],i,arr)=>(
+          {[['Level',level],['Total Earned',`🪙${totalEarned.toLocaleString()}`],['Player ID',playerId]].map(([l,v],i,arr)=>(
             <div key={i} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:i<arr.length-1?'1px solid #f0f0f0':'none'}}>
               <span style={{fontSize:13,color:'#666'}}>{l}</span><span style={{fontWeight:700,fontSize:13,color:'#333'}}>{v}</span>
             </div>
@@ -1470,7 +2173,7 @@ function FarmhouseScreen({G}){
         {friendsList.length===0&&<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:40}}>🤝</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No friends yet</div><div style={{fontSize:12,marginTop:4}}>Add a friend using their Player ID above</div></div>}
       </>}
       {tab==='theme'&&<>
-        <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:16,marginBottom:14,color:'#fff',textAlign:'center'}}>
+        <div style={{background:`linear-gradient(135deg,${T.primary}dd,${T.accent}cc)`,backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',textAlign:'center'}}>
           <div style={{fontSize:20,fontWeight:800}}>{T.name}</div>
           <div style={{fontSize:11,opacity:.75,marginTop:4}}>Current theme</div>
         </div>
@@ -1507,18 +2210,22 @@ function FarmhouseScreen({G}){
 }
 
 function VisitStallScreen({stall,onClose,G}){
-  const{coins,spend,notify,playerId,setMin,setSilo,T}=G;
+  const{coins,spend,notify,playerId,T}=G;
   const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
   const[shown,setShown]=useState(true);
+  const[localListings,setLocalListings]=useState(stall.listings||[]);
+  const[buying,setBuying]=useState(null);
   const buyItem=async l=>{
-    if(l.sellerId===playerId){notify('That is your own listing!','orange');return;}
+    if(buying||l.sellerId===playerId)return;
     const total=l.price*l.qty;
     if(coins<total){notify('Not enough coins!','orange');return;}
-    spend(total);
-    if(l.type==='silo')setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
-    else setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
-    if(db){try{await set(ref(db,`market/${l.id}`),null);}catch{}}
-    notify(`Bought ${l.qty}x ${l.name}!`,'gold');
+    setBuying(l.id);spend(total);
+    if(l.type==='silo')G.setSilo(s=>({...s,[l.itemId]:(s[l.itemId]||0)+l.qty}));
+    else G.setMin(m=>({...m,[l.itemId]:(m[l.itemId]||0)+l.qty}));
+    if(db){try{await set(ref(db,`market/${l.id}`),null);await set(ref(db,`payments/${l.sellerId}/${l.id}`),{amount:total,from:playerId,item:l.name,time:Date.now()});}catch{}}
+    setLocalListings(p=>p.filter(x=>x.id!==l.id));
+    setBuying(null);
+    notify(`✅ Bought ${l.qty}x ${l.name}!`,'gold');
   };
   return(
     <div style={{padding:14}}>
@@ -1532,31 +2239,19 @@ function VisitStallScreen({stall,onClose,G}){
       </div>}
       <div style={{background:theme.color,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
         <button onClick={onClose} style={{background:'rgba(255,255,255,.2)',border:'none',color:'#fff',borderRadius:8,padding:'4px 12px',fontSize:12,fontWeight:700,cursor:'pointer',marginBottom:8}}>← Back</button>
-        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:700}}>VISITING</div>
-        <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🏪 {stall.name}</div>
+        <div style={{fontSize:22,fontWeight:900}}>🏪 {stall.name}</div>
         <div style={{fontSize:12,opacity:.85}}>by {stall.farmName}</div>
       </div>
-      {stall.listings&&stall.listings.length>0?(
-        stall.listings.map(l=>(
-          <Card key={l.id}>
-            <div style={{display:'flex',alignItems:'center',gap:10}}>
-              <div style={{fontSize:28}}>{l.emoji}</div>
-              <div style={{flex:1}}>
-                <div style={{fontWeight:800,fontSize:14}}>{l.name}</div>
-                <div style={{fontSize:11,color:'#777'}}>×{l.qty}</div>
-                <div style={{fontWeight:800,color:'#f39c12'}}>🪙{l.price} each</div>
-              </div>
-              {l.sellerId!==playerId&&<Btn onClick={()=>buyItem(l)} color={theme.color} disabled={coins<l.price*l.qty} style={{fontSize:12,padding:'8px 12px',flexShrink:0}}>Buy</Btn>}
-            </div>
-          </Card>
-        ))
-      ):(
-        <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
-          <div style={{fontSize:48}}>📭</div>
-          <div style={{fontWeight:700,color:'#888',marginTop:8}}>No items for sale</div>
-        </div>
-      )}
-      <button onClick={()=>{notify(stall.goodbye||'Goodbye! Come back soon 👋','green');onClose();}} style={{width:'100%',background:'#f5f5f5',border:'1px solid #ddd',borderRadius:14,padding:13,fontSize:14,fontWeight:700,cursor:'pointer',color:'#555',marginTop:8}}>Leave Stall 👋</button>
+      {localListings.length>0?localListings.map(l=>(
+        <Card key={l.id}>
+          <div style={{display:'flex',alignItems:'center',gap:10}}>
+            <div style={{fontSize:28}}>{l.emoji}</div>
+            <div style={{flex:1}}><div style={{fontWeight:800,fontSize:14}}>{l.name}</div><div style={{fontSize:11,color:'#777'}}>×{l.qty}</div><div style={{fontWeight:800,color:'#f39c12'}}>🪙{l.price} each</div></div>
+            {l.sellerId!==playerId&&<Btn onClick={()=>buyItem(l)} color={theme.color} disabled={coins<l.price*l.qty||buying===l.id} style={{fontSize:12,padding:'8px 12px',flexShrink:0}}>{buying===l.id?'..':'Buy'}</Btn>}
+          </div>
+        </Card>
+      )):<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:48}}>📭</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No items for sale</div></div>}
+      <button onClick={()=>{notify(stall.goodbye||'Goodbye! 👋','green');onClose();}} style={{width:'100%',background:'#f5f5f5',border:'1px solid #ddd',borderRadius:14,padding:13,fontSize:14,fontWeight:700,cursor:'pointer',color:'#555',marginTop:8}}>Leave Stall 👋</button>
     </div>
   );
 }
@@ -1567,33 +2262,281 @@ function VisitStallsListScreen({G}){
   if(visiting)return<VisitStallScreen stall={visiting} onClose={()=>setVisiting(null)} G={G}/>;
   return(
     <div style={{padding:14}}>
-      <div style={{background:`linear-gradient(135deg,${T.primary},${T.accent})`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+      <div style={{background:`linear-gradient(135deg,${T.primary}dd,${T.accent}cc)`,backdropFilter:'blur(8px)',WebkitBackdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
         <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>PLAYER STALLS</div>
         <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🛖 Visit Farm Stalls</div>
         <div style={{fontSize:12,opacity:.85}}>{allStalls.length} stalls open right now</div>
       </div>
-      {allStalls.length===0?(
-        <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
-          <div style={{fontSize:56}}>🛖</div>
-          <div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No stalls open yet</div>
-          <div style={{fontSize:12,marginTop:6,color:'#aaa'}}>Other players need to list items first</div>
+      {allStalls.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:56}}>🛖</div><div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No stalls open yet</div></div>
+      :allStalls.map(stall=>{const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];return(
+        <Card key={stall.playerId}>
+          <div style={{display:'flex',alignItems:'center',gap:12}}>
+            <div style={{width:46,height:46,background:theme.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0}}>🏪</div>
+            <div style={{flex:1}}><div style={{fontWeight:800,fontSize:15,color:'#111'}}>{stall.name}</div><div style={{fontSize:11,color:'#777'}}>by {stall.farmName}</div><div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>{stall.listings?.length||0} items for sale</div></div>
+            <Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn>
+          </div>
+        </Card>
+      );})}
+    </div>
+  );
+}
+
+
+function FishingScreen({G}){
+  const{level,coins,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,T,notify,earn}=G;
+  const[tab,setTab]=useState('lake');
+  const[ripple,setRipple]=useState(false);
+  const[lastCatch,setLastCatch]=useState(null);
+  const[villageMsgs,setVillageMsgs]=useState([]);
+
+  // Load fish village chat from Firebase
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'fishchat'),sn=>{
+      if(sn.exists()){
+        const msgs=Object.values(sn.val()).filter(m=>m&&m.text&&m.time).sort((a,b)=>a.time-b.time).slice(-30);
+        setVillageMsgs(msgs);
+      }
+    });
+    return()=>unsub();
+  },[]);
+
+  const handleCast=()=>{
+    if(fishCd)return;
+    setRipple(true);
+    setTimeout(()=>setRipple(false),600);
+    castLine();
+  };
+
+  const myFish=FISH.filter(f=>(fishInv[f.id]||0)>0);
+  const totalFishValue=FISH.reduce((s,f)=>s+(fishInv[f.id]||0)*f.value,0);
+  const selBaitObj=BAITS.find(b=>b.id===selBait)||BAITS[0];
+
+  return(
+    <div style={{padding:14}}>
+      {/* Header */}
+      <div style={{background:'linear-gradient(135deg,#1a6b8a,#2980b9)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>FARM LAKE</div>
+        <div style={{fontSize:22,fontWeight:900,margin:'3px 0'}}>🎣 Fishing</div>
+        <div style={{fontSize:12,opacity:.85}}>{totalFishCaught} fish caught · Worth 🪙{totalFishValue.toLocaleString()} in inventory</div>
+      </div>
+
+      <TabRow tabs={[['lake','🌊 Lake'],['tackle','🧰 Tackle'],['catch','🐟 Catch'],['recipes','🍽️ Recipes'],['village','🏘️ Village']]} active={tab} onSelect={setTab} ac='#2980b9'/>
+
+      {/* LAKE TAB - Main fishing */}
+      {tab==='lake'&&<>
+        {/* Lake visual */}
+        <div onClick={handleCast} style={{
+          background:'linear-gradient(180deg,#a8d8ea 0%,#1a6b8a 60%,#0d4a6b 100%)',
+          borderRadius:20,padding:20,marginBottom:14,textAlign:'center',cursor:'pointer',
+          position:'relative',overflow:'hidden',minHeight:180,
+          boxShadow:ripple?'0 0 30px rgba(26,107,138,0.6)':'0 4px 20px rgba(0,0,0,0.15)',
+          transition:'box-shadow .3s',
+          userSelect:'none'
+        }}>
+          {/* Clouds */}
+          <div style={{position:'absolute',top:10,left:20,fontSize:24,opacity:.6}}>☁️</div>
+          <div style={{position:'absolute',top:6,right:30,fontSize:18,opacity:.5}}>☁️</div>
+          {/* Trees */}
+          <div style={{position:'absolute',bottom:40,left:10,fontSize:28}}>🌲</div>
+          <div style={{position:'absolute',bottom:40,right:10,fontSize:22}}>🌲</div>
+          {/* Ripple */}
+          {ripple&&<div style={{position:'absolute',top:'50%',left:'50%',transform:'translate(-50%,-50%)',width:80,height:80,borderRadius:'50%',background:'rgba(255,255,255,0.3)',animation:'rippleAnim .6s ease-out'}}/>}
+          {/* Fisher */}
+          <div style={{fontSize:40,marginBottom:4}}>{fishCd?'⏳':'🎣'}</div>
+          <div style={{color:'#fff',fontWeight:800,fontSize:16,marginBottom:4}}>
+            {fishCd?'Waiting for a bite...':'Tap to cast your line!'}
+          </div>
+          <div style={{color:'rgba(255,255,255,.7)',fontSize:12}}>
+            Using: {selBaitObj.emoji} {selBaitObj.name} ({baitInv[selBait]||0} left)
+          </div>
+          {/* Water ripple effect */}
+          <div style={{position:'absolute',bottom:0,left:0,right:0,height:50,background:'rgba(255,255,255,0.05)',borderRadius:'50% 50% 0 0'}}/>
         </div>
-      ):allStalls.map(stall=>{
-        const theme=STALL_THEMES.find(t=>t.id===stall.theme)||STALL_THEMES[0];
-        return(
-          <Card key={stall.playerId}>
-            <div style={{display:'flex',alignItems:'center',gap:12}}>
-              <div style={{width:46,height:46,background:theme.color,borderRadius:12,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0}}>🏪</div>
-              <div style={{flex:1}}>
-                <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{stall.name}</div>
-                <div style={{fontSize:11,color:'#777'}}>by {stall.farmName}</div>
-                <div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>{stall.listings?.length||0} items for sale</div>
-              </div>
-              <Btn onClick={()=>setVisiting(stall)} color={theme.color} style={{fontSize:12,padding:'8px 14px',flexShrink:0}}>Visit</Btn>
+
+        {/* Bait selector */}
+        <Card>
+          <div style={{fontWeight:800,fontSize:13,marginBottom:8}}>🪱 Select Bait</div>
+          <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+            {BAITS.map(b=>{
+              const qty=baitInv[b.id]||0;
+              const active=selBait===b.id;
+              return(
+                <button key={b.id} onClick={()=>setSelBait(b.id)} style={{
+                  background:active?'#2980b9':'#f5f5f5',color:active?'#fff':'#333',
+                  border:`2px solid ${active?'#2980b9':'#eee'}`,borderRadius:12,
+                  padding:'6px 10px',fontSize:11,fontWeight:700,cursor:'pointer',textAlign:'center',minWidth:70
+                }}>
+                  <div style={{fontSize:16}}>{b.emoji}</div>
+                  <div>{b.name.split(' ')[0]}</div>
+                  <div style={{opacity:.7}}>×{qty}</div>
+                </button>
+              );
+            })}
+          </div>
+          <div style={{fontSize:11,color:'#888',marginTop:8}}>{selBaitObj.desc}</div>
+          {(baitInv[selBait]||0)===0&&<div style={{fontSize:11,color:'#e74c3c',fontWeight:700,marginTop:4}}>⚠️ No bait! Go to Tackle Shop to buy more.</div>}
+        </Card>
+
+        {/* Quick fish stats */}
+        <div style={{display:'flex',gap:8}}>
+          {[['🎣','Total Caught',totalFishCaught],['🐟','In Inventory',myFish.reduce((s,f)=>s+(fishInv[f.id]||0),0)],['🪙','Value',`🪙${totalFishValue.toLocaleString()}`]].map(([e,l,v])=>(
+            <div key={l} style={{flex:1,background:'#fff',borderRadius:14,padding:'10px 8px',textAlign:'center',boxShadow:'0 2px 8px rgba(0,0,0,.06)'}}>
+              <div style={{fontSize:20}}>{e}</div>
+              <div style={{fontSize:11,color:'#888',fontWeight:700}}>{l}</div>
+              <div style={{fontSize:13,fontWeight:900,color:'#2980b9'}}>{v}</div>
             </div>
-          </Card>
-        );
-      })}
+          ))}
+        </div>
+        <style>{`@keyframes rippleAnim{from{transform:translate(-50%,-50%) scale(0);opacity:1}to{transform:translate(-50%,-50%) scale(3);opacity:0}}`}</style>
+      </>}
+
+      {/* TACKLE SHOP TAB */}
+      {tab==='tackle'&&<>
+        <div style={{background:'#e8f4f8',borderRadius:14,padding:12,marginBottom:12,fontSize:12,color:'#1a6b8a',fontWeight:600}}>
+          💡 Better bait = higher chance of rare and legendary fish. Golden Lure is the best!
+        </div>
+        {BAITS.map(b=>{
+          const qty=baitInv[b.id]||0;
+          return(
+            <Card key={b.id}>
+              <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:8}}>
+                <div style={{fontSize:32}}>{b.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:14}}>{b.name}</div>
+                  <div style={{fontSize:11,color:'#888'}}>{b.desc}</div>
+                  {b.bonus>0&&<div style={{fontSize:11,color:'#27ae60',fontWeight:700}}>+{(b.bonus*100).toFixed(0)}% rare catch bonus</div>}
+                </div>
+                <div style={{textAlign:'right'}}>
+                  <div style={{fontSize:12,color:'#888'}}>Owned: {qty}</div>
+                  <div style={{fontSize:13,fontWeight:800,color:'#b7800a'}}>🪙{b.cost} each</div>
+                </div>
+              </div>
+              <div style={{display:'flex',gap:6}}>
+                {[5,10,20].map(n=>(
+                  <Btn key={n} onClick={()=>buyBait(b,n)} disabled={coins<b.cost*n} color='#2980b9' style={{flex:1,padding:8,fontSize:12}}>
+                    ×{n} 🪙{(b.cost*n).toLocaleString()}
+                  </Btn>
+                ))}
+              </div>
+            </Card>
+          );
+        })}
+      </>}
+
+      {/* CATCH TAB */}
+      {tab==='catch'&&<>
+        {myFish.length===0?(
+          <div style={{textAlign:'center',padding:40,color:'#aaa'}}>
+            <div style={{fontSize:56}}>🎣</div>
+            <div style={{fontWeight:800,fontSize:16,color:'#888',marginTop:10}}>No fish yet!</div>
+            <div style={{fontSize:12,marginTop:6}}>Head to the Lake tab and start fishing</div>
+          </div>
+        ):<>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+            <div style={{fontSize:13,fontWeight:800,color:'#555'}}>{myFish.length} species caught</div>
+            {totalFishValue>0&&<Btn onClick={sellAllFish} color='#27ae60' style={{fontSize:12,padding:'7px 14px'}}>Sell All 🪙{totalFishValue.toLocaleString()}</Btn>}
+          </div>
+          {['legendary','rare','uncommon','common'].map(rarity=>{
+            const rareFish=myFish.filter(f=>FISH.find(ff=>ff.id===f.id)?.rarity===rarity);
+            if(rareFish.length===0)return null;
+            return(
+              <div key={rarity}>
+                <div style={{fontSize:11,fontWeight:800,color:FISH_RARITY_COL[rarity]||'#888',marginBottom:6,paddingLeft:2,textTransform:'uppercase',letterSpacing:1}}>{rarity}</div>
+                {rareFish.map(entry=>{
+                  const fish=FISH.find(f=>f.id===entry.id);
+                  const qty=fishInv[entry.id]||0;
+                  if(!fish||qty===0)return null;
+                  return(
+                    <Card key={fish.id}>
+                      <div style={{display:'flex',alignItems:'center',gap:10}}>
+                        <div style={{fontSize:28}}>{fish.emoji}</div>
+                        <div style={{flex:1}}>
+                          <div style={{fontWeight:800,fontSize:14,color:FISH_RARITY_COL[fish.rarity]}}>{fish.name}</div>
+                          <div style={{fontSize:11,color:'#888'}}>×{qty} · 🪙{fish.value} each</div>
+                        </div>
+                        <div style={{display:'flex',gap:6}}>
+                          <Btn onClick={()=>sellFish(fish,1)} color='#888' style={{fontSize:11,padding:'6px 10px'}}>×1</Btn>
+                          <Btn onClick={()=>sellFish(fish,qty)} color='#27ae60' style={{fontSize:11,padding:'6px 10px'}}>All 🪙{(fish.value*qty).toLocaleString()}</Btn>
+                        </div>
+                      </div>
+                    </Card>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </>}
+      </>}
+
+      {/* RECIPES TAB */}
+      {tab==='recipes'&&<>
+        <div style={{background:'#e8f4f8',borderRadius:14,padding:12,marginBottom:12,fontSize:12,color:'#1a6b8a',fontWeight:600}}>
+          🍽️ Combine fish with farm produce for premium dishes worth much more!
+        </div>
+        {FISH_RECIPES.map(recipe=>{
+          const can=canCraftFish(recipe);
+          const owned=G.craftInv[recipe.id]||0;
+          return(
+            <Card key={recipe.id}>
+              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                <div style={{fontSize:32}}>{recipe.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:14}}>{recipe.name}</div>
+                  <div style={{fontSize:11,color:'#888'}}>{recipe.desc}</div>
+                  <div style={{fontSize:12,color:'#b7800a',fontWeight:700}}>Sells 🪙{recipe.sell} · +{recipe.xp}XP</div>
+                </div>
+                {owned>0&&<div style={{fontWeight:800,color:'#27ae60',fontSize:13}}>×{owned}</div>}
+              </div>
+              {/* Ingredient status */}
+              <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:8}}>
+                {Object.entries(recipe.ing).map(([id,qty])=>{
+                  const have=(fishInv[id]||0)+(G.silo[id]||0)+(G.minerals[id]||0);
+                  const ok=have>=qty;
+                  const item=FISH.find(f=>f.id===id)||CROPS.find(c=>c.id===id)||MINERALS.find(m=>m.id===id);
+                  return(
+                    <div key={id} style={{background:ok?'#f0fff4':'#fff5f5',border:`1px solid ${ok?'#c3e6cb':'#f5c6cb'}`,borderRadius:10,padding:'3px 9px',fontSize:11,fontWeight:700,color:ok?'#1a6b2a':'#721c24'}}>
+                      {item?.emoji} {have}/{qty}
+                    </div>
+                  );
+                })}
+              </div>
+              <div style={{display:'flex',gap:6}}>
+                <Btn onClick={()=>craftFishRecipe(recipe)} disabled={!can} color='#2980b9' style={{flex:1,padding:8,fontSize:12}}>{can?`Craft ${recipe.emoji}`:'Need ingredients'}</Btn>
+                {owned>0&&<Btn onClick={()=>{earn(recipe.sell*owned);G.setCraftInv&&G.setCraftInv(c=>({...c,[recipe.id]:0}));G.notify(`Sold ${owned}x ${recipe.name} 🪙${(recipe.sell*owned).toLocaleString()}`,'gold');}} color='#f39c12' style={{flex:1,padding:8,fontSize:12}}>Sell All 🪙{recipe.sell*owned}</Btn>}
+              </div>
+            </Card>
+          );
+        })}
+      </>}
+
+      {/* VILLAGE TAB - Fish chat */}
+      {tab==='village'&&<>
+        <div style={{background:'linear-gradient(135deg,#1a6b8a,#2980b9)',borderRadius:16,padding:14,marginBottom:12,color:'#fff'}}>
+          <div style={{fontSize:13,fontWeight:800,marginBottom:4}}>🏘️ Fishing Village</div>
+          <div style={{fontSize:11,opacity:.85}}>When players catch rare or legendary fish it shows here. Catch something special to get featured!</div>
+        </div>
+        {villageMsgs.length===0?(
+          <div style={{textAlign:'center',padding:30,color:'#aaa'}}>
+            <div style={{fontSize:40}}>🌊</div>
+            <div style={{fontWeight:700,marginTop:8}}>Village is quiet...</div>
+            <div style={{fontSize:12,marginTop:4}}>Catch a rare fish to be the first post!</div>
+          </div>
+        ):(<>
+          {[...villageMsgs].reverse().map((m,i)=>(
+            <Card key={m.id||i}>
+              <div style={{display:'flex',gap:10,alignItems:'flex-start'}}>
+                <div style={{fontSize:28}}>🎣</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:13,color:'#1a6b8a'}}>{m.farm}</div>
+                  <div style={{fontSize:13,color:'#333',margin:'3px 0'}}>{m.text}</div>
+                  <div style={{fontSize:10,color:'#aaa'}}>{new Date(m.time).toLocaleTimeString()}</div>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </>)}
+      </>}
     </div>
   );
 }
@@ -1606,48 +2549,62 @@ function AuthScreen({onLogin}){
   const[farmNameL,setFarmNameL]=useState('');
   const[error,setError]=useState('');
   const[loading,setLoading]=useState(false);
+
   const submit=async()=>{
     setError('');setLoading(true);
     try{
       if(mode==='register'){
-        if(!username.trim()||!farmNameL.trim()){setError('Please fill in all fields.');setLoading(false);return;}
+        if(!username.trim()||!farmNameL.trim()){setError('Please fill all fields.');setLoading(false);return;}
         const cred=await createUserWithEmailAndPassword(auth,email,password);
-        await set(ref(db,`users/${cred.user.uid}/profile`),{username:username.trim(),farmName:farmNameL.trim(),createdAt:Date.now()});
+        if(db)await set(ref(db,`users/${cred.user.uid}/profile`),{username:username.trim(),farmName:farmNameL.trim(),email,createdAt:Date.now()});
+        try{await window.storage.set('farm_name',farmNameL.trim());}catch{}
         onLogin(cred.user);
       }else{
         const cred=await signInWithEmailAndPassword(auth,email,password);
         onLogin(cred.user);
       }
     }catch(e){
-      const msgs={'auth/email-already-in-use':'Email already registered.','auth/weak-password':'Password needs 6+ characters.','auth/invalid-email':'Invalid email.','auth/user-not-found':'No account found.','auth/wrong-password':'Wrong password.','auth/invalid-credential':'Incorrect email or password.'};
+      const msgs={'auth/email-already-in-use':'Email already registered.','auth/wrong-password':'Wrong password.','auth/user-not-found':'No account found.','auth/weak-password':'Password needs 6+ characters.','auth/invalid-email':'Invalid email.','auth/invalid-credential':'Incorrect email or password.'};
       setError(msgs[e.code]||e.message);
     }
     setLoading(false);
   };
+
+  const inp={width:'100%',border:'1.5px solid rgba(255,255,255,0.15)',background:'rgba(255,255,255,0.08)',backdropFilter:'blur(8px)',borderRadius:14,padding:'13px 16px',fontSize:14,marginBottom:10,boxSizing:'border-box',outline:'none',color:'#fff',fontFamily:'inherit',placeholder:'rgba(255,255,255,0.4)'};
+
   return(
-    <div style={{width:'100%',maxWidth:420,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9 55%,#d4f1b8)',fontFamily:'-apple-system,BlinkMacSystemFont,system-ui,sans-serif',padding:24,boxSizing:'border-box'}}>
-      <div style={{fontSize:56,marginBottom:8}}>🌾</div>
-      <div style={{fontSize:28,fontWeight:900,color:'#1a6b2a',marginBottom:4}}>Harvest Haven</div>
-      <div style={{fontSize:13,color:'#555',marginBottom:32}}>Your farming empire awaits</div>
-      <div style={{background:'#fff',borderRadius:20,padding:24,width:'100%',boxShadow:'0 4px 24px rgba(0,0,0,0.10)'}}>
-        <div style={{display:'flex',gap:8,marginBottom:20}}>
-          {[['login','Sign In'],['register','Create Account']].map(([m,l])=>(
-            <button key={m} onClick={()=>{setMode(m);setError('');}} style={{flex:1,background:mode===m?'#1a6b2a':'#f5f5f5',color:mode===m?'#fff':'#555',border:'none',borderRadius:12,padding:'10px',fontSize:13,fontWeight:700,cursor:'pointer'}}>{l}</button>
+    <div style={{minHeight:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#1a5c3a 75%,#0f3321 100%)',display:'flex',alignItems:'center',justifyContent:'center',padding:20,fontFamily:'"Nunito","Trebuchet MS",system-ui,sans-serif',position:'relative',overflow:'hidden'}}>
+      {/* Background decorations */}
+      <div style={{position:'absolute',top:0,left:0,right:0,bottom:0,backgroundImage:'radial-gradient(circle at 20% 30%, rgba(74,222,128,0.15) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(134,239,172,0.1) 0%, transparent 50%)',pointerEvents:'none'}}/>
+      <div style={{position:'absolute',fontSize:80,top:20,right:20,opacity:.08,transform:'rotate(15deg)',pointerEvents:'none'}}>🌾</div>
+      <div style={{position:'absolute',fontSize:60,bottom:30,left:10,opacity:.06,transform:'rotate(-10deg)',pointerEvents:'none'}}>🌿</div>
+
+      <div style={{background:'rgba(255,255,255,0.08)',backdropFilter:'blur(24px)',WebkitBackdropFilter:'blur(24px)',borderRadius:28,padding:30,width:'100%',maxWidth:380,boxShadow:'0 24px 64px rgba(0,0,0,0.4)',border:'1px solid rgba(255,255,255,0.15)',position:'relative'}}>
+        <div style={{textAlign:'center',marginBottom:28}}>
+          <div style={{fontSize:60,marginBottom:8,filter:'drop-shadow(0 4px 12px rgba(0,0,0,0.4))'}}>🌾</div>
+          <div style={{fontSize:28,fontWeight:900,color:'#fff',textShadow:'0 3px 12px rgba(0,0,0,0.5)',letterSpacing:-.5}}>Harvest Haven</div>
+          <div style={{fontSize:12,color:'rgba(255,255,255,0.55)',marginTop:4,fontWeight:600}}>Your farming adventure awaits!</div>
+        </div>
+
+        <div style={{display:'flex',background:'rgba(0,0,0,0.25)',borderRadius:16,padding:3,marginBottom:22}}>
+          {['login','register'].map(m=>(
+            <button key={m} onClick={()=>{setMode(m);setError('');}} style={{flex:1,background:mode===m?'rgba(255,255,255,0.15)':'transparent',backdropFilter:mode===m?'blur(8px)':'none',border:'none',borderRadius:13,padding:'10px 0',fontSize:13,fontWeight:800,color:mode===m?'#fff':'rgba(255,255,255,0.45)',cursor:'pointer',transition:'all .2s',boxShadow:mode===m?'0 2px 12px rgba(0,0,0,0.2)':'none',letterSpacing:.3}}>
+              {m==='login'?'Sign In':'Create Account'}
+            </button>
           ))}
         </div>
+
         {mode==='register'&&<>
-          <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Username</div>
-          <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="e.g. FarmerJoe" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
-          <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Farm Name</div>
-          <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder="e.g. Sunny Acres" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
+          <input value={username} onChange={e=>setUsername(e.target.value)} placeholder="Username" style={inp}/>
+          <input value={farmNameL} onChange={e=>setFarmNameL(e.target.value)} placeholder="🏡 Farm Name" style={inp}/>
         </>}
-        <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Email</div>
-        <input value={email} onChange={e=>setEmail(e.target.value)} type="email" placeholder="your@email.com" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:12,color:'#333'}}/>
-        <div style={{fontSize:12,fontWeight:700,color:'#555',marginBottom:6}}>Password</div>
-        <input value={password} onChange={e=>setPassword(e.target.value)} type="password" placeholder="Min 6 characters" style={{width:'100%',padding:'10px 12px',borderRadius:12,border:'1.5px solid #ddd',fontSize:13,outline:'none',boxSizing:'border-box',marginBottom:16,color:'#333'}}/>
-        {error&&<div style={{background:'#fff5f5',border:'1px solid #fce4e4',borderRadius:10,padding:'8px 12px',fontSize:12,color:'#c0392b',marginBottom:12,fontWeight:600}}>{error}</div>}
-        <button onClick={submit} disabled={loading} style={{width:'100%',background:loading?'#bbb':'#1a6b2a',color:'#fff',border:'none',borderRadius:12,padding:'12px',fontSize:15,fontWeight:800,cursor:loading?'default':'pointer'}}>
-          {loading?'Please wait...':mode==='login'?'Sign In':'Create Account'}
+        <input value={email} onChange={e=>setEmail(e.target.value)} placeholder="Email address" type="email" style={inp}/>
+        <input value={password} onChange={e=>setPassword(e.target.value)} placeholder="Password" type="password" style={{...inp,marginBottom:error?10:18}}/>
+
+        {error&&<div style={{background:'rgba(220,38,38,0.3)',border:'1px solid rgba(255,100,100,0.4)',borderRadius:12,padding:'9px 14px',fontSize:12,color:'#fca5a5',marginBottom:14,fontWeight:700}}>{error}</div>}
+
+        <button onClick={submit} disabled={loading} style={{width:'100%',background:loading?'rgba(255,255,255,0.1)':'linear-gradient(135deg,#4ade80,#22c55e)',color:'#fff',border:'none',borderRadius:16,padding:'14px',fontSize:15,fontWeight:900,cursor:loading?'default':'pointer',boxShadow:loading?'none':'0 6px 24px rgba(74,222,128,0.4)',transition:'all .2s',letterSpacing:.3}}>
+          {loading?'⏳ Please wait..':mode==='login'?'🌾 Sign In':'🚀 Start Farming'}
         </button>
       </div>
     </div>
@@ -1661,7 +2618,61 @@ export default function Root(){
     const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
     return unsub;
   },[]);
-  if(checking)return<div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(170deg,#a8d8ea,#b8e4c9)',fontFamily:'system-ui',fontSize:18,color:'#1a6b2a',fontWeight:700}}>🌾 Loading...</div>;
+  if(checking)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#0f3321 100%)',fontFamily:'"Nunito",system-ui'}}><div style={{fontSize:64,marginBottom:16,filter:'drop-shadow(0 4px 16px rgba(0,0,0,0.4))'}}>🌾</div><div style={{fontSize:18,color:'#fff',fontWeight:900,letterSpacing:1,textShadow:'0 2px 8px rgba(0,0,0,0.4)'}}>Loading Harvest Haven...</div><div style={{width:120,height:4,background:'rgba(255,255,255,0.2)',borderRadius:20,marginTop:16,overflow:'hidden'}}><div style={{width:'60%',height:'100%',background:'#4ade80',borderRadius:20,animation:'none'}}/></div></div>;
   if(!user)return<AuthScreen onLogin={setUser}/>;
   return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
+  const eventsForCh=globalEvents?.filter(e=>e.type==='chat'&&e.ch===ch)||[];
+  return(
+    <div style={{display:'flex',flexDirection:'column',height:'82vh',padding:'0 0 14px'}}>
+      {/* Header */}
+      <div style={{background:`linear-gradient(135deg,#16a085dd,#1abc9ccc)`,backdropFilter:'blur(8px)',borderRadius:'0 0 20px 20px',padding:'14px 16px 12px',color:'#fff',marginBottom:10,border:'1px solid rgba(255,255,255,0.15)',flexShrink:0}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Community</div>
+        <div style={{fontSize:20,fontWeight:900,letterSpacing:-.3}}>💬 Farm Chat</div>
+        <div style={{fontSize:11,opacity:.7,marginTop:2}}>All players · Global community</div>
+      </div>
+      <div style={{padding:'0 14px',flexShrink:0}}>
+        {/* Channel tabs */}
+        <div style={{display:'flex',gap:5,marginBottom:10,background:'rgba(0,0,0,0.2)',borderRadius:16,padding:3}}>
+          {CHAT_CH.map(c=>{
+            const isActive=ch===c;
+            const chUnread=eventsForCh.filter(e=>e.ch===c&&e.time>lastSeenChat&&G.lastSeenChat).length;
+            return(
+              <button key={c} onClick={()=>setCh(c)} style={{flex:1,background:isActive?CH_COL[c]:'transparent',color:isActive?'#fff':'rgba(255,255,255,0.5)',border:'none',borderRadius:13,padding:'8px 4px',fontSize:11,fontWeight:isActive?900:600,cursor:'pointer',transition:'all .2s',boxShadow:isActive?`0 3px 12px ${CH_COL[c]}66`:'none',position:'relative'}}>
+                {c}
+                {chUnread>0&&!isActive&&<span style={{position:'absolute',top:2,right:4,background:'#ef4444',color:'#fff',borderRadius:20,width:14,height:14,fontSize:8,fontWeight:900,display:'flex',alignItems:'center',justifyContent:'center'}}>{chUnread}</span>}
+              </button>
+            );
+          })}
+        </div>
+        <div style={{background:'rgba(255,255,255,0.06)',borderRadius:12,padding:'5px 12px',marginBottom:8,fontSize:11,color:'rgba(255,255,255,0.5)',fontStyle:'italic'}}>
+          {ch==='General'?'👋 Chat with all farmers worldwide':ch==='Help'?'🤝 Ask farming questions here':ch==='Missions'?'📋 Post and request task help':ch==='Trading'?'💱 Offer and request items':''}
+        </div>
+      </div>
+      {/* Messages */}
+      <div style={{flex:1,overflowY:'auto',padding:'0 14px',display:'flex',flexDirection:'column',gap:6}}>
+        {msgs.length===0&&<div style={{textAlign:'center',color:'rgba(255,255,255,0.3)',padding:30,fontSize:13}}>No messages yet — say hello! 👋</div>}
+        {msgs.map(m=>{
+          const isMe=m.author===playerId;
+          return(
+            <div key={m.id} style={{display:'flex',flexDirection:'column',alignItems:isMe?'flex-end':'flex-start'}}>
+              <div style={{fontSize:9,color:'rgba(255,255,255,0.4)',marginBottom:2,fontWeight:700}}>{isMe?'You':m.farm}</div>
+              <div style={{background:isMe?CH_COL[ch]:'rgba(255,255,255,0.12)',backdropFilter:isMe?'none':'blur(8px)',color:'#fff',borderRadius:isMe?'16px 16px 4px 16px':'16px 16px 16px 4px',padding:'8px 13px',fontSize:13,maxWidth:'80%',boxShadow:isMe?`0 3px 12px ${CH_COL[ch]}55`:'0 2px 8px rgba(0,0,0,0.2)',border:'1px solid rgba(255,255,255,0.1)',fontWeight:500}}>{m.text}</div>
+            </div>
+          );
+        })}
+        <div ref={endRef}/>
+      </div>
+      {/* Input */}
+      <div style={{padding:'8px 14px 0',flexShrink:0}}>
+        <div style={{display:'flex',gap:8}}>
+          <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder={`Message ${ch}...`} style={{flex:1,background:'rgba(255,255,255,0.1)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:16,padding:'11px 16px',fontSize:13,outline:'none',color:'#fff',fontFamily:'inherit'}}/>
+          <button onClick={send} style={{background:CH_COL[ch],color:'#fff',border:'none',borderRadius:16,padding:'11px 18px',fontWeight:900,cursor:'pointer',boxShadow:`0 4px 16px ${CH_COL[ch]}66`,fontSize:13}}>Send</button>
+        </div>
+      </div>
+    </div>
+  );
+}  const[user,setUser]=useState(null);
+  useEffect(()=>{const unsub=onAuthStateChanged(auth,u=>setUser(u));return ()=>unsub();},[]);
+  if(!user)return <AuthScreen onLogin={setUser}/>;
+  return <HarvestHaven user={user} onSignOut={()=>{signOut(auth).catch(()=>{});setUser(null);}}/>;
 }
