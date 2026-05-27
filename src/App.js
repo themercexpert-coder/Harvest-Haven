@@ -87,7 +87,7 @@ const FISH_RECIPES=[
   {id:'grilled_bass',name:'Grilled Bass',emoji:'🍽️',ing:{bass:2,corn:2},sell:250,xp:28,desc:'2 Bass + 2 Corn'},
   {id:'salmon_sushi',name:'Salmon Sushi',emoji:'🍣',ing:{salmon:2,wheat:3},sell:400,xp:45,desc:'2 Salmon + 3 Wheat'},
   {id:'sturgeon_steak',name:'Sturgeon Steak',emoji:'🥩',ing:{sturgeon:1,pumpkin:2},sell:600,xp:70,desc:'1 Sturgeon + 2 Pumpkin'},
-  {id:'fish_pie',name:'Fisherman\'s Pie',emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:350,xp:40,desc:'2 Catfish + 4 Wheat + 2 Carrot'},
+  {id:'fish_pie',name:'Fisherman's Pie',emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:350,xp:40,desc:'2 Catfish + 4 Wheat + 2 Carrot'},
   {id:'eel_curry',name:'Eel Curry',emoji:'🍛',ing:{eel:1,tomato:3,corn:2},sell:500,xp:60,desc:'1 Eel + 3 Tomato + 2 Corn'},
   {id:'golden_koi_feast',name:'Golden Koi Feast',emoji:'🥗',ing:{goldfish:1,truffle:1,lavender:2},sell:2000,xp:200,desc:'1 Golden Koi + 1 Truffle + 2 Lavender'},
 ];
@@ -2671,8 +2671,4 @@ export default function Root(){
       </div>
     </div>
   );
-}  const[user,setUser]=useState(null);
-  useEffect(()=>{const unsub=onAuthStateChanged(auth,u=>setUser(u));return ()=>unsub();},[]);
-  if(!user)return <AuthScreen onLogin={setUser}/>;
-  return <HarvestHaven user={user} onSignOut={()=>{signOut(auth).catch(()=>{});setUser(null);}}/>;
 }
