@@ -116,6 +116,18 @@ const RECIPES=[
   {id:'mysticpotion',name:'Mystic Potion',emoji:'🧪',ing:{truffle:2,lavender:3,crystal:1},sell:2500,xp:120,desc:'2 Truffle + 3 Lavender + 1 Crystal',tier:3},
   {id:'trufflepasta',name:'Truffle Pasta',emoji:'🍝',ing:{truffle:2,wheat:5,tomato:3},sell:1800,xp:100,desc:'2 Truffle + 5 Wheat + 3 Tomato',tier:3},
   {id:'coffeecake',name:'Coffee Cake',emoji:'☕',ing:{coffee:3,wheat:4,blueberry:3},sell:900,xp:85,desc:'3 Coffee + 4 Wheat + 3 Blueberry',tier:3},
+  // Pet Food
+  {id:'petfood_dog',name:'Dog Biscuit',emoji:'🦴',ing:{wheat:3,carrot:1},sell:15,xp:5,desc:'3 Wheat + 1 Carrot',tier:1},
+  {id:'petfood_cat',name:'Fish Snack',emoji:'🐟',ing:{wheat:2,corn:1},sell:15,xp:5,desc:'2 Wheat + 1 Corn',tier:1},
+  {id:'petfood_parrot',name:'Seed Mix',emoji:'🌱',ing:{wheat:4,sunflower:1},sell:15,xp:5,desc:'4 Wheat + 1 Sunflower',tier:1},
+  {id:'petfood_bunny',name:'Carrot Treat',emoji:'🥕',ing:{carrot:3},sell:15,xp:5,desc:'3 Carrot',tier:1},
+  {id:'petfood_fox',name:'Meat Chunk',emoji:'🥩',ing:{corn:2,wheat:2},sell:20,xp:6,desc:'2 Corn + 2 Wheat',tier:1},
+  {id:'petfood_bear',name:'Honey Pot',emoji:'🍯',ing:{sunflower:3,corn:2},sell:25,xp:8,desc:'3 Sunflower + 2 Corn',tier:2},
+  {id:'petfood_owl',name:'Mouse Treat',emoji:'🐭',ing:{wheat:2,carrot:2},sell:15,xp:5,desc:'2 Wheat + 2 Carrot',tier:1},
+  // Animal Feed Mix
+  {id:'feedmix_basic',name:'Basic Feed Mix',emoji:'🌾',ing:{wheat:5,corn:3},sell:40,xp:8,desc:'5 Wheat + 3 Corn - feeds any animal',tier:1},
+  {id:'feedmix_premium',name:'Premium Feed Mix',emoji:'🥇',ing:{wheat:8,corn:5,carrot:3},sell:100,xp:20,desc:'8 Wheat + 5 Corn + 3 Carrot',tier:2},
+  {id:'feedmix_animal',name:'Livestock Mix',emoji:'🐄',ing:{pumpkin:2,carrot:3,sunflower:2},sell:80,xp:16,desc:'2 Pumpkin + 3 Carrot + 2 Sunflower',tier:2},
   // Legendary
   {id:'legendbrew',name:'Legend Brew',emoji:'🏆',ing:{ruby:1,sapphire:1,golden:5},sell:8000,xp:300,desc:'1 Ruby + 1 Sapphire + 5 Golden Grain',tier:4},
   {id:'diamondcrown',name:'Diamond Crown',emoji:'💠',ing:{diamond:3,goldore:5,crystal:2},sell:12000,xp:500,desc:'3 Diamond + 5 Gold Ore + 2 Crystal',tier:4},
@@ -196,7 +208,7 @@ const MENU_DEF=[
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage'];
+const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage','workers'];
 const xpFor=l=>l*100;
 const todayStr=()=>new Date().toISOString().split('T')[0];
 const genTasks=lvl=>{
@@ -895,7 +907,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
             <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:10}}>
               <div>
                 <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:4,flexWrap:'wrap'}}>
-                  <div style={{fontSize:9,fontWeight:900,color:'rgba(255,255,255,0.6)',letterSpacing:2.5,textTransform:'uppercase'}}>🌾 Harvest Haven</div>
+                  <div style={{fontSize:9,fontWeight:900,color:'rgba(255,255,255,0.6)',letterSpacing:2.5,textTransform:'uppercase'}}>🌾 Harvest Haven · codAR</div>
                   <div style={{background:season.col,color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800,boxShadow:'0 2px 6px rgba(0,0,0,0.3)'}}>{season.emoji} {season.name}</div>
                   {loanDebt>0&&<div style={{background:'rgba(220,38,38,0.85)',backdropFilter:'blur(8px)',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800}}>⚠️ Loan</div>}
                 </div>
@@ -969,6 +981,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         {screen==='finance'&&<FinanceScreen G={G}/>}
         {screen==='chat'&&<ChatScreen G={G}/>}
         {screen==='garage'&&<GarageScreen G={G}/>}
+        {screen==='workers'&&<WorkersScreen G={G}/>}
         {screen==='visitstalls'&&<VisitStallsListScreen G={G}/>}
         {screen==='farmhouse'&&<FarmhouseScreen G={G}/>}
         {!ACTIVE.includes(screen)&&screen!=='home'&&<div style={{textAlign:'center',padding:'80px 30px'}}><div style={{fontSize:64,marginBottom:16}}>🚧</div><div style={{fontWeight:900,fontSize:18,color:'rgba(255,255,255,0.6)'}}>Coming Soon</div></div>}
@@ -1253,71 +1266,78 @@ function CraftingScreen({G}){
 }
 
 function TaskBoardScreen({G}){
-  const{tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,level,silo,minerals,friendship}=G;
+  const{tasks,canComplete,completeTask,setTasks,level,silo,minerals,craftInv,friendship,notify,T,earn,setXp,setPetInv,petInv}=G;
   const[tab,setTab]=useState('available');
-  const fmt=ms=>{const h=Math.floor(ms/3600000),m=Math.floor((ms%3600000)/60000);return h>0?`${h}h ${m}m`:`${m}m`;};
-  const TCard=({task,acc})=>{
-    const npc=NPCS[task.npcId],item=CROPS.find(c=>c.id===task.itemId)||MINERALS.find(m=>m.id===task.itemId);
-    const have=task.inv==='silo'?(silo[task.itemId]||0):(minerals[task.itemId]||0);
-    const ready=canComplete(task),fp=friendship[task.npcId]||0,fl=getFP(fp),isBF=fl.label==='Best Friend';
+  const available=tasks.filter(t=>!t.accepted&&t.expiresAt>Date.now());
+  const active=tasks.filter(t=>t.accepted&&t.expiresAt>Date.now());
+  const isBF=friendship>=100;
+
+  const quickComplete=task=>{
+    if(!canComplete(task)){notify('You do not have the required items!','orange');return;}
+    completeTask(task);
+  };
+
+  const acceptAndComplete=task=>{
+    if(canComplete(task)){
+      // Has items - complete immediately
+      completeTask(task);
+    } else {
+      // Accept for later
+      setTasks(ts=>ts.map(t=>t.id===task.id?{...t,accepted:true}:t));
+      notify(`Task accepted - gather the items then come back!`,'green');
+    }
+  };
+
+  const renderTask=(task,isActive)=>{
+    const npc=G.NPCS?.[task.npcId]||{name:'Farmer',emoji:'👨‍🌾',col:'#27ae60'};
+    const ready=canComplete(task);
+    const isBFBonus=isBF&&task.diff==='hard';
     return(
-      <Card style={acc&&ready?{border:'2px solid #27ae60'}:{}}>
-        <div style={{display:'flex',alignItems:'flex-start',gap:10,marginBottom:10}}>
-          <span style={{fontSize:34,flexShrink:0}}>{npc?.emoji}</span>
+      <Card key={task.id}>
+        <div style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:10}}>
+          <div style={{width:42,height:42,background:`${npc.col}22`,borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0,border:`1px solid ${npc.col}44`}}>{npc.emoji}</div>
           <div style={{flex:1}}>
-            <div style={{display:'flex',alignItems:'center',gap:6,flexWrap:'wrap',marginBottom:1}}>
-              <span style={{fontWeight:800,fontSize:14,color:'#111'}}>{npc?.name}</span>
-              <DiffBadge d={task.diff}/>
-              {isBF&&<span style={{background:'#8e44ad',color:'#fff',borderRadius:20,padding:'1px 7px',fontSize:9,fontWeight:800}}>BEST FRIEND +20%</span>}
+            <div style={{fontWeight:900,fontSize:14,color:'#111'}}>{npc.name}</div>
+            <div style={{fontSize:12,color:'#555',margin:'2px 0'}}>Needs: {task.qty}x {task.itemEmoji||''} {task.itemName||task.itemId}</div>
+            <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
+              <span style={{fontSize:12,fontWeight:800,color:'#f39c12'}}>🪙{isBFBonus?Math.round(task.coins*1.2):task.coins}</span>
+              <span style={{fontSize:11,color:'#888'}}>+{task.xp}XP</span>
+              {task.rfood>0&&<span style={{fontSize:11,color:'#e67e22'}}>🐾×{task.rfood}</span>}
+              <span style={{background:task.diff==='hard'?'#e74c3c':task.diff==='medium'?'#f39c12':'#27ae60',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800,textTransform:'uppercase'}}>{task.diff}</span>
+              {isBFBonus&&<span style={{fontSize:9,color:'#27ae60',fontWeight:800}}>🤝 BF +20%</span>}
             </div>
-            <div style={{fontSize:11,color:fl.col,fontWeight:700,marginBottom:2}}>{fl.label} ({fp}pts)</div>
-            <div style={{fontSize:11,fontStyle:'italic',color:'#777',marginBottom:2}}>"{npc?.lines[Math.min(Math.floor(fp/50),4)]}"</div>
           </div>
         </div>
-        <div style={{background:ready&&acc?'#f0fff4':'#f8f8f8',borderRadius:12,padding:'7px 12px',marginBottom:8,border:ready&&acc?'1px solid #c3e6cb':'none'}}>
-          <div style={{display:'flex',justifyContent:'space-between',fontSize:12}}>
-            <span style={{color:'#444'}}>Needs: <b>{item?.emoji} {item?.name}</b> x{task.qty}</span>
-            <span style={{color:have>=task.qty?'#27ae60':'#e74c3c',fontWeight:700}}>{have}/{task.qty}{have>=task.qty?' ✅':''}</span>
+        {isActive?(
+          <div style={{display:'flex',gap:6}}>
+            <Btn onClick={()=>setTasks(ts=>ts.map(t=>t.id===task.id?{...t,accepted:false}:t))} color='#aaa' style={{flex:1,padding:9,fontSize:12}}>Pass</Btn>
+            <Btn onClick={()=>quickComplete(task)} disabled={!ready} color='#27ae60' style={{flex:2,padding:9,fontSize:13}}>{ready?`Complete +🪙${isBFBonus?Math.round(task.coins*1.2):task.coins}`:'Need items'}</Btn>
           </div>
-        </div>
-        <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:8}}>
-          <div style={{fontSize:10,color:'#999'}}>{fmt(task.expiresAt-Date.now())} left</div>
-          <div style={{fontSize:11,fontWeight:700,color:'#b7800a'}}>🪙{isBF?Math.round(task.coins*1.2):task.coins} · {task.xp}XP{task.rfood?` · 🐾x${task.rfood}`:''}{ task.rtoy?` · 🪀x${task.rtoy}`:''}</div>
-        </div>
-        {!acc?<Btn onClick={()=>acceptTask(task.id)} style={{width:'100%',padding:9,fontSize:13}}>Accept Task</Btn>
-          :<div style={{display:'flex',gap:8}}>
-            <button onClick={()=>abandonTask(task.id)} style={{flex:1,background:'#f5f5f5',border:'1px solid #ddd',borderRadius:12,padding:8,fontSize:12,fontWeight:700,cursor:'pointer',color:'#666'}}>Abandon</button>
-            <Btn onClick={()=>completeTask(task)} disabled={!ready} color='#27ae60' style={{flex:2,padding:9,fontSize:12}}>{ready?`Complete +🪙${isBF?Math.round(task.coins*1.2):task.coins}`:'Gather Items'}</Btn>
-          </div>}
+        ):(
+          <Btn onClick={()=>acceptAndComplete(task)} color={ready?'#27ae60':'#2980b9'} style={{width:'100%',padding:10,fontSize:13}}>
+            {ready?`Complete Now +🪙${task.coins}`:'Accept Task'}
+          </Btn>
+        )}
       </Card>
     );
   };
+
   return(
     <div style={{padding:14}}>
-      <div style={{background:'linear-gradient(135deg,#6c3483,#8e44ad)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>TASK BOARD</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>📋 Village Requests</div>
-        <div style={{fontSize:12,opacity:.85}}>{availTasks.length} available · {activeTasks.length} accepted</div>
+      <div style={{background:'linear-gradient(135deg,#6c3483dd,#8e44adcc)',backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.15)'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Missions</div>
+        <div style={{fontSize:22,fontWeight:900,letterSpacing:-.3}}>📋 Task Board</div>
+        <div style={{fontSize:12,opacity:.75,marginTop:2}}>{active.length} active · {available.length} available · {isBF?'🤝 Best Friend bonus active!':'Friendship: '+friendship+'%'}</div>
       </div>
-      <TabRow tabs={[['available',`Available (${availTasks.length})`],['accepted',`Accepted (${activeTasks.length})`],['npcs','NPC Friends']]} active={tab} onSelect={setTab} ac='#8e44ad'/>
-      {tab==='available'&&<>
-        <button onClick={()=>setTasks(genTasks(level))} style={{width:'100%',background:'#f5f5f5',border:'1.5px solid #e0e0e0',borderRadius:12,padding:9,fontSize:12,fontWeight:700,cursor:'pointer',color:'#555',marginBottom:12}}>Refresh Tasks</button>
-        {availTasks.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:40}}>📭</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No tasks  -  tap Refresh</div></div>:availTasks.map(t=><TCard key={t.id} task={t} acc={false}/>)}
-      </>}
-      {tab==='accepted'&&(activeTasks.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}><div style={{fontSize:40}}>📝</div><div style={{fontWeight:700,color:'#888',marginTop:8}}>No accepted tasks</div></div>:activeTasks.map(t=><TCard key={t.id} task={t} acc={true}/>))}
-      {tab==='npcs'&&<div>{Object.entries(NPCS).map(([id,npc])=>{const fp=G.friendship[id]||0,fl=getFP(fp);return(
-        <Card key={id}>
-          <div style={{display:'flex',alignItems:'center',gap:12}}>
-            <span style={{fontSize:36}}>{npc.emoji}</span>
-            <div style={{flex:1}}>
-              <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{npc.name}</div>
-              <div style={{fontSize:12,color:fl.col,fontWeight:700,marginBottom:6}}>{fl.label}</div>
-              <div style={{height:6,background:'#eee',borderRadius:3,overflow:'hidden'}}><div style={{height:'100%',width:`${Math.min(100,(fp/300)*100)}%`,background:fl.col,borderRadius:3}}/></div>
-              <div style={{fontSize:10,color:'#999',marginTop:3}}>{fp}/300 pts</div>
-            </div>
-          </div>
-        </Card>
-      );})}</div>}
+      <TabRow tabs={[['available',`Available (${available.length})`],['active',`Active (${active.length})`]]} active={tab} onSelect={setTab} ac='#8e44ad'/>
+      {tab==='available'&&(available.length===0
+        ?<div style={{textAlign:'center',padding:30,color:'rgba(255,255,255,0.4)'}}><div style={{fontSize:48}}>📋</div><div style={{marginTop:8,fontWeight:700}}>No tasks right now</div><div style={{fontSize:12,marginTop:4,opacity:.6}}>Check back soon!</div></div>
+        :available.map(t=>renderTask(t,false))
+      )}
+      {tab==='active'&&(active.length===0
+        ?<div style={{textAlign:'center',padding:30,color:'rgba(255,255,255,0.4)'}}><div style={{fontSize:48}}>✅</div><div style={{marginTop:8,fontWeight:700}}>No active tasks</div><div style={{fontSize:12,marginTop:4,opacity:.6}}>Accept tasks from Available tab</div></div>
+        :active.map(t=>renderTask(t,true))
+      )}
     </div>
   );
 }
@@ -2113,10 +2133,14 @@ function FarmhouseScreen({G}){
       </>}
       {tab==='multiplayer'&&<>
         <div style={{background:'linear-gradient(135deg,#1a3a50,#2471a3)',borderRadius:20,padding:18,marginBottom:14,color:'#fff'}}>
-          <div style={{fontSize:11,opacity:.85,letterSpacing:1,marginBottom:4,fontWeight:700}}>YOUR WORLD CODE</div>
-          <div style={{fontSize:34,fontWeight:900,letterSpacing:4,margin:'5px 0'}}>{worldCode}</div>
-          <div style={{fontSize:11,opacity:.75,marginBottom:10}}>Share with friends to play together</div>
-          <button onClick={()=>notify(`World Code: ${worldCode}`,'blue')} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1.5px solid rgba(255,255,255,.4)',borderRadius:12,padding:'7px 16px',fontSize:13,fontWeight:700,cursor:'pointer'}}>Show Code</button>
+          <div style={{fontSize:11,opacity:.85,letterSpacing:1,marginBottom:4,fontWeight:700}}>GLOBAL COMMUNITY</div>
+          <div style={{fontSize:22,fontWeight:900,margin:'5px 0'}}>🌍 Harvest Haven World</div>
+          <div style={{fontSize:11,opacity:.75,marginBottom:10}}>All players are in one global world. Chat, trade and pool resources together!</div>
+          <div style={{background:'rgba(255,255,255,.1)',borderRadius:12,padding:'8px 14px',marginBottom:8}}>
+            <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,.9)'}}>Your Player ID:</div>
+            <div style={{fontSize:16,fontWeight:900,letterSpacing:1,margin:'3px 0'}}>{playerId}</div>
+          </div>
+          <button onClick={()=>{try{navigator.clipboard.writeText(playerId);}catch{}notify('Player ID copied!','green');}} style={{background:'rgba(255,255,255,.2)',color:'#fff',border:'1.5px solid rgba(255,255,255,.4)',borderRadius:12,padding:'7px 16px',fontSize:13,fontWeight:700,cursor:'pointer'}}>Copy Player ID</button>
         </div>
         <Card>
           <div style={{fontSize:12,fontWeight:800,color:'#333',marginBottom:8}}>Join a World</div>
@@ -2543,6 +2567,90 @@ function FishingScreen({G}){
   );
 }
 
+
+function WorkersScreen({G}){
+  const{coins,spend,earn,notify,level,T,upgrades,plantAll,harvestAll,waterAll,autoPlow,mine,collectAnimal,ownedAnimals}=G;
+  const[workers,setWorkers]=useState(()=>{try{const w=localStorage.getItem('hh_workers');return w?JSON.parse(w):[];}catch{return[];}});
+  const WORKER_TYPES=[
+    {id:'plower',name:'Field Hand',emoji:'👨‍🌾',desc:'Auto-plows and plants all fields every 5 min',cost:500,minLevel:1},
+    {id:'harvester',name:'Crop Harvester',emoji:'🌾',desc:'Auto-harvests all ready crops every 3 min',cost:800,minLevel:3},
+    {id:'miner',name:'Mine Operator',emoji:'⛏️',desc:'Mines automatically every 4 min',cost:1200,minLevel:5},
+    {id:'animal_keeper',name:'Animal Keeper',emoji:'🐄',desc:'Collects from all animals every 6 min',cost:1000,minLevel:3},
+    {id:'manager',name:'Farm Manager',emoji:'👔',desc:'Boosts all worker efficiency by 20%',cost:5000,minLevel:10},
+  ];
+  const hire=wt=>{
+    if(level<wt.minLevel){notify(`Need Level ${wt.minLevel}!`,'orange');return;}
+    if(coins<wt.cost){notify(`Need 🪙${wt.cost.toLocaleString()}!`,'orange');return;}
+    if(workers.find(w=>w.id===wt.id)){notify('Already hired!','orange');return;}
+    spend(wt.cost);
+    const nw=[...workers,{...wt,hiredAt:Date.now()}];
+    setWorkers(nw);localStorage.setItem('hh_workers',JSON.stringify(nw));
+    notify(`${wt.emoji} ${wt.name} hired!`,'green');
+  };
+  const fire=id=>{
+    const nw=workers.filter(w=>w.id!==id);
+    setWorkers(nw);localStorage.setItem('hh_workers',JSON.stringify(nw));
+    notify('Worker let go.','orange');
+  };
+  useEffect(()=>{
+    const hasManager=workers.some(w=>w.id==='manager');
+    const mult=hasManager?.8:1;
+    const intervals=workers.map(w=>{
+      if(w.id==='plower')return setInterval(()=>{autoPlow();plantAll();},300000*mult);
+      if(w.id==='harvester')return setInterval(()=>harvestAll(),180000*mult);
+      if(w.id==='miner')return setInterval(()=>mine(),240000*mult);
+      if(w.id==='animal_keeper')return setInterval(()=>{ANIMALS.filter(a=>(ownedAnimals[a.id]||0)>0).forEach(a=>collectAnimal(a));},360000*mult);
+      return null;
+    }).filter(Boolean);
+    return()=>intervals.forEach(clearInterval);
+  },[workers,ownedAnimals]);
+  const hasManager=workers.some(w=>w.id==='manager');
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#2c3e50dd,#34495ecc)',backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.1)'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Management</div>
+        <div style={{fontSize:22,fontWeight:900}}>👔 Farm Workers</div>
+        <div style={{fontSize:12,opacity:.7,marginTop:2}}>{workers.length} hired{hasManager?' · Manager on duty ✅':''}</div>
+      </div>
+      {workers.length>0&&<>
+        <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2,marginBottom:8,textTransform:'uppercase'}}>Your Team</div>
+        {workers.map(w=>(
+          <Card key={w.id}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:32}}>{w.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{w.name}</div>
+                <div style={{fontSize:11,color:'#666'}}>{w.desc}</div>
+              </div>
+              <button onClick={()=>fire(w.id)} style={{background:'#fee2e2',color:'#dc2626',border:'1px solid #fca5a5',borderRadius:10,padding:'6px 12px',fontSize:11,fontWeight:700,cursor:'pointer'}}>Fire</button>
+            </div>
+          </Card>
+        ))}
+        {hasManager&&<div style={{background:'rgba(39,174,96,0.15)',border:'1px solid rgba(39,174,96,0.3)',borderRadius:14,padding:'8px 14px',marginBottom:12,fontSize:12,color:'#27ae60',fontWeight:700}}>✅ Manager active — all workers 20% faster</div>}
+      </>}
+      <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2,marginBottom:8,textTransform:'uppercase'}}>Hire Workers</div>
+      {WORKER_TYPES.map(wt=>{
+        const hired=workers.find(w=>w.id===wt.id);
+        const locked=level<wt.minLevel;
+        return(
+          <Card key={wt.id} style={{opacity:locked?.5:1}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+              <div style={{fontSize:32}}>{wt.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{wt.name}</div>
+                <div style={{fontSize:11,color:'#666'}}>{wt.desc}</div>
+                <div style={{fontSize:11,color:'#f59e0b',fontWeight:700,marginTop:2}}>🪙{wt.cost.toLocaleString()} · Lv{wt.minLevel}+</div>
+              </div>
+            </div>
+            {hired?<div style={{background:'#f0fff4',borderRadius:10,padding:'7px 12px',fontSize:12,fontWeight:700,color:'#27ae60',textAlign:'center'}}>✅ Working on your farm</div>
+            :locked?<div style={{background:'#f5f5f5',borderRadius:10,padding:'7px 12px',fontSize:12,color:'#aaa',textAlign:'center'}}>🔒 Unlock at Level {wt.minLevel}</div>
+            :<Btn onClick={()=>hire(wt)} color='#2c3e50' style={{width:'100%',padding:10,fontSize:13}}>Hire 🪙{wt.cost.toLocaleString()}</Btn>}
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
 function AuthScreen({onLogin}){
   const[mode,setMode]=useState('login');
   const[email,setEmail]=useState('');
@@ -2585,7 +2693,7 @@ function AuthScreen({onLogin}){
         <div style={{textAlign:'center',marginBottom:28}}>
           <div style={{fontSize:60,marginBottom:8,filter:'drop-shadow(0 4px 12px rgba(0,0,0,0.4))'}}>🌾</div>
           <div style={{fontSize:28,fontWeight:900,color:'#fff',textShadow:'0 3px 12px rgba(0,0,0,0.5)',letterSpacing:-.5}}>Harvest Haven</div>
-          <div style={{fontSize:12,color:'rgba(255,255,255,0.55)',marginTop:4,fontWeight:600}}>Your farming adventure awaits!</div>
+          <div style={{fontSize:12,color:'rgba(255,255,255,0.55)',marginTop:4,fontWeight:600}}>Your farming adventure awaits! · by codAR</div>
         </div>
 
         <div style={{display:'flex',background:'rgba(0,0,0,0.25)',borderRadius:16,padding:3,marginBottom:22}}>
@@ -2620,7 +2728,7 @@ export default function Root(){
     const unsub=onAuthStateChanged(auth,u=>{setUser(u);setChecking(false);});
     return unsub;
   },[]);
-  if(checking)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#0f3321 100%)',fontFamily:'system-ui,sans-serif'}}><div style={{fontSize:64,marginBottom:16,filter:'drop-shadow(0 4px 16px rgba(0,0,0,0.4))'}}>🌾</div><div style={{fontSize:18,color:'#fff',fontWeight:900,letterSpacing:1,textShadow:'0 2px 8px rgba(0,0,0,0.4)'}}>Loading Harvest Haven...</div><div style={{width:120,height:4,background:'rgba(255,255,255,0.2)',borderRadius:20,marginTop:16,overflow:'hidden'}}><div style={{width:'60%',height:'100%',background:'#4ade80',borderRadius:20,animation:'none'}}/></div></div>;
+  if(checking)return<div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',height:'100vh',background:'linear-gradient(160deg,#1e4d2b 0%,#2d6e3e 40%,#0f3321 100%)',fontFamily:'system-ui,sans-serif'}}><div style={{fontSize:64,marginBottom:16,filter:'drop-shadow(0 4px 16px rgba(0,0,0,0.4))'}}>🌾</div><div style={{fontSize:18,color:'#fff',fontWeight:900,letterSpacing:1,textShadow:'0 2px 8px rgba(0,0,0,0.4)'}}>Loading Harvest Haven...</div><div style={{fontSize:10,color:'rgba(255,255,255,0.4)',marginTop:8,letterSpacing:1}}>by codAR</div><div style={{width:120,height:4,background:'rgba(255,255,255,0.2)',borderRadius:20,marginTop:16,overflow:'hidden'}}><div style={{width:'60%',height:'100%',background:'#4ade80',borderRadius:20,animation:'none'}}/></div></div>;
   if(!user)return<AuthScreen onLogin={setUser}/>;
   return<HarvestHaven user={user} onSignOut={()=>signOut(auth).then(()=>setUser(null))}/>;
 }
