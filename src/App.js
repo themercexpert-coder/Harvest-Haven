@@ -44,9 +44,59 @@ const THEMES=[
 ];
 const SEASONS=[{name:'Spring',emoji:'🌸',col:'#c2185b',boost:{wheat:1.1,tomato:1.2,strawberry:1.3,blueberry:1.2}},{name:'Summer',emoji:'☀️',col:'#f57c00',boost:{corn:1.2,pumpkin:1.1,blueberry:1.3,golden:1.1}},{name:'Autumn',emoji:'🍂',col:'#5d4037',boost:{pumpkin:1.4,wheat:1.2,carrot:1.3,corn:1.1}},{name:'Winter',emoji:'❄️',col:'#1565c0',boost:{golden:1.5,carrot:1.2}}];
 // All crops max 5 minutes
-const CROPS=[{id:'wheat',name:'Wheat',emoji:'🌾',cost:10,base:25,xp:5,grow:30},{id:'corn',name:'Corn',emoji:'🌽',cost:15,base:38,xp:8,grow:45},{id:'tomato',name:'Tomato',emoji:'🍅',cost:20,base:52,xp:10,grow:60},{id:'strawberry',name:'Strawberry',emoji:'🍓',cost:25,base:68,xp:13,grow:90},{id:'carrot',name:'Carrot',emoji:'🥕',cost:18,base:46,xp:9,grow:45},{id:'pumpkin',name:'Pumpkin',emoji:'🎃',cost:30,base:80,xp:15,grow:120},{id:'blueberry',name:'Blueberry',emoji:'🫐',cost:35,base:95,xp:18,grow:180},{id:'golden',name:'Golden Grain',emoji:'✨',cost:100,base:300,xp:50,grow:300}];
+const CROPS=[
+  // Tier 1 - Starter (Level 1)
+  {id:'wheat',name:'Wheat',emoji:'🌾',cost:10,base:25,xp:5,grow:30,tier:1,ml:1},
+  {id:'corn',name:'Corn',emoji:'🌽',cost:15,base:38,xp:8,grow:45,tier:1,ml:1},
+  {id:'carrot',name:'Carrot',emoji:'🥕',cost:18,base:46,xp:9,grow:45,tier:1,ml:1},
+  {id:'tomato',name:'Tomato',emoji:'🍅',cost:20,base:52,xp:10,grow:60,tier:1,ml:1},
+  // Tier 2 - Basic (Level 3)
+  {id:'strawberry',name:'Strawberry',emoji:'🍓',cost:25,base:68,xp:13,grow:90,tier:2,ml:3},
+  {id:'pumpkin',name:'Pumpkin',emoji:'🎃',cost:30,base:80,xp:15,grow:120,tier:2,ml:3},
+  {id:'sunflower',name:'Sunflower',emoji:'🌻',cost:28,base:74,xp:14,grow:100,tier:2,ml:3},
+  {id:'pepper',name:'Pepper',emoji:'🫑',cost:22,base:58,xp:11,grow:65,tier:2,ml:3},
+  // Tier 3 - Intermediate (Level 5)
+  {id:'blueberry',name:'Blueberry',emoji:'🫐',cost:35,base:95,xp:18,grow:180,tier:3,ml:5},
+  {id:'watermelon',name:'Watermelon',emoji:'🍉',cost:40,base:105,xp:20,grow:200,tier:3,ml:5},
+  {id:'grape',name:'Grapes',emoji:'🍇',cost:45,base:118,xp:22,grow:220,tier:3,ml:5},
+  {id:'lavender',name:'Lavender',emoji:'💜',cost:32,base:85,xp:16,grow:130,tier:3,ml:5},
+  // Tier 4 - Advanced (Level 8)
+  {id:'sugarcane',name:'Sugarcane',emoji:'🎋',cost:55,base:145,xp:26,grow:260,tier:4,ml:8},
+  {id:'cotton',name:'Cotton',emoji:'🌿',cost:60,base:155,xp:28,grow:280,tier:4,ml:8},
+  {id:'mushroom',name:'Mushroom',emoji:'🍄',cost:50,base:130,xp:24,grow:240,tier:4,ml:8},
+  {id:'chili',name:'Chili',emoji:'🌶️',cost:48,base:125,xp:23,grow:230,tier:4,ml:8},
+  // Tier 5 - Expert (Level 12)
+  {id:'coffee',name:'Coffee Bean',emoji:'☕',cost:80,base:200,xp:35,grow:320,tier:5,ml:12},
+  {id:'cocoa',name:'Cocoa',emoji:'🍫',cost:85,base:210,xp:37,grow:340,tier:5,ml:12},
+  {id:'olive',name:'Olive',emoji:'🫒',cost:90,base:220,xp:40,grow:360,tier:5,ml:12},
+  {id:'vanilla',name:'Vanilla',emoji:'🌸',cost:95,base:240,xp:42,grow:400,tier:5,ml:12},
+  // Tier 6 - Master (Level 18)
+  {id:'truffle',name:'Truffle',emoji:'🍄',cost:150,base:380,xp:65,grow:480,tier:6,ml:18},
+  {id:'saffron',name:'Saffron',emoji:'🌺',cost:180,base:450,xp:75,grow:520,tier:6,ml:18},
+  {id:'dragonroot',name:'Dragon Root',emoji:'🐉',cost:200,base:500,xp:80,grow:560,tier:6,ml:18},
+  // Tier 7 - Legendary (Level 25)
+  {id:'golden',name:'Golden Grain',emoji:'✨',cost:300,base:800,xp:120,grow:600,tier:7,ml:25},
+  {id:'moonflower',name:'Moonflower',emoji:'🌙',cost:500,base:1500,xp:200,grow:800,tier:7,ml:30},
+  {id:'starcrop',name:'Star Crop',emoji:'⭐',cost:1000,base:3000,xp:400,grow:1200,tier:7,ml:40},
+];
 const ANIMALS=[{id:'cow',emoji:'🐄',name:'Cow',product:'Milk',pe:'🥛',value:40,ml:1,meat:'Beef',me:'🥩',ms:80,mv:120,buyCost:300,feedItem:'wheat',feedEmoji:'🌾'},{id:'chicken',emoji:'🐔',name:'Chicken',product:'Eggs',pe:'🥚',value:25,ml:1,meat:'Chicken',me:'🍗',ms:40,mv:60,buyCost:150,feedItem:'corn',feedEmoji:'🌽'},{id:'sheep',emoji:'🐑',name:'Sheep',product:'Wool',pe:'🧶',value:55,ml:5,meat:'Lamb',me:'🍖',ms:60,mv:90,buyCost:350,feedItem:'carrot',feedEmoji:'🥕'},{id:'goat',emoji:'🐐',name:'Goat',product:'Goat Milk',pe:'🥛',value:35,ml:8,meat:'Goat Meat',me:'🍖',ms:55,mv:80,buyCost:280,feedItem:'wheat',feedEmoji:'🌾'},{id:'horse',emoji:'🐎',name:'Horse',product:'Stamina',pe:'⚡',value:0,ml:10,meat:null,me:null,ms:0,mv:0,buyCost:800,feedItem:'carrot',feedEmoji:'🥕'},{id:'duck',emoji:'🦆',name:'Duck',product:'Feathers',pe:'🪶',value:30,ml:12,meat:'Duck Meat',me:'🍗',ms:45,mv:70,buyCost:220,feedItem:'corn',feedEmoji:'🌽'},{id:'rabbit',emoji:'🐇',name:'Rabbit',product:'Lucky Drops',pe:'🍀',value:45,ml:15,meat:'Rabbit Meat',me:'🍖',ms:35,mv:55,buyCost:200,feedItem:'carrot',feedEmoji:'🥕'},{id:'camel',emoji:'🐪',name:'Camel',product:'Camel Milk',pe:'🥛',value:55,ml:8,meat:null,me:null,ms:0,mv:0,buyCost:400,feedItem:'pumpkin',feedEmoji:'🎃'},{id:'bee',emoji:'🐝',name:'Bee Hive',product:'Honey',pe:'🍯',value:35,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:180,feedItem:'sunflower',feedEmoji:'🌻'},{id:'turkey',emoji:'🦃',name:'Turkey',product:'Turkey Egg',pe:'🥚',value:22,ml:10,meat:'Turkey Meat',me:'🍗',ms:50,mv:85,buyCost:200,feedItem:'corn',feedEmoji:'🌽'},{id:'alpaca',emoji:'🦙',name:'Alpaca',product:'Alpaca Wool',pe:'🧶',value:45,ml:5,meat:null,me:null,ms:0,mv:0,buyCost:280,feedItem:'wheat',feedEmoji:'🌾'}];
-const MINERALS=[{id:'coal',name:'Coal',emoji:'⚫',r:.35,v:30,xp:5},{id:'iron',name:'Iron',emoji:'🪨',r:.28,v:55,xp:8},{id:'copper',name:'Copper',emoji:'🔵',r:.18,v:80,xp:12},{id:'silver',name:'Silver',emoji:'🪙',r:.10,v:150,xp:18},{id:'goldore',name:'Gold Ore',emoji:'🟡',r:.06,v:300,xp:25},{id:'diamond',name:'Diamond',emoji:'💎',r:.02,v:800,xp:50},{id:'emerald',name:'Emerald',emoji:'🟢',r:.01,v:1200,xp:80}];
+const MINERALS=[
+  {id:'coal',name:'Coal',emoji:'⚫',r:.35,v:30,xp:5,ml:1},
+  {id:'copper',name:'Copper',emoji:'🔶',r:.28,v:55,xp:8,ml:1},
+  {id:'iron',name:'Iron',emoji:'🪨',r:.22,v:80,xp:12,ml:1},
+  {id:'silver',name:'Silver',emoji:'🪙',r:.15,v:150,xp:18,ml:3},
+  {id:'goldore',name:'Gold Ore',emoji:'🟡',r:.10,v:300,xp:25,ml:5},
+  {id:'diamond',name:'Diamond',emoji:'💎',r:.05,v:800,xp:50,ml:7},
+  {id:'emerald',name:'Emerald',emoji:'🟢',r:.03,v:1200,xp:70,ml:8},
+  {id:'ruby',name:'Ruby',emoji:'🔴',r:.025,v:1800,xp:90,ml:10},
+  {id:'sapphire',name:'Sapphire',emoji:'🔷',r:.02,v:2200,xp:110,ml:12},
+  {id:'titanium',name:'Titanium',emoji:'⚙️',r:.015,v:2800,xp:130,ml:14},
+  {id:'crystal',name:'Crystal',emoji:'🔮',r:.01,v:3500,xp:150,ml:16},
+  {id:'mythril',name:'Mythril',emoji:'🌀',r:.007,v:5000,xp:180,ml:20},
+  {id:'opal',name:'Opal',emoji:'🌈',r:.004,v:7000,xp:220,ml:25},
+  {id:'stardust',name:'Stardust',emoji:'✨',r:.002,v:12000,xp:300,ml:30},
+  {id:'voidstone',name:'Void Stone',emoji:'🕳️',r:.001,v:25000,xp:500,ml:40},
+];
 
 // ─── FISHING ──────────────────────────────────────────────────────────────
 const BAITS=[
@@ -158,24 +208,47 @@ const MARKET_ITEMS=[{emoji:'🌾',name:'Wheat',price:45,trend:'+5%',up:true},{em
 const STALL_THEMES=[{id:'green',label:'Forest Fresh',color:'#1a6b2a'},{id:'gold',label:'Golden Harvest',color:'#b7800a'},{id:'rose',label:'Rose Garden',color:'#b5174f'},{id:'blue',label:'Cool Morning',color:'#1a5276'},{id:'purple',label:'Lavender Dream',color:'#6c3483'},{id:'dark',label:'Midnight Farm',color:'#212f3c'}];
 const LAND_PRICES=[300,800,1800,3500,7000,14000,28000];
 const LONG_GOALS=[
+  // Level milestones
   {id:'g1',name:'First Steps',emoji:'👣',desc:'Reach Level 5',key:'level',target:5,reward:500},
-  {id:'g2',name:'Seasoned Farmer',emoji:'🌾',desc:'Reach Level 10',key:'level',target:10,reward:1500},
-  {id:'g3',name:'Master Farmer',emoji:'👨‍🌾',desc:'Reach Level 20',key:'level',target:20,reward:5000},
-  {id:'g4',name:'Legend',emoji:'🏆',desc:'Reach Level 50',key:'level',target:50,reward:20000},
-  {id:'g5',name:'First Sale',emoji:'🪙',desc:'Earn 1,000 coins total',key:'totalEarned',target:1000,reward:200},
-  {id:'g6',name:'Merchant',emoji:'💰',desc:'Earn 50,000 coins total',key:'totalEarned',target:50000,reward:2000},
-  {id:'g7',name:'Tycoon',emoji:'🏦',desc:'Earn 500,000 coins total',key:'totalEarned',target:500000,reward:15000},
-  {id:'g8',name:'Billionaire',emoji:'💎',desc:'Earn 5,000,000 coins',key:'totalEarned',target:5000000,reward:100000},
-  {id:'g9',name:'Hard Worker',emoji:'💪',desc:'Complete 10 hard tasks',key:'hardTasks',target:10,reward:800},
-  {id:'g10',name:'Task Champion',emoji:'📋',desc:'Complete 100 hard tasks',key:'hardTasks',target:100,reward:8000},
-  {id:'g11',name:'Prospector',emoji:'⛏️',desc:'Mine 50 minerals',key:'minedTotal',target:50,reward:500},
-  {id:'g12',name:'Mine Baron',emoji:'💎',desc:'Mine 1,000 minerals',key:'minedTotal',target:1000,reward:5000},
-  {id:'g13',name:'Deep Miner',emoji:'🕳️',desc:'Mine 10,000 minerals',key:'minedTotal',target:10000,reward:25000},
-  {id:'g14',name:'Golden Touch',emoji:'✨',desc:'Harvest 20 Golden Grain',key:'goldenHarv',target:20,reward:1000},
-  {id:'g15',name:'Golden Master',emoji:'👑',desc:'Harvest 500 Golden Grain',key:'goldenHarv',target:500,reward:15000},
-  {id:'g16',name:'Animal Lover',emoji:'🐄',desc:'Own 3 animal types',key:'animalTypes',target:3,reward:600},
-  {id:'g17',name:'Rancher',emoji:'🐎',desc:'Own 7 animal types',key:'animalTypes',target:7,reward:3000},
-  {id:'g18',name:'Zoo Owner',emoji:'🦒',desc:'Own all 11 animal types',key:'animalTypes',target:11,reward:10000},
+  {id:'g2',name:'Farmer',emoji:'🌾',desc:'Reach Level 10',key:'level',target:10,reward:1500},
+  {id:'g3',name:'Expert Farmer',emoji:'👨‍🌾',desc:'Reach Level 20',key:'level',target:20,reward:5000},
+  {id:'g4',name:'Master Farmer',emoji:'🏆',desc:'Reach Level 35',key:'level',target:35,reward:12000},
+  {id:'g5',name:'Legend',emoji:'👑',desc:'Reach Level 50',key:'level',target:50,reward:30000},
+  {id:'g6',name:'Grand Master',emoji:'💫',desc:'Reach Level 75',key:'level',target:75,reward:80000},
+  {id:'g7',name:'Immortal Farmer',emoji:'🌟',desc:'Reach Level 100',key:'level',target:100,reward:250000},
+  // Wealth milestones
+  {id:'g8',name:'First Sale',emoji:'🪙',desc:'Earn 1,000 coins',key:'totalEarned',target:1000,reward:200},
+  {id:'g9',name:'Merchant',emoji:'💰',desc:'Earn 50,000 coins',key:'totalEarned',target:50000,reward:2000},
+  {id:'g10',name:'Tycoon',emoji:'🏦',desc:'Earn 500,000 coins',key:'totalEarned',target:500000,reward:15000},
+  {id:'g11',name:'Millionaire',emoji:'💎',desc:'Earn 1,000,000 coins',key:'totalEarned',target:1000000,reward:50000},
+  {id:'g12',name:'Billionaire',emoji:'🌍',desc:'Earn 10,000,000 coins',key:'totalEarned',target:10000000,reward:200000},
+  {id:'g13',name:'Quadrillionaire',emoji:'🚀',desc:'Earn 1,000,000,000 coins',key:'totalEarned',target:1000000000,reward:5000000},
+  // Farming milestones
+  {id:'g14',name:'First Harvest',emoji:'🌱',desc:'Harvest 100 crops',key:'totalHarv',target:100,reward:300},
+  {id:'g15',name:'Harvest Hero',emoji:'🌾',desc:'Harvest 10,000 crops',key:'totalHarv',target:10000,reward:5000},
+  {id:'g16',name:'Harvest God',emoji:'⚡',desc:'Harvest 1,000,000 crops',key:'totalHarv',target:1000000,reward:100000},
+  {id:'g17',name:'Golden Touch',emoji:'✨',desc:'Harvest 50 Golden Grain',key:'goldenHarv',target:50,reward:2000},
+  {id:'g18',name:'Golden Master',emoji:'👑',desc:'Harvest 1,000 Golden Grain',key:'goldenHarv',target:1000,reward:30000},
+  {id:'g19',name:'Star Farmer',emoji:'⭐',desc:'Harvest 100 Star Crops',key:'goldenHarv',target:100,reward:500000},
+  // Mining milestones
+  {id:'g20',name:'Digger',emoji:'⛏️',desc:'Mine 100 minerals',key:'minedTotal',target:100,reward:500},
+  {id:'g21',name:'Miner',emoji:'🪨',desc:'Mine 1,000 minerals',key:'minedTotal',target:1000,reward:5000},
+  {id:'g22',name:'Mine Baron',emoji:'💎',desc:'Mine 10,000 minerals',key:'minedTotal',target:10000,reward:25000},
+  {id:'g23',name:'Deep Earth Lord',emoji:'🕳️',desc:'Mine 100,000 minerals',key:'minedTotal',target:100000,reward:200000},
+  {id:'g24',name:'Void Miner',emoji:'🌀',desc:'Mine 1,000,000 minerals',key:'minedTotal',target:1000000,reward:2000000},
+  // Animals milestones
+  {id:'g25',name:'Animal Lover',emoji:'🐄',desc:'Own 3 animal types',key:'animalTypes',target:3,reward:600},
+  {id:'g26',name:'Rancher',emoji:'🐎',desc:'Own 7 animal types',key:'animalTypes',target:7,reward:3000},
+  {id:'g27',name:'Zoo Owner',emoji:'🦒',desc:'Own all 11 animal types',key:'animalTypes',target:11,reward:10000},
+  // Tasks milestones
+  {id:'g28',name:'Helper',emoji:'🤝',desc:'Complete 10 hard tasks',key:'hardTasks',target:10,reward:800},
+  {id:'g29',name:'Task Champion',emoji:'📋',desc:'Complete 100 hard tasks',key:'hardTasks',target:100,reward:8000},
+  {id:'g30',name:'Task Legend',emoji:'🏆',desc:'Complete 1,000 hard tasks',key:'hardTasks',target:1000,reward:100000},
+  // Fishing milestones
+  {id:'g31',name:'First Cast',emoji:'🎣',desc:'Catch 10 fish',key:'totalFishCaught',target:10,reward:300},
+  {id:'g32',name:'Angler',emoji:'🐟',desc:'Catch 500 fish',key:'totalFishCaught',target:500,reward:3000},
+  {id:'g33',name:'Master Angler',emoji:'🦈',desc:'Catch 5,000 fish',key:'totalFishCaught',target:5000,reward:30000},
+  {id:'g34',name:'Sea Legend',emoji:'🌊',desc:'Catch 50,000 fish',key:'totalFishCaught',target:50000,reward:300000},
 ];
 const MACH_DEF={
   plow:{id:'plow',name:'Plow Tractor',emoji:'🚜',desc:'Automatically plows empty tiles each cycle',cost:800,tiers:[{t:1,s:30,f:2,l:'Mk1'},{t:2,s:24,f:2.5,l:'Mk2'},{t:4,s:18,f:3,l:'Mk3'},{t:8,s:12,f:3.5,l:'Mk4'},{t:16,s:7,f:4,l:'Mk5'}],upg:[0,600,1400,3000,6000]},
@@ -209,7 +282,14 @@ const MENU_DEF=[
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
 const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage','workers'];
-const xpFor=l=>l*100;
+const xpFor=l=>{
+  // Scales up - never truly maxes out
+  if(l<10)return l*100;
+  if(l<25)return l*150;
+  if(l<50)return l*250;
+  if(l<100)return l*500;
+  return l*1000; // 100+ - very long grind
+};
 const todayStr=()=>new Date().toISOString().split('T')[0];
 const genTasks=lvl=>{
   const lvScale=Math.max(1,Math.floor(lvl/5));
@@ -335,7 +415,12 @@ function HarvestHaven({user,onSignOut}){
   const minCount=Object.values(minerals).reduce((a,b)=>a+b,0);
   const activeTasks=tasks.filter(t=>t.accepted&&t.expiresAt>Date.now());
   const availTasks=tasks.filter(t=>!t.accepted&&t.expiresAt>Date.now());
-  const cropPrice=crop=>Math.round(crop.base*(season.boost[crop.id]||1)*siloMult);
+  const cropPrice=crop=>{
+  const base=crop.base||25;
+  const seasonal=season.boost?.[crop.id]||1;
+  const tierBonus=crop.tier>=7?1.5:crop.tier>=6?1.3:crop.tier>=5?1.1:1;
+  return Math.round(base*seasonal*siloMult*tierBonus);
+};
   const friendBonus=Math.min(friendStreak*.05,.5);
 
   useEffect(()=>{loanRef.current=loanDebt;},[loanDebt]);
@@ -383,10 +468,11 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     if(xp>0&&xp>=xpFor(level)){
       const newLevel=level+1;
       setLevel(newLevel);
-      const coinReward=newLevel*100;
+      const coinReward=newLevel*200;
       earn(coinReward);
       if(newLevel>=5)setPetInv(p=>({...p,petFood:p.petFood+2}));
-      notify(`🎉 Level ${newLevel}! +🪙${coinReward}`,'gold');
+      if(newLevel%10===0)setPetInv(p=>({...p,toys:p.toys+1})); // bonus every 10 levels
+      notify(`🎉 Level ${newLevel}! +🪙${coinReward.toLocaleString()}`,'gold');
       if(db){const evId=`lvl_${Date.now()}_${playerId}`;set(ref(db,`globalevents/${evId}`),{type:'level_up',farm:farmName,level:newLevel,time:Date.now()}).catch(()=>{});}
     }
   },[xp]);
@@ -1419,143 +1505,82 @@ function CollectionsScreen({G}){
 }
 
 function GoalsScreen({G}){
-  const{level,totalEarned,hardTasks,minedTotal,goldenHarv,animalTypes,earn,setXp,notify,T}=G;
-  const[claimed,setClaimed]=useState([]);
-  const getP=g=>{if(g.key==='level')return level;if(g.key==='totalEarned')return totalEarned;if(g.key==='hardTasks')return hardTasks;if(g.key==='minedTotal')return minedTotal;if(g.key==='goldenHarv')return goldenHarv;if(g.key==='animalTypes')return animalTypes.size;return 0;};
-  return(
-    <div style={{padding:14}}>
-      <div style={{background:'linear-gradient(135deg,#b7800a,#d4a017)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>LONG-TERM GOALS</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🏆 Big Milestones</div>
-      </div>
-      {LONG_GOALS.map(g=>{const prog=getP(g),done=prog>=g.target,cl=claimed.includes(g.id),pct=Math.min(100,(prog/g.target)*100);return(
-        <Card key={g.id} style={done?{border:'2px solid #27ae60'}:{}}>
-          <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:8}}>
-            <span style={{fontSize:34}}>{g.emoji}</span>
-            <div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{g.name}</div><div style={{fontSize:11,color:'#777'}}>{g.desc}</div></div>
-            <div style={{textAlign:'right',flexShrink:0}}><div style={{fontWeight:800,color:'#b7800a',fontSize:13}}>🪙{g.reward.toLocaleString()}</div></div>
-          </div>
-          <div style={{height:7,background:'#eee',borderRadius:4,overflow:'hidden',marginBottom:6}}><div style={{height:'100%',width:`${pct}%`,background:done?'#27ae60':T.primary,borderRadius:4}}/></div>
-          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
-            <div style={{fontSize:11,color:'#888'}}>{prog.toLocaleString()}/{g.target.toLocaleString()}</div>
-            {done&&!cl?<Btn onClick={()=>{earn(g.reward);setXp(x=>x+200);setClaimed(c=>[...c,g.id]);notify(`Goal done! +🪙${g.reward}`,'gold');}} style={{fontSize:12,padding:'5px 13px'}}>Claim!</Btn>:cl?<span style={{fontSize:12,fontWeight:700,color:'#27ae60'}}>Claimed</span>:<span style={{fontSize:12,color:'#aaa'}}>{Math.round(pct)}%</span>}
-          </div>
-        </Card>
-      );})}
-    </div>
-  );
-}
+  const{T,level,totalEarned,hardTasks,goldenHarv,animalTypes,totalHarv,minedTotal,totalFishCaught,earn,setXp,notify,collected}=G;
+  const[claimed,setClaimed]=useState(()=>{try{return JSON.parse(localStorage.getItem('hh_goals_claimed')||'[]');}catch{return[];}});
+  const vals={level,totalEarned,hardTasks,goldenHarv,animalTypes:animalTypes?.size||0,totalHarv:totalHarv||0,minedTotal:minedTotal||0,totalFishCaught:totalFishCaught||0};
 
-function AnimalsScreen({G}){
-  const{level,animalCd,collectAnimal,ownedAnimals,buyAnimal,coins,notify,silo,T,animalLevels,animalXp,setSilo}=G;
-  const[tab,setTab]=useState('owned');
-  const maxOwn=level;
-  const totalOwned=Object.values(ownedAnimals||{}).reduce((a,b)=>a+(b||0),0);
-  const feedAnimal=(a)=>{
-    if((silo[a.feedItem]||0)<1){notify(`Need 1x ${a.feedEmoji} to feed ${a.name}!`,'orange');return;}
-    G.setSilo(s=>({...s,[a.feedItem]:(s[a.feedItem]||0)-1}));
-    collectAnimal(a);
-    notify(`Fed ${a.emoji} ${a.name}! +🪙${a.value}`,'gold');
+  const claimGoal=(g)=>{
+    earn(g.reward);
+    setXp(x=>x+Math.floor(g.reward/10));
+    const nc=[...claimed,g.id];
+    setClaimed(nc);
+    localStorage.setItem('hh_goals_claimed',JSON.stringify(nc));
+    notify(`🏆 ${g.name} complete! +🪙${g.reward.toLocaleString()}`,'gold');
   };
+
+  const completed=LONG_GOALS.filter(g=>(vals[g.key]||0)>=g.target);
+  const inProgress=LONG_GOALS.filter(g=>(vals[g.key]||0)<g.target);
+  const unclaimed=completed.filter(g=>!claimed.includes(g.id));
+
   return(
     <div style={{padding:14}}>
-      <div style={{background:`linear-gradient(135deg,#27ae60,#2ecc71)`,borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
-        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>LIVESTOCK</div>
-        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🐄 Animals</div>
-        <div style={{fontSize:12,opacity:.85}}>{totalOwned}/{maxOwn} animals · Feed hourly for rewards</div>
+      <div style={{background:'linear-gradient(135deg,#f39c12dd,#e67e22cc)',backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.15)'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Achievements</div>
+        <div style={{fontSize:22,fontWeight:900,letterSpacing:-.3}}>🏆 Long-Term Goals</div>
+        <div style={{fontSize:12,opacity:.75,marginTop:2}}>{completed.length}/{LONG_GOALS.length} complete · {unclaimed.length} to claim</div>
       </div>
-      <TabRow tabs={[['owned','My Animals'],['buy','Buy Animals']]} active={tab} onSelect={setTab} ac='#27ae60'/>
-      {tab==='owned'&&<>
-        {totalOwned===0?<div style={{textAlign:'center',padding:30,color:'#aaa'}}><div style={{fontSize:48}}>🐄</div><div style={{fontWeight:700,marginTop:8}}>No animals yet</div><div style={{fontSize:12,marginTop:4}}>Buy some animals to start earning!</div></div>
-        :ANIMALS.filter(a=>(ownedAnimals[a.id]||0)>0).map(a=>{
-          const qty=ownedAnimals[a.id]||0;
-          const cd=animalCd[a.id];
-          const canFeed=(silo[a.feedItem]||0)>=1;
-          return(
-            <Card key={a.id}>
-              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
-                <div style={{fontSize:36}}>{a.emoji}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontWeight:800,fontSize:15}}>{a.name} <span style={{fontSize:12,color:'#888'}}>×{qty}</span></div>
-                  <div style={{fontSize:12,color:'#888'}}>{a.pe} {a.product} · 🪙{a.value} per collect</div>
-                  <div style={{fontSize:11,color:'#888',marginTop:2}}>Feed: {a.feedEmoji} · Avg Lv{Math.round(((animalLevels[a.id]||[1]).reduce((s,l)=>s+l,0))/Math.max(1,(animalLevels[a.id]||[1]).length))}</div>
-                </div>
-                <div style={{textAlign:'center'}}>
-                  <div style={{fontSize:11,color:cd?'#e67e22':'#27ae60',fontWeight:700}}>{cd?'⏳ Resting':'✅ Ready'}</div>
-                </div>
+      {unclaimed.length>0&&<>
+        <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.6)',letterSpacing:2,marginBottom:8,textTransform:'uppercase'}}>Ready to Claim!</div>
+        {unclaimed.map(g=>(
+          <Card key={g.id} style={{border:'2px solid #f39c12'}}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+              <div style={{fontSize:32}}>{g.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:900,fontSize:15}}>{g.name}</div>
+                <div style={{fontSize:12,color:'#666'}}>{g.desc}</div>
               </div>
-              <div style={{display:'flex',gap:6}}>
-                <Btn onClick={()=>feedAnimal(a)} disabled={!!cd||!canFeed} color='#e67e22' style={{flex:1,padding:9,fontSize:12}}>
-                  {cd?'Resting...':canFeed?`Feed ${a.feedEmoji}`:`Need ${a.feedEmoji}`}
-                </Btn>
-                <Btn onClick={()=>collectAnimal(a)} disabled={!!cd} color='#27ae60' style={{flex:1,padding:9,fontSize:12}}>
-                  {cd?'⏳':'Collect'}
-                </Btn>
-              </div>
-            </Card>
-          );
-        })}
+              <div style={{fontWeight:900,color:'#f39c12',fontSize:14}}>🪙{g.reward.toLocaleString()}</div>
+            </div>
+            <Btn onClick={()=>claimGoal(g)} color='#f39c12' style={{width:'100%',padding:10,fontSize:13}}>Claim Reward!</Btn>
+          </Card>
+        ))}
       </>}
-      {tab==='buy'&&<>
-        <div style={{background:'#fffbea',borderRadius:12,padding:10,marginBottom:12,fontSize:12,color:'#b7800a',fontWeight:600}}>
-          You can own {maxOwn} animals total (increases with level). Currently {totalOwned}/{maxOwn}.
-        </div>
-        {ANIMALS.map(a=>{
-          const ok=level>=a.ml;
-          const owned=ownedAnimals[a.id]||0;
-          const full=totalOwned>=maxOwn;
-          return(
-            <Card key={a.id} style={{opacity:ok?1:.5}}>
-              <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
-                <div style={{fontSize:36}}>{a.emoji}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontWeight:800,fontSize:14}}>{a.name}</div>
-                  <div style={{fontSize:11,color:'#888'}}>{a.pe} {a.product} · Feed: {a.feedEmoji}</div>
-                  <div style={{fontSize:11,color:'#b7800a',fontWeight:700}}>🪙{a.buyCost||300} · Lv{a.ml}+</div>
-                </div>
-                <div style={{textAlign:'center'}}>
-                  <div style={{fontSize:13,fontWeight:800,color:T.primary}}>×{owned}</div>
-                  <div style={{fontSize:10,color:'#aaa'}}>owned</div>
-                </div>
+      <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2,marginBottom:8,textTransform:'uppercase',marginTop:unclaimed.length?12:0}}>In Progress</div>
+      {inProgress.map(g=>{
+        const cur=vals[g.key]||0;
+        const pct=Math.min(100,(cur/g.target)*100);
+        return(
+          <Card key={g.id}>
+            <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+              <div style={{fontSize:28}}>{g.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:14}}>{g.name}</div>
+                <div style={{fontSize:11,color:'#666'}}>{g.desc}</div>
               </div>
-              {ok
-                ?<Btn onClick={()=>buyAnimal(a)} disabled={!ok||coins<(a.buyCost||300)||full} color='#27ae60' style={{width:'100%',padding:9,fontSize:12}}>
-                  {full?`Full (Lv${totalOwned+1} to expand)`:coins<(a.buyCost||300)?'Need 🪙':`Buy 🪙${(a.buyCost||300).toLocaleString()}`}
-                </Btn>
-                :<div style={{background:'#f5f5f5',borderRadius:10,padding:8,textAlign:'center',fontSize:12,color:'#aaa'}}>🔒 Unlock at Level {a.ml}</div>
-              }
-            </Card>
-          );
-        })}
+              <div style={{fontWeight:800,color:'#f39c12',fontSize:12}}>🪙{g.reward.toLocaleString()}</div>
+            </div>
+            <div style={{background:'rgba(0,0,0,0.07)',borderRadius:20,height:7,marginBottom:4}}>
+              <div style={{background:T.primary,height:7,borderRadius:20,width:`${pct}%`,transition:'width .5s',boxShadow:`0 0 6px ${T.primary}66`}}/>
+            </div>
+            <div style={{fontSize:10,color:'#888',display:'flex',justifyContent:'space-between'}}>
+              <span>{cur.toLocaleString()} / {g.target.toLocaleString()}</span>
+              <span>{pct.toFixed(1)}%</span>
+            </div>
+          </Card>
+        );
+      })}
+      {completed.filter(g=>claimed.includes(g.id)).length>0&&<>
+        <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.35)',letterSpacing:2,marginBottom:8,textTransform:'uppercase',marginTop:12}}>Completed</div>
+        {completed.filter(g=>claimed.includes(g.id)).map(g=>(
+          <Card key={g.id} style={{opacity:.5}}>
+            <div style={{display:'flex',alignItems:'center',gap:10}}>
+              <div style={{fontSize:24}}>{g.emoji}</div>
+              <div style={{flex:1,fontSize:13,fontWeight:700,color:'#444'}}>{g.name}</div>
+              <div style={{fontSize:12,color:'#27ae60',fontWeight:800}}>✅ Done</div>
+            </div>
+          </Card>
+        ))}
       </>}
-    </div>
-  );
-}
-
-function ButcheryScreen({G}){
-  const{level,meatInv,slaughter,eatMeat,sellMeat,ownedAnimals,animalLevels}=G;
-  const avail=ANIMALS.filter(a=>a.meat&&(ownedAnimals[a.id]||0)>0);
-  return(<div style={{padding:14}}><div style={{background:'#fff5f5',borderRadius:14,padding:12,marginBottom:12,border:'1px solid #fce4e4'}}><div style={{fontSize:13,fontWeight:800,color:'#c0392b',marginBottom:3}}>Butchery</div><div style={{fontSize:11,color:'#555',lineHeight:1.5}}>Slaughter animals for meat. Eat for stamina or sell for coins. Horse cannot be slaughtered.</div></div>{avail.length===0?<div style={{textAlign:'center',padding:40,color:'#aaa'}}>Raise animals first</div>:avail.map(a=>{const qty=meatInv[a.id]||0;return(<Card key={a.id}><div style={{display:'flex',alignItems:'center',gap:12,marginBottom:qty>0?10:0}}><span style={{fontSize:32}}>{a.emoji}</span><div style={{flex:1}}><div style={{fontWeight:800,fontSize:14,color:'#111'}}>{a.name}  -  {a.me} {a.meat}</div><div style={{fontSize:11,color:'#888'}}>+{a.ms} stamina · 🪙{a.mv}</div></div><div style={{textAlign:'right'}}><div style={{fontSize:10,color:'#888'}}>Owned: {ownedAnimals[a.id]||0}</div><Btn onClick={()=>slaughter(a)} disabled={(ownedAnimals[a.id]||0)<=1} color='#c0392b' style={{fontSize:11,padding:'7px 11px'}}>{(ownedAnimals[a.id]||0)<=1?'Keep 1 alive':'Slaughter'}</Btn></div></div>{qty>0&&<div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,borderTop:'1px solid #f0f0f0'}}><span style={{flex:1,fontSize:13,fontWeight:700,color:'#333'}}>{a.me} {qty} in stock</span><Btn onClick={()=>eatMeat(a)} style={{fontSize:11,padding:'6px 11px'}}>Eat (+{a.ms})</Btn><Btn onClick={()=>sellMeat(a)} color='#b7800a' style={{fontSize:11,padding:'6px 11px'}}>Sell All</Btn></div>}</Card>);})}</div>);
-}
-
-function MineScreen({G}){
-  const{level,minerals,mine,mineCd,sellMin,upgrades}=G;
-  const total=Object.values(minerals).reduce((a,b)=>a+b,0);
-  if(level<5)return<div style={{textAlign:'center',padding:60,color:'#aaa'}}><div style={{fontSize:52}}>🔒</div><div style={{fontWeight:700,marginTop:10,color:'#777'}}>Mine unlocks at Level 5</div></div>;
-  return(
-    <div style={{padding:14}}>
-      <div style={{background:'linear-gradient(135deg,#2c3e50,#4a4a4a)',borderRadius:20,padding:20,marginBottom:14,textAlign:'center',color:'#fff',boxShadow:'0 4px 20px rgba(0,0,0,.2)'}}>
-        <div style={{fontSize:48,marginBottom:8}}>⛏️</div>
-        {upgrades.mineBoost&&<div style={{background:'#f39c12',borderRadius:20,padding:'2px 10px',fontSize:11,fontWeight:700,color:'#fff',display:'inline-block',marginBottom:8}}>Mine Elevator Active  -  2x rare drops!</div>}
-        <div style={{fontSize:12,opacity:.8,marginBottom:12}}>Tap to mine  -  discover rare minerals!</div>
-        <button onClick={mine} style={{background:mineCd?'#555':'#f39c12',color:'#fff',border:'none',borderRadius:16,padding:'12px 28px',fontSize:15,fontWeight:800,cursor:mineCd?'default':'pointer'}}>{mineCd?'Mining...':'Mine Now!'}</button>
-      </div>
-      {total>0&&<Card><div style={{fontWeight:800,fontSize:13,color:'#333',marginBottom:10}}>Minerals ({total})</div>
-        {MINERALS.map(m=>{const q=minerals[m.id]||0;if(!q)return null;return(<div key={m.id} style={{display:'flex',alignItems:'center',gap:10,marginBottom:8,padding:'8px 10px',background:'#f8f8f8',borderRadius:12}}><span style={{fontSize:22}}>{m.emoji}</span><div style={{flex:1}}><div style={{fontWeight:700,color:'#111'}}>{m.name}</div><div style={{fontSize:11,color:'#888'}}>x{q} · 🪙{m.v}</div></div><Btn onClick={()=>sellMin(m)} style={{fontSize:11,padding:'5px 10px'}}>🪙{(q*m.v).toLocaleString()}</Btn></div>);})}
-      </Card>}
-      <Card><div style={{fontSize:11,fontWeight:800,color:'#888',marginBottom:8}}>RARITY CHART</div>
-        {MINERALS.map(m=>(<div key={m.id} style={{display:'flex',alignItems:'center',gap:8,marginBottom:5}}><span style={{fontSize:14,width:20}}>{m.emoji}</span><div style={{flex:1,height:5,background:'#eee',borderRadius:3,overflow:'hidden'}}><div style={{height:'100%',width:`${m.r*100}%`,background:'linear-gradient(90deg,#27ae60,#52d68a)',borderRadius:3}}/></div><span style={{fontSize:10,color:'#888',width:60,textAlign:'right'}}>🪙{m.v}</span></div>))}
-      </Card>
     </div>
   );
 }
