@@ -206,7 +206,39 @@ const RECIPES=[
   {id:'feedmix_premium',name:'Premium Feed Mix',emoji:'🥇',ing:{wheat:8,corn:5,carrot:3},sell:100,xp:20,desc:'8 Wheat + 5 Corn + 3 Carrot',tier:2},
 ];
 const NPCS={joe:{name:'Farmer Joe',emoji:'👨‍🌾',col:'#27ae60',lines:['Hello neighbour!','Great work today!','Fields look wonderful!','Really appreciate you!','Best farmer I know!']},mary:{name:'Market Mary',emoji:'👩‍💼',col:'#2980b9',lines:['Perfect quality!','My stall thanks you!','Fair deal always!','Premium goods!','My best supplier!']},tom:{name:'Miner Tom',emoji:'⛏️',col:'#546e7a',lines:['Good ore today!','Mine yields well!','Solid work!','Sharp pick!','Best miner!']},lily:{name:'Florist Lily',emoji:'🌸',col:'#c2185b',lines:['Beautiful harvest!','Blooms lovely!','Nature smiles!','Wonderful!','Garden thanks you!']},chef:{name:'Chef Carlos',emoji:'👨‍🍳',col:'#e67e22',lines:['Delicious!','Soup perfect!','Customers love it!','Finest produce!','You feed the town!']}};
-const TASK_POOL=[{npcId:'joe',itemId:'wheat',qty:3,inv:'silo',coins:75,xp:15,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'chef',itemId:'tomato',qty:3,inv:'silo',coins:110,xp:18,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'lily',itemId:'corn',qty:4,inv:'silo',coins:95,xp:16,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'carrot',qty:5,inv:'silo',coins:140,xp:20,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'joe',itemId:'pumpkin',qty:2,inv:'silo',coins:130,xp:19,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'strawberry',qty:6,inv:'silo',coins:320,xp:45,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'chef',itemId:'blueberry',qty:5,inv:'silo',coins:380,xp:50,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'iron',qty:2,inv:'mineral',coins:200,xp:38,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'copper',qty:2,inv:'mineral',coins:260,xp:42,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'wheat',qty:10,inv:'silo',coins:350,xp:48,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'golden',qty:2,inv:'silo',coins:900,xp:120,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'tom',itemId:'diamond',qty:1,inv:'mineral',coins:1600,xp:160,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'mary',itemId:'emerald',qty:1,inv:'mineral',coins:2000,xp:180,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'chef',itemId:'strawberry',qty:15,inv:'silo',coins:1000,xp:130,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1}];
+const TASK_POOL=[
+  // ── Easy single-item ──────────────────────────────────────────────
+  {npcId:'joe',itemId:'wheat',qty:3,inv:'silo',itemEmoji:'🌾',itemName:'Wheat',coins:75,xp:15,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},
+  {npcId:'chef',itemId:'tomato',qty:3,inv:'silo',itemEmoji:'🍅',itemName:'Tomato',coins:110,xp:18,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},
+  {npcId:'lily',itemId:'corn',qty:4,inv:'silo',itemEmoji:'🌽',itemName:'Corn',coins:95,xp:16,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},
+  {npcId:'mary',itemId:'carrot',qty:5,inv:'silo',itemEmoji:'🥕',itemName:'Carrot',coins:140,xp:20,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},
+  {npcId:'joe',itemId:'pumpkin',qty:2,inv:'silo',itemEmoji:'🎃',itemName:'Pumpkin',coins:130,xp:19,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},
+  // ── Easy multi-item (2 farm categories) ───────────────────────────
+  {npcId:'chef',items:[{itemId:'wheat',qty:5,inv:'silo',itemEmoji:'🌾',itemName:'Wheat'},{itemId:'tomato',qty:3,inv:'silo',itemEmoji:'🍅',itemName:'Tomato'}],coins:200,xp:30,fp:8,diff:'easy',hrs:24,rfood:1,rtoy:0},
+  {npcId:'lily',items:[{itemId:'sunflower',qty:4,inv:'silo',itemEmoji:'🌻',itemName:'Sunflower'},{itemId:'lavender',qty:3,inv:'silo',itemEmoji:'💜',itemName:'Lavender'}],coins:220,xp:32,fp:8,diff:'easy',hrs:24,rfood:1,rtoy:0},
+  {npcId:'joe',items:[{itemId:'carrot',qty:4,inv:'silo',itemEmoji:'🥕',itemName:'Carrot'},{itemId:'corn',qty:4,inv:'silo',itemEmoji:'🌽',itemName:'Corn'}],coins:190,xp:28,fp:8,diff:'easy',hrs:24,rfood:1,rtoy:0},
+  // ── Medium single-item ────────────────────────────────────────────
+  {npcId:'mary',itemId:'strawberry',qty:6,inv:'silo',itemEmoji:'🍓',itemName:'Strawberry',coins:320,xp:45,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'chef',itemId:'blueberry',qty:5,inv:'silo',itemEmoji:'🫐',itemName:'Blueberry',coins:380,xp:50,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'tom',itemId:'iron',qty:2,inv:'mineral',itemEmoji:'🪨',itemName:'Iron',coins:200,xp:38,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'tom',itemId:'copper',qty:2,inv:'mineral',itemEmoji:'🔶',itemName:'Copper',coins:260,xp:42,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'joe',itemId:'wheat',qty:10,inv:'silo',itemEmoji:'🌾',itemName:'Wheat',coins:350,xp:48,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  // ── Medium multi-item (crops + minerals, 2-3 categories) ──────────
+  {npcId:'tom',items:[{itemId:'iron',qty:3,inv:'mineral',itemEmoji:'🪨',itemName:'Iron'},{itemId:'coal',qty:5,inv:'mineral',itemEmoji:'⚫',itemName:'Coal'},{itemId:'copper',qty:2,inv:'mineral',itemEmoji:'🔶',itemName:'Copper'}],coins:500,xp:68,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'mary',items:[{itemId:'strawberry',qty:5,inv:'silo',itemEmoji:'🍓',itemName:'Strawberry'},{itemId:'blueberry',qty:4,inv:'silo',itemEmoji:'🫐',itemName:'Blueberry'}],coins:540,xp:72,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'chef',items:[{itemId:'wheat',qty:8,inv:'silo',itemEmoji:'🌾',itemName:'Wheat'},{itemId:'corn',qty:6,inv:'silo',itemEmoji:'🌽',itemName:'Corn'},{itemId:'carrot',qty:5,inv:'silo',itemEmoji:'🥕',itemName:'Carrot'}],coins:460,xp:60,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'joe',items:[{itemId:'pumpkin',qty:3,inv:'silo',itemEmoji:'🎃',itemName:'Pumpkin'},{itemId:'coal',qty:4,inv:'mineral',itemEmoji:'⚫',itemName:'Coal'}],coins:420,xp:56,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'lily',items:[{itemId:'lavender',qty:5,inv:'silo',itemEmoji:'💜',itemName:'Lavender'},{itemId:'silver',qty:1,inv:'mineral',itemEmoji:'🪙',itemName:'Silver'}],coins:560,xp:75,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  {npcId:'chef',items:[{itemId:'bass',qty:2,inv:'fish',itemEmoji:'🐟',itemName:'Bass'},{itemId:'corn',qty:5,inv:'silo',itemEmoji:'🌽',itemName:'Corn'}],coins:480,xp:65,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},
+  // ── Hard multi-item (crops + minerals + fish + cooked, 3 categories) ─
+  {npcId:'tom',items:[{itemId:'diamond',qty:1,inv:'mineral',itemEmoji:'💎',itemName:'Diamond'},{itemId:'golden',qty:2,inv:'silo',itemEmoji:'✨',itemName:'Golden Grain'},{itemId:'iron',qty:5,inv:'mineral',itemEmoji:'🪨',itemName:'Iron'}],coins:2400,xp:240,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'chef',items:[{itemId:'salmon',qty:3,inv:'fish',itemEmoji:'🍣',itemName:'Salmon'},{itemId:'tomato',qty:8,inv:'silo',itemEmoji:'🍅',itemName:'Tomato'},{itemId:'wheat',qty:10,inv:'silo',itemEmoji:'🌾',itemName:'Wheat'}],coins:2000,xp:200,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'mary',items:[{itemId:'emerald',qty:1,inv:'mineral',itemEmoji:'🟢',itemName:'Emerald'},{itemId:'blueberry',qty:10,inv:'silo',itemEmoji:'🫐',itemName:'Blueberry'},{itemId:'strawberry',qty:8,inv:'silo',itemEmoji:'🍓',itemName:'Strawberry'}],coins:2600,xp:260,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'lily',items:[{itemId:'lavender',qty:8,inv:'silo',itemEmoji:'💜',itemName:'Lavender'},{itemId:'sunflower',qty:6,inv:'silo',itemEmoji:'🌻',itemName:'Sunflower'},{itemId:'silver',qty:2,inv:'mineral',itemEmoji:'🪙',itemName:'Silver'}],coins:1800,xp:185,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'joe',items:[{itemId:'golden',qty:3,inv:'silo',itemEmoji:'✨',itemName:'Golden Grain'},{itemId:'pumpkin',qty:10,inv:'silo',itemEmoji:'🎃',itemName:'Pumpkin'},{itemId:'goldore',qty:2,inv:'mineral',itemEmoji:'🟡',itemName:'Gold Ore'}],coins:3200,xp:320,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'chef',items:[{itemId:'sturgeon',qty:2,inv:'fish',itemEmoji:'🦈',itemName:'Sturgeon'},{itemId:'truffle',qty:2,inv:'silo',itemEmoji:'🍄',itemName:'Truffle'},{itemId:'wheat',qty:15,inv:'silo',itemEmoji:'🌾',itemName:'Wheat'}],coins:4000,xp:380,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+  {npcId:'tom',items:[{itemId:'ruby',qty:1,inv:'mineral',itemEmoji:'🔴',itemName:'Ruby'},{itemId:'titanium',qty:2,inv:'mineral',itemEmoji:'⚙️',itemName:'Titanium'},{itemId:'goldore',qty:3,inv:'mineral',itemEmoji:'🟡',itemName:'Gold Ore'}],coins:5000,xp:450,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},
+];
 const MARKET_EVENTS=[
   {id:'drought',name:'Drought',emoji:'🌵',desc:'Crop shortage — prices surge!',affected:'crops',mult:1.8,dur:3600000},
   {id:'pest',name:'Pest Outbreak',emoji:'🐛',desc:'Certain crops wiped out — buy now!',affected:'crops',mult:2.0,dur:2700000},
@@ -468,7 +500,7 @@ function HarvestHaven({user,onSignOut}){
         if(db&&auth?.currentUser){
           try{const sn=await get(child(ref(db),`saves/${auth.currentUser.uid}`));if(sn.exists())saveData=JSON.parse(sn.val());}catch{}
         }
-        if(!saveData){const raw=localStorage.getItem('hh7');if(raw)saveData=JSON.parse(raw);}
+        if(!saveData){const raw=localStorage.getItem('hh7')||localStorage.getItem('hh6')||localStorage.getItem('hh_save');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
           const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC};
@@ -480,6 +512,13 @@ function HarvestHaven({user,onSignOut}){
       try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
       setWC('GLOBAL'); // All users share one global community
       setTasks(genTasks(1));
+      // Immediately write correct state to Firebase after load so next interval save is correct
+      if(db&&auth?.currentUser){
+        try{
+          const raw=localStorage.getItem('hh7');
+          if(raw)await set(ref(db,`saves/${auth.currentUser.uid}`),raw);
+        }catch(e){console.log('Post-load Firebase sync error',e);}
+      }
     })();
   },[]);
 
@@ -491,7 +530,7 @@ const saveGame=useCallback(async()=>{
         try{await set(ref(db,`saves/${auth.currentUser.uid}`),JSON.stringify(s));}catch(e){console.log('Firebase save error',e);}
       }
     }catch(e){console.log('Save error',e);}
-  },[coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles]);
+  },[coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught]);
 useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},[saveGame]);
   useEffect(()=>{
     const handler=()=>saveGame();
@@ -710,7 +749,8 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
 
   const acceptTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:true}:t));
   const abandonTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:false}:t));
-  const canComplete=task=>{if(task.inv==='silo')return(silo[task.itemId]||0)>=task.qty;if(task.inv==='crafted')return(craftInv[task.itemId]||0)>=task.qty;return(minerals[task.itemId]||0)>=task.qty;};
+  const getInv=(inv,id)=>{if(inv==='silo')return silo[id]||0;if(inv==='crafted')return craftInv[id]||0;if(inv==='fish')return fishInv[id]||0;if(inv==='meat')return meatInv[id]||0;return minerals[id]||0;};
+  const canComplete=task=>{const items=task.items||[{itemId:task.itemId,qty:task.qty,inv:task.inv}];return items.every(({itemId,qty,inv})=>getInv(inv,itemId)>=qty);};
   const completeTask=task=>{
     if(!canComplete(task)){notify('Not enough items!','orange');return;}
     if(task.inv==='silo')setSilo(s=>({...s,[task.itemId]:(s[task.itemId]||0)-task.qty}));
