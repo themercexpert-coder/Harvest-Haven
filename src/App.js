@@ -144,46 +144,79 @@ const FISH_RECIPES=[
 const FISH_RARITY_COL={common:'#888',uncommon:'#27ae60',rare:'#2980b9',legendary:'#f39c12'};
 // ──────────────────────────────────────────────────────────────────────────
 
-const RECIPES=[
-  // Basic
+const KITCHEN_RECIPES=[
+  // Basic meals (Level 1+)
   {id:'bread',name:'Bread',emoji:'🍞',ing:{wheat:5},sell:80,xp:10,desc:'5 Wheat',tier:1},
-  {id:'cake',name:'Cake',emoji:'🎂',ing:{wheat:3,blueberry:2},sell:150,xp:18,desc:'3 Wheat + 2 Blueberry',tier:1},
-  {id:'jam',name:'Strawberry Jam',emoji:'🍓',ing:{strawberry:4},sell:120,xp:14,desc:'4 Strawberry',tier:1},
-  {id:'salad',name:'Farm Salad',emoji:'🥗',ing:{tomato:3,carrot:2},sell:140,xp:16,desc:'3 Tomato + 2 Carrot',tier:1},
-  {id:'juice',name:'Corn Juice',emoji:'🌽',ing:{corn:4},sell:90,xp:10,desc:'4 Corn',tier:1},
-  {id:'soup',name:'Pumpkin Soup',emoji:'🍲',ing:{pumpkin:2,carrot:2},sell:180,xp:22,desc:'2 Pumpkin + 2 Carrot',tier:1},
-  // Intermediate
-  {id:'grapejuice',name:'Grape Juice',emoji:'🍷',ing:{grape:4},sell:240,xp:30,desc:'4 Grapes',tier:2},
-  {id:'goldenbread',name:'Golden Bread',emoji:'✨',ing:{golden:2,wheat:3},sell:500,xp:60,desc:'2 Golden + 3 Wheat',tier:2},
-  {id:'irontools',name:'Iron Tools',emoji:'⚒️',ing:{iron:3,coal:2},sell:350,xp:40,desc:'3 Iron + 2 Coal',tier:2},
-  {id:'silverjewel',name:'Silver Jewel',emoji:'💍',ing:{silver:2,copper:3},sell:600,xp:55,desc:'2 Silver + 3 Copper',tier:2},
-  {id:'gemring',name:'Gem Ring',emoji:'💎',ing:{diamond:1,silver:2},sell:1200,xp:90,desc:'1 Diamond + 2 Silver',tier:2},
-  {id:'lavperfume',name:'Lavender Perfume',emoji:'🌸',ing:{lavender:5,sunflower:3},sell:400,xp:45,desc:'5 Lavender + 3 Sunflower',tier:2},
-  // Advanced
+  {id:'cornmeal',name:'Corn Porridge',emoji:'🌽',ing:{corn:4},sell:70,xp:8,desc:'4 Corn',tier:1},
+  {id:'carrotsoup',name:'Carrot Soup',emoji:'🥣',ing:{carrot:4,corn:2},sell:120,xp:14,desc:'4 Carrot + 2 Corn',tier:1},
+  {id:'tomatosauce',name:'Tomato Sauce',emoji:'🍅',ing:{tomato:5},sell:100,xp:12,desc:'5 Tomato',tier:1},
+  // Intermediate (Level 5+)
+  {id:'jam',name:'Strawberry Jam',emoji:'🍓',ing:{strawberry:4},sell:150,xp:18,desc:'4 Strawberry',tier:2},
+  {id:'cake',name:'Blueberry Cake',emoji:'🎂',ing:{wheat:3,blueberry:2},sell:200,xp:22,desc:'3 Wheat + 2 Blueberry',tier:2},
+  {id:'pumpkinsoup',name:'Pumpkin Soup',emoji:'🎃',ing:{pumpkin:2,carrot:2},sell:180,xp:20,desc:'2 Pumpkin + 2 Carrot',tier:2},
+  {id:'grapejuice',name:'Grape Juice',emoji:'🍷',ing:{grape:4},sell:240,xp:28,desc:'4 Grapes',tier:2},
+  {id:'lavperfume',name:'Lavender Perfume',emoji:'🌸',ing:{lavender:5,sunflower:3},sell:320,xp:35,desc:'5 Lavender + 3 Sunflower',tier:2},
+  // Advanced (Level 10+)
+  {id:'goldenbread',name:'Golden Bread',emoji:'✨',ing:{golden:2,wheat:3},sell:600,xp:65,desc:'2 Golden Grain + 3 Wheat',tier:3},
   {id:'chocolatecake',name:'Chocolate Cake',emoji:'🍫',ing:{cocoa:3,wheat:4,blueberry:2},sell:800,xp:80,desc:'3 Cocoa + 4 Wheat + 2 Blueberry',tier:3},
-  {id:'oliveoil',name:'Olive Oil',emoji:'🫒',ing:{olive:5,sunflower:2},sell:650,xp:65,desc:'5 Olive + 2 Sunflower',tier:3},
+  {id:'oliveoil',name:'Olive Oil',emoji:'🫒',ing:{olive:5,sunflower:2},sell:650,xp:68,desc:'5 Olive + 2 Sunflower',tier:3},
+  {id:'coffeecake',name:'Coffee Cake',emoji:'☕',ing:{coffee:3,wheat:4},sell:750,xp:75,desc:'3 Coffee + 4 Wheat',tier:3},
+  // Fish meals
+  {id:'fish_soup',name:'Fish Soup',emoji:'🍲',ing:{minnow:3,carrot:2},sell:150,xp:18,desc:'3 Minnow + 2 Carrot',tier:2},
+  {id:'grilled_bass',name:'Grilled Bass',emoji:'🍽️',ing:{bass:2,corn:2},sell:300,xp:32,desc:'2 Bass + 2 Corn',tier:3},
+  {id:'salmon_sushi',name:'Salmon Sushi',emoji:'🍣',ing:{salmon:2,wheat:3},sell:500,xp:50,desc:'2 Salmon + 3 Wheat',tier:3},
+  {id:'fish_pie',name:"Fisherman's Pie",emoji:'🥧',ing:{catfish:2,wheat:4,carrot:2},sell:420,xp:45,desc:'2 Catfish + 4 Wheat + 2 Carrot',tier:3},
+  {id:'eel_curry',name:'Eel Curry',emoji:'🍛',ing:{eel:1,tomato:3,corn:2},sell:600,xp:65,desc:'1 Eel + 3 Tomato + 2 Corn',tier:4},
+  {id:'sturgeon_steak',name:'Sturgeon Steak',emoji:'🥩',ing:{sturgeon:1,pumpkin:2},sell:800,xp:80,desc:'1 Sturgeon + 2 Pumpkin',tier:4},
+  // Legendary meals (Level 20+)
+  {id:'trufflepasta',name:'Truffle Pasta',emoji:'🍝',ing:{truffle:2,wheat:5,tomato:3},sell:2000,xp:120,desc:'2 Truffle + 5 Wheat + 3 Tomato',tier:5},
+  {id:'moonflowertea',name:'Moonflower Tea',emoji:'🍵',ing:{moonflower:1,lavender:3},sell:5000,xp:300,desc:'1 Moonflower + 3 Lavender',tier:5},
+  {id:'golden_koi_feast',name:'Golden Koi Feast',emoji:'🥗',ing:{goldfish:1,truffle:1,lavender:2},sell:8000,xp:500,desc:'1 Golden Koi + 1 Truffle + 2 Lavender',tier:5},
+  {id:'starfeast',name:'Star Crop Feast',emoji:'⭐',ing:{starcrop:1,truffle:2,golden:3},sell:15000,xp:800,desc:'1 Star Crop + 2 Truffle + 3 Golden Grain',tier:5},
+  // Biofuel (crafted, used to top up fuel for free)
+  {id:'biofuel',name:'Biofuel',emoji:'🌿',ing:{sugarcane:5,corn:3},sell:0,xp:15,desc:'5 Sugarcane + 3 Corn - refuels machines +25',tier:2},
+  {id:'biofuel_premium',name:'Premium Biofuel',emoji:'⚗️',ing:{sugarcane:10,cotton:5,corn:5},sell:0,xp:35,desc:'10 Sugarcane + 5 Cotton + 5 Corn - refuels +75',tier:3},
+];
+const RECIPES=[
+  // Basic Tools (Level 3+)
+  {id:'irontools',name:'Iron Tools',emoji:'⚒️',ing:{iron:3,coal:2},sell:350,xp:40,desc:'3 Iron + 2 Coal',tier:1},
+  {id:'copperring',name:'Copper Ring',emoji:'💍',ing:{copper:4},sell:280,xp:30,desc:'4 Copper',tier:1},
+  {id:'coalfuel',name:'Coal Fuel',emoji:'🪨',ing:{coal:5},sell:200,xp:20,desc:'5 Coal - fuel for machines',tier:1},
+  // Intermediate (Level 6+)
+  {id:'silverjewel',name:'Silver Jewel',emoji:'🔮',ing:{silver:2,copper:3},sell:600,xp:55,desc:'2 Silver + 3 Copper',tier:2},
+  {id:'gemring',name:'Gem Ring',emoji:'💎',ing:{diamond:1,silver:2},sell:1200,xp:90,desc:'1 Diamond + 2 Silver',tier:2},
+  {id:'ironarmor',name:'Iron Armor',emoji:'🛡️',ing:{iron:5,coal:3},sell:800,xp:70,desc:'5 Iron + 3 Coal',tier:2},
+  // Advanced (Level 10+)
   {id:'goldenring',name:'Golden Crown',emoji:'👑',ing:{goldore:3,diamond:1,emerald:1},sell:3000,xp:150,desc:'3 Gold Ore + 1 Diamond + 1 Emerald',tier:3},
-  {id:'mysticpotion',name:'Mystic Potion',emoji:'🧪',ing:{truffle:2,lavender:3,crystal:1},sell:2500,xp:120,desc:'2 Truffle + 3 Lavender + 1 Crystal',tier:3},
-  {id:'trufflepasta',name:'Truffle Pasta',emoji:'🍝',ing:{truffle:2,wheat:5,tomato:3},sell:1800,xp:100,desc:'2 Truffle + 5 Wheat + 3 Tomato',tier:3},
-  {id:'coffeecake',name:'Coffee Cake',emoji:'☕',ing:{coffee:3,wheat:4,blueberry:3},sell:900,xp:85,desc:'3 Coffee + 4 Wheat + 3 Blueberry',tier:3},
-  // Pet Food
+  {id:'emeraldstaff',name:'Emerald Staff',emoji:'🪄',ing:{emerald:2,goldore:2,crystal:1},sell:4000,xp:180,desc:'2 Emerald + 2 Gold + 1 Crystal',tier:3},
+  {id:'rubyamulet',name:'Ruby Amulet',emoji:'❤️',ing:{ruby:1,goldore:3},sell:5000,xp:200,desc:'1 Ruby + 3 Gold Ore',tier:3},
+  // Master (Level 18+)
+  {id:'mysticpotion',name:'Mystic Potion',emoji:'🧪',ing:{crystal:2,emerald:1,mythril:1},sell:8000,xp:300,desc:'2 Crystal + 1 Emerald + 1 Mythril',tier:4},
+  {id:'dragonsword',name:'Dragon Sword',emoji:'⚔️',ing:{mythril:2,ruby:1,titanium:3},sell:12000,xp:400,desc:'2 Mythril + 1 Ruby + 3 Titanium',tier:4},
+  // Legendary (Level 30+)
+  {id:'voidcrystal',name:'Void Crystal',emoji:'🌀',ing:{voidstone:1,mythril:2,stardust:1},sell:50000,xp:1000,desc:'1 Void Stone + 2 Mythril + 1 Stardust',tier:5},
+  {id:'legendcrown',name:'Legend Crown',emoji:'✨',ing:{voidstone:2,diamond:3,stardust:2},sell:100000,xp:2000,desc:'2 Void Stone + 3 Diamond + 2 Stardust',tier:5},
+  // Pet food stays in crafting
   {id:'petfood_dog',name:'Dog Biscuit',emoji:'🦴',ing:{wheat:3,carrot:1},sell:15,xp:5,desc:'3 Wheat + 1 Carrot',tier:1},
   {id:'petfood_cat',name:'Fish Snack',emoji:'🐟',ing:{wheat:2,corn:1},sell:15,xp:5,desc:'2 Wheat + 1 Corn',tier:1},
   {id:'petfood_parrot',name:'Seed Mix',emoji:'🌱',ing:{wheat:4,sunflower:1},sell:15,xp:5,desc:'4 Wheat + 1 Sunflower',tier:1},
   {id:'petfood_bunny',name:'Carrot Treat',emoji:'🥕',ing:{carrot:3},sell:15,xp:5,desc:'3 Carrot',tier:1},
-  {id:'petfood_fox',name:'Meat Chunk',emoji:'🥩',ing:{corn:2,wheat:2},sell:20,xp:6,desc:'2 Corn + 2 Wheat',tier:1},
   {id:'petfood_bear',name:'Honey Pot',emoji:'🍯',ing:{sunflower:3,corn:2},sell:25,xp:8,desc:'3 Sunflower + 2 Corn',tier:2},
-  {id:'petfood_owl',name:'Mouse Treat',emoji:'🐭',ing:{wheat:2,carrot:2},sell:15,xp:5,desc:'2 Wheat + 2 Carrot',tier:1},
-  // Animal Feed Mix
-  {id:'feedmix_basic',name:'Basic Feed Mix',emoji:'🌾',ing:{wheat:5,corn:3},sell:40,xp:8,desc:'5 Wheat + 3 Corn - feeds any animal',tier:1},
+  {id:'feedmix_basic',name:'Basic Feed Mix',emoji:'🌾',ing:{wheat:5,corn:3},sell:40,xp:8,desc:'5 Wheat + 3 Corn',tier:1},
   {id:'feedmix_premium',name:'Premium Feed Mix',emoji:'🥇',ing:{wheat:8,corn:5,carrot:3},sell:100,xp:20,desc:'8 Wheat + 5 Corn + 3 Carrot',tier:2},
-  {id:'feedmix_animal',name:'Livestock Mix',emoji:'🐄',ing:{pumpkin:2,carrot:3,sunflower:2},sell:80,xp:16,desc:'2 Pumpkin + 3 Carrot + 2 Sunflower',tier:2},
-  // Legendary
-  {id:'legendbrew',name:'Legend Brew',emoji:'🏆',ing:{ruby:1,sapphire:1,golden:5},sell:8000,xp:300,desc:'1 Ruby + 1 Sapphire + 5 Golden Grain',tier:4},
-  {id:'diamondcrown',name:'Diamond Crown',emoji:'💠',ing:{diamond:3,goldore:5,crystal:2},sell:12000,xp:500,desc:'3 Diamond + 5 Gold Ore + 2 Crystal',tier:4},
 ];
 const NPCS={joe:{name:'Farmer Joe',emoji:'👨‍🌾',col:'#27ae60',lines:['Hello neighbour!','Great work today!','Fields look wonderful!','Really appreciate you!','Best farmer I know!']},mary:{name:'Market Mary',emoji:'👩‍💼',col:'#2980b9',lines:['Perfect quality!','My stall thanks you!','Fair deal always!','Premium goods!','My best supplier!']},tom:{name:'Miner Tom',emoji:'⛏️',col:'#546e7a',lines:['Good ore today!','Mine yields well!','Solid work!','Sharp pick!','Best miner!']},lily:{name:'Florist Lily',emoji:'🌸',col:'#c2185b',lines:['Beautiful harvest!','Blooms lovely!','Nature smiles!','Wonderful!','Garden thanks you!']},chef:{name:'Chef Carlos',emoji:'👨‍🍳',col:'#e67e22',lines:['Delicious!','Soup perfect!','Customers love it!','Finest produce!','You feed the town!']}};
 const TASK_POOL=[{npcId:'joe',itemId:'wheat',qty:3,inv:'silo',coins:75,xp:15,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'chef',itemId:'tomato',qty:3,inv:'silo',coins:110,xp:18,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'lily',itemId:'corn',qty:4,inv:'silo',coins:95,xp:16,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'carrot',qty:5,inv:'silo',coins:140,xp:20,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'joe',itemId:'pumpkin',qty:2,inv:'silo',coins:130,xp:19,fp:5,diff:'easy',hrs:24,rfood:0,rtoy:0},{npcId:'mary',itemId:'strawberry',qty:6,inv:'silo',coins:320,xp:45,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'chef',itemId:'blueberry',qty:5,inv:'silo',coins:380,xp:50,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'iron',qty:2,inv:'mineral',coins:200,xp:38,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'tom',itemId:'copper',qty:2,inv:'mineral',coins:260,xp:42,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'wheat',qty:10,inv:'silo',coins:350,xp:48,fp:15,diff:'medium',hrs:48,rfood:1,rtoy:0},{npcId:'joe',itemId:'golden',qty:2,inv:'silo',coins:900,xp:120,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'tom',itemId:'diamond',qty:1,inv:'mineral',coins:1600,xp:160,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'mary',itemId:'emerald',qty:1,inv:'mineral',coins:2000,xp:180,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1},{npcId:'chef',itemId:'strawberry',qty:15,inv:'silo',coins:1000,xp:130,fp:30,diff:'hard',hrs:72,rfood:2,rtoy:1}];
+const MARKET_EVENTS=[
+  {id:'drought',name:'Drought',emoji:'🌵',desc:'Crop shortage — prices surge!',affected:'crops',mult:1.8,dur:3600000},
+  {id:'pest',name:'Pest Outbreak',emoji:'🐛',desc:'Certain crops wiped out — buy now!',affected:'crops',mult:2.0,dur:2700000},
+  {id:'festival',name:'Harvest Festival',emoji:'🎪',desc:'All goods in high demand!',affected:'all',mult:1.5,dur:1800000},
+  {id:'export',name:'Export Deal',emoji:'🚢',desc:'Bulk buyers in town — bonus prices!',affected:'all',mult:1.7,dur:3600000},
+  {id:'cold',name:'Cold Snap',emoji:'❄️',desc:'Animal products scarce — prices up!',affected:'animals',mult:2.2,dur:2700000},
+  {id:'minecollapse',name:'Mine Collapse',emoji:'⛏️',desc:'Mineral supply cut — rare minerals surge!',affected:'minerals',mult:2.5,dur:3600000},
+  {id:'diamondrush',name:'Diamond Rush',emoji:'💎',desc:'Everyone mining — diamond price crashes!',affected:'minerals',mult:0.4,dur:1800000},
+  {id:'goldfever',name:'Gold Fever',emoji:'🥇',desc:'Gold demand skyrockets!',affected:'gold',mult:3.0,dur:1800000},
+];
 const DR=[{coins:50,xp:10},{coins:100,xp:20},{coins:150,xp:30,petFood:1},{coins:200,xp:40},{coins:300,xp:50,petFood:2},{coins:400,xp:60,toys:1},{coins:600,xp:100,petFood:3,toys:1}];
 const DQ=[{id:'dq1',text:'Harvest 5 crops',key:'dqH',target:5,reward:{coins:80,xp:15}},{id:'dq2',text:'Mine 2 minerals',key:'dqM',target:2,reward:{coins:100,xp:20}},{id:'dq3',text:'Complete 1 NPC task',key:'dqT',target:1,reward:{coins:150,xp:25,petFood:1}}];
 const PET_TYPES=[
@@ -275,13 +308,13 @@ const UPGRADES=[
   {id:'doubleXp',name:'XP Booster',emoji:'⭐',desc:'+50% XP from all activities permanently',cost:6000},
 ];
 const MENU_DEF=[
-  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting',desc:'Craft items for higher value',ac:'#795548',ml:3},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'fishing',emoji:'🎣',label:'Farm Lake',desc:'Fish, craft and trade catches',ac:'#2980b9',ml:1},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
+  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting Workshop',desc:'Forge tools and goods from minerals',ac:'#795548',ml:3},{id:'kitchen',emoji:'🍳',label:'Kitchen',desc:'Cook recipes from crops, fish and produce',ac:'#e74c3c',ml:1},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'fishing',emoji:'🎣',label:'Farm Lake',desc:'Fish, craft and trade catches',ac:'#2980b9',ml:1},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
   {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1},{id:'visitstalls',emoji:'🏘️',label:'Visit Stalls',desc:'Browse and buy from other players',ac:'#16a085',ml:1}]},
   {title:'FINANCE',items:[{id:'bank',emoji:'🏦',label:'Bank',desc:'Savings, loans and profit share',ac:'#1a5276',ml:1},{id:'gold',emoji:'🥇',label:'Gold Store',desc:'Buy and sell at live rates',ac:'#b7800a',ml:1},{id:'finance',emoji:'💰',label:'Financial Dashboard',desc:'Income, expenses and net worth',ac:'#1a6b2a',ml:1}]},
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','collections','goals','garage','workers'];
+const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','kitchen','collections','goals','garage','workers'];
 const xpFor=l=>{
   // Scales up - never truly maxes out
   if(l<10)return l*100;
@@ -326,6 +359,8 @@ function HarvestHaven({user,onSignOut}){
   const [selCrop,setSelCrop]=useState(CROPS[0]);
   const [coins,setCoins]=useState(500);
   const [stamina,setStamina]=useState(100);
+  const [marketEvent,setMarketEvent]=useState(null);
+  const [eventEndsAt,setEventEndsAt]=useState(0);
   const [xp,setXp]=useState(0);
   const [level,setLevel]=useState(1);
   const [silo,setSilo]=useState({});
@@ -419,7 +454,8 @@ function HarvestHaven({user,onSignOut}){
   const base=crop.base||25;
   const seasonal=season.boost?.[crop.id]||1;
   const tierBonus=crop.tier>=7?1.5:crop.tier>=6?1.3:crop.tier>=5?1.1:1;
-  return Math.round(base*seasonal*siloMult*tierBonus);
+  const evMult=(marketEvent&&(marketEvent.affected==='all'||marketEvent.affected==='crops'))?marketEvent.mult:1;
+  return Math.round(base*seasonal*siloMult*tierBonus*evMult);
 };
   const friendBonus=Math.min(friendStreak*.05,.5);
 
@@ -835,6 +871,30 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     });
     return()=>unsub();
   },[playerId]);
+  // Global market events - Firebase sync
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'marketEvent'),sn=>{
+      if(!sn.exists()){setMarketEvent(null);setEventEndsAt(0);return;}
+      const ev=sn.val();
+      if(ev&&ev.endsAt&&ev.endsAt>Date.now()){setMarketEvent(ev);setEventEndsAt(ev.endsAt);}
+      else{setMarketEvent(null);setEventEndsAt(0);}
+    });
+    return()=>unsub();
+  },[]);
+  useEffect(()=>{
+    if(!db)return;
+    const t=setTimeout(()=>{
+      const lastEvt=parseInt(localStorage.getItem('hh_lastevt')||'0');
+      if(Date.now()-lastEvt>7200000&&Math.random()<0.4){
+        const ev=MARKET_EVENTS[Math.floor(Math.random()*MARKET_EVENTS.length)];
+        localStorage.setItem('hh_lastevt',String(Date.now()));
+        set(ref(db,'marketEvent'),{...ev,endsAt:Date.now()+ev.dur,startedAt:Date.now()}).catch(()=>{});
+      }
+    },5000);
+    return()=>clearTimeout(t);
+  },[]);
+
   // Machine management
   const buyMach=mId=>{const def=MACH_DEF[mId];if(coins<def.cost){notify(`Need 🪙${def.cost.toLocaleString()}!`,'orange');return;}spend(def.cost);setMach(p=>({...p,[mId]:{...p[mId],owned:true}}));notify(`${def.name} purchased!`,'green');};
   const upgMach=mId=>{const m=mach[mId],def=MACH_DEF[mId];if(m.tier>=4){notify('Already max tier!','orange');return;}const cost=def.upg[m.tier+1];if(coins<cost){notify(`Need 🪙${cost.toLocaleString()}!`,'orange');return;}spend(cost);setMach(p=>({...p,[mId]:{...p[mId],tier:p[mId].tier+1}}));notify(`${def.name} → ${def.tiers[m.tier+1].l}!`,'gold');};
@@ -978,7 +1038,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     return true;
   };
 
-    const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
+    const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),setFuel:f=>setFuel(f),setCraftInv:c=>setCraftInv(c),setFishInv:f=>setFishInv(f),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
 
   return(
     <div style={{width:'100%',maxWidth:430,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:T.bg,fontFamily:'system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
@@ -1057,6 +1117,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
         {screen==='silo'&&<SiloScreen G={G}/>}
         {screen==='daily'&&<DailyScreen G={G}/>}
         {screen==='crafting'&&<CraftingScreen G={G}/>}
+        {screen==='kitchen'&&<KitchenScreen G={G}/>}
         {screen==='taskboard'&&<TaskBoardScreen G={G}/>}
         {screen==='pets'&&<PetsScreen G={G}/>}
         {screen==='collections'&&<CollectionsScreen G={G}/>}
@@ -1110,6 +1171,20 @@ function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
           </button>
         ))}
       </div>
+
+      {/* Active Market Event Banner */}
+      {G.marketEvent&&G.eventEndsAt>Date.now()&&<div style={{background:`linear-gradient(135deg,#f39c12,#e67e22)`,borderRadius:16,padding:'10px 14px',marginBottom:10,border:'1px solid rgba(255,255,255,0.2)',boxShadow:'0 4px 16px rgba(243,156,18,0.3)'}}>
+        <div style={{display:'flex',alignItems:'center',gap:10}}>
+          <div style={{fontSize:28}}>{G.marketEvent.emoji}</div>
+          <div style={{flex:1}}>
+            <div style={{fontSize:13,fontWeight:900,color:'#fff'}}>{G.marketEvent.name} Active!</div>
+            <div style={{fontSize:11,color:'rgba(255,255,255,0.85)'}}>{G.marketEvent.desc}</div>
+          </div>
+          <div style={{fontSize:11,color:'rgba(255,255,255,0.7)',fontWeight:700}}>
+            {Math.round((G.eventEndsAt-Date.now())/60000)}m left
+          </div>
+        </div>
+      </div>}
 
       {/* Global Events Ticker */}
       {G.globalEvents&&G.globalEvents.length>0&&<div style={{background:'rgba(0,0,0,0.25)',backdropFilter:'blur(8px)',borderRadius:16,padding:'8px 14px',marginBottom:10,border:'1px solid rgba(255,255,255,0.1)',overflow:'hidden'}}>
@@ -1481,7 +1556,7 @@ function PetsScreen({G}){
 
 function CollectionsScreen({G}){
   const{collected,T}=G;
-  const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'})),...FISH.map(f=>({id:f.id,name:f.name,emoji:f.emoji,cat:'Fish'}))];
+  const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'})),...KITCHEN_RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Cooked'})),...FISH.map(f=>({id:f.id,name:f.name,emoji:f.emoji,cat:'Fish'}))];
   const total=collected.length,max=allItems.length;
   return(
     <div style={{padding:14}}>
@@ -1868,30 +1943,83 @@ function BankScreen({G}){
 
 
 function FinanceScreen({G}){
-  const{coins,bankBal,goldHeld,goldPrice,totalEarned,todayEarned,todaySpent,loanDebt,friendBonus,jointBal}=G;
-  const gv=Math.floor(goldHeld*goldPrice),nw=coins+bankBal+gv+jointBal-loanDebt,net=todayEarned-todaySpent;
-  const s=Math.min(100,Math.max(10,50+(net>0?25:net<0?-15:0)+(bankBal>100?15:0)+(goldHeld>0?5:0)-(loanDebt>0?15:0)));
-  const[lbl,col]=s>=80?['Excellent','#27ae60']:s>=60?['Good','#b7800a']:s>=40?['Fair','#e67e22']:['Needs Work','#c0392b'];
-  return(<div style={{padding:14}}>
-    <div style={{background:`linear-gradient(135deg,${col},${col}cc)`,borderRadius:20,padding:18,marginBottom:12,color:'#fff'}}>
-      <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>FINANCIAL HEALTH SCORE</div>
-      <div style={{fontSize:44,fontWeight:900,lineHeight:1.1,margin:'3px 0'}}>{s}</div>
-      <div style={{fontSize:14,fontWeight:700,marginBottom:6}}>{lbl}</div>
-      <div style={{height:6,background:'rgba(255,255,255,.3)',borderRadius:4,overflow:'hidden'}}><div style={{height:'100%',width:`${s}%`,background:'#fff',borderRadius:4}}/></div>
-    </div>
-    {friendBonus>0&&<Card style={{background:'#e8f8f5',border:'1px solid #c3e6cb'}}><div style={{fontSize:13,fontWeight:700,color:'#16a085'}}>Friend Bonus Active: +{Math.round(friendBonus*100)}% on all earnings!</div></Card>}
-    <Card><div style={{fontWeight:800,fontSize:13,color:'#333',marginBottom:10}}>Today</div>
-      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8}}>
-        {[['Earned',todayEarned,'#27ae60'],['Spent',todaySpent,'#e74c3c'],['Net',net,net>=0?'#27ae60':'#e74c3c']].map(([l,v,c],i)=>(<div key={i} style={{background:'#f8f8f8',borderRadius:12,padding:10,textAlign:'center'}}><div style={{fontWeight:800,fontSize:12,color:c}}>{v<0?'-':''}🪙{Math.abs(v).toLocaleString()}</div><div style={{fontSize:9,color:'#aaa',marginTop:2}}>{l}</div></div>))}
+  const{coins,bankBal,goldHeld,goldPrice,totalEarned,todayEarned,todaySpent,loanDebt,jointBal,poolTotal,level,farmName,playerId,T}=G;
+  const[tab,setTab]=useState('overview');
+  const[leaderboard,setLeaderboard]=useState([]);
+
+  // Load leaderboard from Firebase
+  useEffect(()=>{
+    if(!db)return;
+    const unsub=onValue(ref(db,'leaderboard'),sn=>{
+      if(sn.exists()){
+        const data=Object.values(sn.val()).sort((a,b)=>b.totalEarned-a.totalEarned).slice(0,20);
+        setLeaderboard(data);
+      }
+    });
+    return()=>unsub();
+  },[]);
+
+  // Push own stats
+  useEffect(()=>{
+    if(!db||!playerId)return;
+    set(ref(db,`leaderboard/${playerId}`),{farmName,level,totalEarned,coins,playerId,time:Date.now()}).catch(()=>{});
+  },[totalEarned,level,coins,farmName,playerId]);
+
+  const netWorth=coins+bankBal+Math.floor(goldHeld*goldPrice)-loanDebt+jointBal;
+  const rows=[
+    ['💰 Coins in hand',`🪙${coins.toLocaleString()}`],
+    ['🏦 Bank balance',`🪙${bankBal.toLocaleString()}`],
+    ['🥇 Gold value',`🪙${Math.floor(goldHeld*goldPrice).toLocaleString()}`],
+    ['🌍 Pooled funds',`🪙${jointBal.toLocaleString()}`],
+    ['📈 Total earned',`🪙${totalEarned.toLocaleString()}`],
+    ['📅 Earned today',`🪙${todayEarned.toLocaleString()}`],
+    ['📅 Spent today',`🪙${todaySpent.toLocaleString()}`],
+    ['⚠️ Loan debt',loanDebt?`🪙${loanDebt}`:'None'],
+  ];
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:`linear-gradient(135deg,#1a6b2add,#27ae60cc)`,backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.15)'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Finance</div>
+        <div style={{fontSize:22,fontWeight:900,letterSpacing:-.3}}>💰 Dashboard</div>
+        <div style={{fontSize:13,opacity:.85,marginTop:4}}>Net Worth: <span style={{fontWeight:900,color:'#ffd700'}}>🪙{netWorth.toLocaleString()}</span></div>
       </div>
-    </Card>
-    <Card><div style={{fontWeight:800,fontSize:13,color:'#333',marginBottom:10}}>Balance Sheet</div>
-      {[['Wallet',coins,'#1a6b2a'],['Bank',bankBal,'#1a6b2a'],['Gold',gv,'#b7800a'],['Joint Fund',jointBal,'#16a085']].map(([l,v,c],i)=>(<div key={i} style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid #f0f0f0'}}><span style={{fontSize:13,color:'#555'}}>{l}</span><span style={{fontWeight:800,color:c}}>🪙{v.toLocaleString()}</span></div>))}
-      {loanDebt>0&&<div style={{display:'flex',justifyContent:'space-between',padding:'6px 0',borderBottom:'1px solid #f0f0f0'}}><span style={{fontSize:13,color:'#e74c3c'}}>Active Loan</span><span style={{fontWeight:800,color:'#e74c3c'}}>-🪙{loanDebt}</span></div>}
-      <div style={{display:'flex',justifyContent:'space-between',paddingTop:10}}><span style={{fontSize:15,fontWeight:800,color:'#111'}}>Net Worth</span><span style={{fontWeight:900,fontSize:17,color:'#b7800a'}}>🪙{nw.toLocaleString()}</span></div>
-    </Card>
-    <Card><SecHead label="ALL TIME"/><div style={{display:'flex',justifyContent:'space-between',fontSize:14}}><span style={{color:'#555'}}>Total Earned</span><span style={{fontWeight:800,color:'#27ae60'}}>🪙{totalEarned.toLocaleString()}</span></div></Card>
-  </div>);
+      <TabRow tabs={[['overview','📊 Overview'],['leaderboard','🏆 Top Farmers']]} active={tab} onSelect={setTab} ac='#27ae60'/>
+
+      {tab==='overview'&&rows.map(([k,v])=>(
+        <Card key={k}>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center'}}>
+            <div style={{fontSize:13,color:'#555'}}>{k}</div>
+            <div style={{fontWeight:900,fontSize:14,color:T.primary}}>{v}</div>
+          </div>
+        </Card>
+      ))}
+
+      {tab==='leaderboard'&&<>
+        <div style={{background:'linear-gradient(135deg,#f39c12,#e67e22)',borderRadius:16,padding:12,marginBottom:12,color:'#fff',textAlign:'center'}}>
+          <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase'}}>Global Rankings</div>
+          <div style={{fontSize:16,fontWeight:900,marginTop:2}}>Top Farmers Worldwide 🌍</div>
+        </div>
+        {leaderboard.length===0&&<div style={{textAlign:'center',padding:30,color:'rgba(255,255,255,0.4)'}}><div style={{fontSize:48}}>🏆</div><div style={{fontWeight:700,marginTop:8}}>Loading rankings...</div></div>}
+        {leaderboard.map((p,i)=>{
+          const medals=['🥇','🥈','🥉'];
+          const isMe=p.playerId===playerId;
+          return(
+            <Card key={p.playerId} style={isMe?{border:'2px solid #f39c12'}:{}}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{fontSize:24,width:36,textAlign:'center'}}>{medals[i]||`#${i+1}`}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:900,fontSize:14}}>{p.farmName}{isMe?' (You)':''}</div>
+                  <div style={{fontSize:11,color:'#888'}}>Level {p.level||1}</div>
+                </div>
+                <div style={{fontWeight:900,color:'#f39c12',fontSize:13}}>🪙{(p.totalEarned||0).toLocaleString()}</div>
+              </div>
+            </Card>
+          );
+        })}
+      </>}
+    </div>
+  );
 }
 
 function GarageScreen({G}){
@@ -2534,7 +2662,7 @@ function FishingScreen({G}){
         <div style={{background:'#e8f4f8',borderRadius:14,padding:12,marginBottom:12,fontSize:12,color:'#1a6b8a',fontWeight:600}}>
           🍽️ Combine fish with farm produce for premium dishes worth much more!
         </div>
-        {FISH_RECIPES.map(recipe=>{
+        {KITCHEN_RECIPES.filter(r=>Object.keys(r.ing).some(id=>FISH.some(f=>f.id===id))).map(recipe=>{
           const can=canCraftFish(recipe);
           const owned=G.craftInv[recipe.id]||0;
           return(
@@ -2685,6 +2813,178 @@ function WorkersScreen({G}){
     </div>
   );
 }
+
+function KitchenScreen({G}){
+  const{silo,minerals,craftInv,setCraftInv,fishInv,earn,setXp,notify,T,level}=G;
+  const[tab,setTab]=useState('cook');
+  const[search,setSearch]=useState('');
+
+  const getQty=(id)=>(silo[id]||0)+(craftInv[id]||0)+(fishInv[id]||0);
+
+  const canCookRecipe=(r)=>Object.entries(r.ing).every(([id,qty])=>getQty(id)>=qty);
+
+  const cookRecipe=(r)=>{
+    if(!canCookRecipe(r)){notify('Missing ingredients!','orange');return;}
+    // Deduct from inventories (silo first, then craftInv, then fishInv)
+    for(const[id,qty] of Object.entries(r.ing)){
+      let remaining=qty;
+      if((silo[id]||0)>0){
+        const take=Math.min(remaining,silo[id]);
+        G.setSilo(s=>({...s,[id]:s[id]-take}));
+        remaining-=take;
+      }
+      if(remaining>0&&(fishInv[id]||0)>0){
+        const take=Math.min(remaining,fishInv[id]);
+        G.setFishInv(f=>({...f,[id]:f[id]-take}));
+        remaining-=take;
+      }
+    }
+    if(r.id==='biofuel'||r.id==='biofuel_premium'){
+      const fuelAmt=r.id==='biofuel'?25:75;
+      G.setFuel&&G.setFuel(f=>Math.min(G.upgrades?.fuelTank3?1000:G.upgrades?.fuelTank2?500:200,f+fuelAmt));
+      setXp(x=>x+r.xp);
+      notify(`${r.emoji} Biofuel crafted! +${fuelAmt} fuel!`,'#27ae60');
+    } else {
+      setCraftInv(c=>({...c,[r.id]:(c[r.id]||0)+1}));
+      setXp(x=>x+r.xp);
+      notify(`Cooked ${r.emoji} ${r.name}! +${r.xp}XP`,'green');
+    }
+  };
+
+  const sellMeal=(r)=>{
+    const qty=craftInv[r.id]||0;
+    if(!qty){notify('Nothing to sell!','orange');return;}
+    earn(r.sell*qty);
+    setCraftInv(c=>({...c,[r.id]:0}));
+    notify(`Sold ${qty}x ${r.emoji} ${r.name} for 🪙${(r.sell*qty).toLocaleString()}!`,'gold');
+  };
+
+  const tierColors={1:'#27ae60',2:'#f39c12',3:'#e67e22',4:'#e74c3c',5:'#8e44ad'};
+  const tierLabels={1:'Basic',2:'Intermediate',3:'Advanced',4:'Expert',5:'Legendary'};
+
+  const cooked=KITCHEN_RECIPES.filter(r=>(craftInv[r.id]||0)>0);
+  const filtered=KITCHEN_RECIPES.filter(r=>!search||r.name.toLowerCase().includes(search.toLowerCase()));
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#c0392bdd,#e74c3ccc)',backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.15)'}}>
+        <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Farm Kitchen</div>
+        <div style={{fontSize:22,fontWeight:900,letterSpacing:-.3}}>🍳 Cook Meals</div>
+        <div style={{fontSize:12,opacity:.75,marginTop:2}}>Combine crops and fish into premium dishes · {cooked.length} dishes ready to sell</div>
+      </div>
+      <TabRow tabs={[['cook','🍳 Recipes'],['pantry','🥫 Pantry'],['ready','🍽️ Ready ('+cooked.length+')']]} active={tab} onSelect={setTab} ac='#e74c3c'/>
+
+      {tab==='cook'&&<>
+        <div style={{marginBottom:10}}>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search recipes..." style={{width:'100%',background:'rgba(255,255,255,0.1)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.2)',borderRadius:14,padding:'10px 16px',fontSize:13,outline:'none',color:'#fff',boxSizing:'border-box',fontFamily:'inherit'}}/>
+        </div>
+        {[1,2,3,4,5].map(tier=>{
+          const tierRecipes=filtered.filter(r=>r.tier===tier);
+          if(!tierRecipes.length)return null;
+          return(
+            <div key={tier} style={{marginBottom:16}}>
+              <div style={{fontSize:10,fontWeight:900,color:tierColors[tier],letterSpacing:2,marginBottom:8,textTransform:'uppercase',display:'flex',alignItems:'center',gap:6}}>
+                <span style={{width:8,height:8,background:tierColors[tier],borderRadius:20,display:'inline-block'}}/>
+                {tierLabels[tier]} Recipes
+              </div>
+              {tierRecipes.map(r=>{
+                const can=canCookRecipe(r);
+                const owned=craftInv[r.id]||0;
+                return(
+                  <Card key={r.id}>
+                    <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:8}}>
+                      <div style={{fontSize:36,filter:can?'none':'grayscale(80%)'}}>{r.emoji}</div>
+                      <div style={{flex:1}}>
+                        <div style={{fontWeight:900,fontSize:14}}>{r.name}</div>
+                        <div style={{fontSize:11,color:'#888'}}>{r.desc}</div>
+                        <div style={{fontSize:12,fontWeight:700,color:'#f39c12',marginTop:2}}>🪙{r.sell.toLocaleString()} · +{r.xp}XP</div>
+                      </div>
+                      {owned>0&&<div style={{background:'#f0fff4',borderRadius:12,padding:'4px 10px',fontSize:12,fontWeight:900,color:'#27ae60'}}>×{owned}</div>}
+                    </div>
+                    <div style={{display:'flex',gap:5,flexWrap:'wrap',marginBottom:8}}>
+                      {Object.entries(r.ing).map(([id,qty])=>{
+                        const have=getQty(id);
+                        const ok=have>=qty;
+                        const item=CROPS.find(c=>c.id===id)||MINERALS.find(m=>m.id===id)||FISH.find(f=>f.id===id);
+                        return(
+                          <div key={id} style={{background:ok?'rgba(39,174,96,0.15)':'rgba(231,76,60,0.15)',border:`1px solid ${ok?'rgba(39,174,96,0.4)':'rgba(231,76,60,0.4)'}`,borderRadius:10,padding:'3px 9px',fontSize:11,fontWeight:700,color:ok?'#1a6b2a':'#c0392b'}}>
+                            {item?.emoji||'❓'} {have}/{qty}
+                          </div>
+                        );
+                      })}
+                    </div>
+                    <div style={{display:'flex',gap:6}}>
+                      <Btn onClick={()=>cookRecipe(r)} disabled={!can} color='#e74c3c' style={{flex:2,padding:9,fontSize:12}}>{can?`Cook ${r.emoji}`:'Missing ingredients'}</Btn>
+                      {owned>0&&<Btn onClick={()=>sellMeal(r)} color='#f39c12' style={{flex:1,padding:9,fontSize:12}}>Sell 🪙{(r.sell*owned).toLocaleString()}</Btn>}
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          );
+        })}
+      </>}
+
+      {tab==='pantry'&&<>
+        <div style={{fontSize:10,fontWeight:900,color:'rgba(255,255,255,0.5)',letterSpacing:2,marginBottom:10,textTransform:'uppercase'}}>Available Ingredients</div>
+        {[
+          {label:'🌾 Crops',items:CROPS.filter(c=>(silo[c.id]||0)>0).map(c=>({...c,qty:silo[c.id]||0}))},
+          {label:'🐟 Fish',items:FISH.filter(f=>(fishInv[f.id]||0)>0).map(f=>({...f,qty:fishInv[f.id]||0}))},
+        ].map(cat=>cat.items.length>0&&(
+          <div key={cat.label} style={{marginBottom:14}}>
+            <div style={{fontSize:11,fontWeight:700,color:'rgba(255,255,255,0.5)',marginBottom:6}}>{cat.label}</div>
+            <div style={{display:'flex',gap:6,flexWrap:'wrap'}}>
+              {cat.items.map(i=>(
+                <div key={i.id} style={{background:'rgba(255,255,255,0.1)',backdropFilter:'blur(8px)',borderRadius:14,padding:'8px 12px',textAlign:'center',border:'1px solid rgba(255,255,255,0.15)',minWidth:70}}>
+                  <div style={{fontSize:22}}>{i.emoji}</div>
+                  <div style={{fontSize:10,color:'rgba(255,255,255,0.8)',fontWeight:700,marginTop:2}}>{i.name}</div>
+                  <div style={{fontSize:12,fontWeight:900,color:'#4ade80'}}>×{i.qty}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+        {CROPS.every(c=>(silo[c.id]||0)===0)&&FISH.every(f=>(fishInv[f.id]||0)===0)&&
+          <div style={{textAlign:'center',padding:30,color:'rgba(255,255,255,0.4)'}}><div style={{fontSize:48}}>🥫</div><div style={{marginTop:8,fontWeight:700}}>Pantry is empty</div><div style={{fontSize:12,marginTop:4,opacity:.6}}>Harvest crops or catch fish to cook!</div></div>
+        }
+      </>}
+
+      {tab==='ready'&&<>
+        {cooked.length===0?(
+          <div style={{textAlign:'center',padding:40,color:'rgba(255,255,255,0.4)'}}>
+            <div style={{fontSize:56}}>🍽️</div>
+            <div style={{fontWeight:800,fontSize:16,marginTop:10}}>No meals ready</div>
+            <div style={{fontSize:12,marginTop:6,opacity:.6}}>Cook something from the Recipes tab!</div>
+          </div>
+        ):<>
+          <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10}}>
+            <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,0.7)'}}>Ready to sell</div>
+            <Btn onClick={()=>{
+              let total=0;
+              cooked.forEach(r=>{total+=r.sell*(craftInv[r.id]||0);});
+              earn(total);
+              cooked.forEach(r=>setCraftInv(c=>({...c,[r.id]:0})));
+              notify(`Sold all meals for 🪙${total.toLocaleString()}!`,'gold');
+            }} color='#27ae60' style={{fontSize:12,padding:'7px 14px'}}>Sell All</Btn>
+          </div>
+          {cooked.map(r=>(
+            <Card key={r.id}>
+              <div style={{display:'flex',alignItems:'center',gap:10}}>
+                <div style={{fontSize:32}}>{r.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:14}}>{r.name}</div>
+                  <div style={{fontSize:11,color:'#888'}}>×{craftInv[r.id]} portions · 🪙{r.sell} each</div>
+                </div>
+                <Btn onClick={()=>sellMeal(r)} color='#f39c12' style={{fontSize:12,padding:'8px 12px'}}>🪙{(r.sell*(craftInv[r.id]||0)).toLocaleString()}</Btn>
+              </div>
+            </Card>
+          ))}
+        </>}
+      </>}
+    </div>
+  );
+}
+
 function AuthScreen({onLogin}){
   const[mode,setMode]=useState('login');
   const[email,setEmail]=useState('');
