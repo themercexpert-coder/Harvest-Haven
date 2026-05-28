@@ -1594,6 +1594,185 @@ function PetsScreen({G}){
   );
 }
 
+function AnimalsScreen({G}){
+  const{ownedAnimals,animalLevels,animalXp,meatInv,collectAnimal,buyAnimal,slaughter,eatMeat,sellMeat,coins,level,T,animalCd}=G;
+  const [tab,setTab]=useState('owned');
+
+  const totalOwned=Object.values(ownedAnimals||{}).reduce((sum,amt)=>sum+(amt||0),0);
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#5d4037,#795548)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>ANIMAL HUSBANDRY</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🐄 Barn & Herd</div>
+        <div style={{fontSize:12,opacity:.75,marginTop:2}}>{totalOwned} animals across {ANIMALS.filter(a=>(ownedAnimals[a.id]||0)>0).length} types · {Object.values(meatInv||{}).reduce((sum,v)=>sum+(v||0),0)} meat stored</div>
+      </div>
+
+      <div style={{display:'flex',gap:8,marginBottom:12}}>
+        <button onClick={()=>setTab('owned')} style={{flex:1,background:tab==='owned'?T.primary:'rgba(255,255,255,0.12)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:12,padding:'10px 12px',color:'#fff',fontWeight:700,cursor:'pointer'}}>My Herd</button>
+        <button onClick={()=>setTab('buy')} style={{flex:1,background:tab==='buy'?T.primary:'rgba(255,255,255,0.12)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:12,padding:'10px 12px',color:'#fff',fontWeight:700,cursor:'pointer'}}>Buy</button>
+        <button onClick={()=>setTab('meat')} style={{flex:1,background:tab==='meat'?T.primary:'rgba(255,255,255,0.12)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:12,padding:'10px 12px',color:'#fff',fontWeight:700,cursor:'pointer'}}>Meat</button>
+      </div>
+
+      {tab==='owned' && (
+        totalOwned===0 ? (
+          <Card>
+            <div style={{textAlign:'center',padding:'12px 0'}}>
+              <div style={{fontSize:42,marginBottom:8}}>🐄</div>
+              <div style={{fontWeight:800,fontSize:15,color:'#111'}}>No animals yet</div>
+              <div style={{fontSize:12,color:'#666',marginTop:4}}>Buy your first animal to start collecting rewards.</div>
+              <button onClick={()=>setTab('buy')} style={{marginTop:10,background:T.primary,color:'#fff',border:'none',borderRadius:10,padding:'8px 14px',fontWeight:800,cursor:'pointer'}}>Buy an Animal</button>
+            </div>
+          </Card>
+        ) : (
+          ANIMALS.map(a=>{
+            const owned=ownedAnimals[a.id]||0;
+            if(owned===0) return null;
+
+            const lvArray=animalLevels[a.id]||Array(owned).fill(1);
+            const avgLevel=Math.max(1,Math.round(lvArray.reduce((sum,v)=>sum+v,0)/lvArray.length));
+            const xpArray=animalXp[a.id]||Array(owned).fill(0);
+            const totalXp=xpArray.reduce((sum,v)=>sum+v,0);
+            const resting=!!animalCd?.[a.id];
+            const meatCount=meatInv[a.id]||0;
+
+            return(
+              <Card key={a.id}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+                  <div style={{fontSize:38}}>{a.emoji}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{a.name}</div>
+                    <div style={{fontSize:11,color:'#666',marginTop:2}}>Owns {owned} · Avg Lv {avgLevel} · {totalXp} XP</div>
+                  </div>
+                  <div style={{background:'#f8f8f8',borderRadius:12,padding:'6px 10px',textAlign:'center'}}>
+                    <div style={{fontSize:9,color:'#888'}}>Avg Lv</div>
+                    <div style={{fontWeight:900,fontSize:14,color:T.primary}}>{avgLevel}</div>
+                  </div>
+                </div>
+
+                <div style={{display:'flex',gap:8,marginBottom:8}}>
+                  <button
+                    onClick={()=>collectAnimal(a)}
+                    disabled={resting || owned===0}
+                    style={{flex:1,background:resting?'#bbb':T.primary,color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:resting?'default':'pointer',fontSize:12}}
+                  >
+                    {resting?'Resting 1h':a.value===0?'Restore Stamina':'Collect'}
+                  </button>
+                  <button
+                    onClick={()=>buyAnimal(a)}
+                    disabled={coins<a.buyCost || totalOwned>=level}
+                    style={{flex:1,background:(coins<a.buyCost || totalOwned>=level)?'#bbb':'#27ae60',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:(coins<a.buyCost || totalOwned>=level)?'default':'pointer',fontSize:12}}
+                  >
+                    {totalOwned>=level?'Max Herd':coins<a.buyCost?'Need 🪙':'Buy'}
+                  </button>
+                </div>
+
+                <div style={{display:'flex',gap:8}}>
+                  <button
+                    onClick={()=>slaughter(a)}
+                    disabled={owned<=1}
+                    style={{flex:1,background:owned<=1?'#bbb':'#c0392b',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:owned<=1?'default':'pointer',fontSize:12}}
+                  >
+                    Slaughter
+                  </button>
+                  {meatCount>0 && (
+                    <>
+                      <button
+                        onClick={()=>eatMeat(a)}
+                        style={{flex:1,background:'#e67e22',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:'pointer',fontSize:12}}
+                      >
+                        Eat Meat
+                      </button>
+                      <button
+                        onClick={()=>sellMeat(a)}
+                        style={{flex:1,background:'#b7800a',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:'pointer',fontSize:12}}
+                      >
+                        Sell Meat
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {resting && (
+                  <div style={{fontSize:11,color:'#e67e22',fontWeight:700,marginTop:8}}>This animal is resting and can’t collect yet.</div>
+                )}
+                {meatCount>0 && (
+                  <div style={{fontSize:11,color:'#666',marginTop:8}}>Stored meat: {meatCount}x {a.me || a.emoji}</div>
+                )}
+              </Card>
+            );
+          })
+        )
+      )}
+
+      {tab==='buy' && (
+        ANIMALS.map(a=>{
+          const owned=ownedAnimals[a.id]||0;
+          const canAfford=coins>=a.buyCost;
+          const maxed=totalOwned>=level;
+
+          return(
+            <Card key={a.id}>
+              <div style={{display:'flex',alignItems:'center',gap:12}}>
+                <div style={{fontSize:38}}>{a.emoji}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{a.name}</div>
+                  <div style={{fontSize:11,color:'#666',marginTop:2}}>Product: {a.product} · Feed: {a.feedEmoji} {a.feedItem}</div>
+                  <div style={{fontSize:12,fontWeight:700,color:'#b7800a',marginTop:4}}>🪙{a.buyCost.toLocaleString()}</div>
+                </div>
+                <div style={{background:'#f8f8f8',borderRadius:10,padding:'6px 10px',textAlign:'center'}}>
+                  <div style={{fontSize:9,color:'#888'}}>Owned</div>
+                  <div style={{fontWeight:900,fontSize:14,color:T.primary}}>{owned}</div>
+                </div>
+              </div>
+              <button
+                onClick={()=>buyAnimal(a)}
+                disabled={!canAfford || maxed}
+                style={{marginTop:10,background:(!canAfford || maxed)?'#bbb':'#27ae60',color:'#fff',border:'none',borderRadius:10,padding:'9px 12px',fontWeight:800, cursor:(!canAfford || maxed)?'default':'pointer', width:'100%', fontSize:12}}
+              >
+                {!canAfford?'Need 🪙':maxed?'Max Herd Reached':'Buy Animal'}
+              </button>
+            </Card>
+          );
+        })
+      )}
+
+      {tab==='meat' && (
+        ANIMALS.filter(a=>(meatInv[a.id]||0)>0).length===0 ? (
+          <Card>
+            <div style={{textAlign:'center',padding:'12px 0'}}>
+              <div style={{fontSize:42,marginBottom:8}}>🥩</div>
+              <div style={{fontWeight:800,fontSize:15,color:'#111'}}>No meat stored</div>
+              <div style={{fontSize:12,color:'#666',marginTop:4}}>Slaughter animals to collect meat for stamina or sales.</div>
+            </div>
+          </Card>
+        ) : (
+          ANIMALS.filter(a=>(meatInv[a.id]||0)>0).map(a=>{
+            const qty=meatInv[a.id]||0;
+
+            return(
+              <Card key={a.id}>
+                <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+                  <div style={{fontSize:34}}>{a.me}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{a.meat}</div>
+                    <div style={{fontSize:11,color:'#666',marginTop:2}}>Stored from {a.name}</div>
+                  </div>
+                  <div style={{background:'#f8f8f8',borderRadius:10,padding:'6px 10px',fontWeight:900,color:'#c0392b'}}>×{qty}</div>
+                </div>
+                <div style={{display:'flex',gap:8}}>
+                  <button onClick={()=>eatMeat(a)} style={{flex:1,background:'#e67e22',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:'pointer',fontSize:12}}>Eat Meat</button>
+                  <button onClick={()=>sellMeat(a)} style={{flex:1,background:'#27ae60',color:'#fff',border:'none',borderRadius:10,padding:'9px 10px',fontWeight:800,cursor:'pointer',fontSize:12}}>Sell Meat</button>
+                </div>
+              </Card>
+            );
+          })
+        )
+      )}
+    </div>
+  );
+}
+
 function CollectionsScreen({G}){
   const{collected,T}=G;
   const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'})),...KITCHEN_RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Cooked'})),...FISH.map(f=>({id:f.id,name:f.name,emoji:f.emoji,cat:'Fish'}))];
