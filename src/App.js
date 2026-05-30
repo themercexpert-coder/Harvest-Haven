@@ -1773,6 +1773,104 @@ function AnimalsScreen({G}){
   );
 }
 
+function ButcheryScreen({G}){
+  const{ownedAnimals={},meatInv={},slaughter,eatMeat,sellMeat,level=1,T}=G;
+  const meatAnimals=ANIMALS.filter(a=>a.meat);
+  const stocked=meatAnimals.filter(a=>(meatInv[a.id]||0)>0);
+  const totalMeat=Object.values(meatInv||{}).reduce((sum,v)=>sum+(v||0),0);
+  const theme=T||THEMES[0];
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#7f1d1d,#c0392b)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>BUTCHERY</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>🔪 Meat Processing</div>
+        <div style={{fontSize:12,opacity:.78}}>Process extra livestock into meat, then eat it for stamina or sell it for coins.</div>
+      </div>
+
+      <Card style={{background:'#fff5f5',border:'1px solid #f5c6cb'}}>
+        <div style={{fontSize:12,fontWeight:800,color:'#c0392b',marginBottom:6}}>How it works</div>
+        <div style={{fontSize:11,color:'#555',lineHeight:1.7}}>
+          You must own at least 2 of an animal before processing one. The last animal is protected so your farm keeps producing.
+        </div>
+        <div style={{display:'flex',gap:8,marginTop:10}}>
+          <div style={{flex:1,background:'#fff',borderRadius:12,padding:10,textAlign:'center'}}>
+            <div style={{fontSize:10,color:'#888',fontWeight:700}}>MEAT STORED</div>
+            <div style={{fontSize:18,fontWeight:900,color:'#c0392b'}}>{totalMeat}</div>
+          </div>
+          <div style={{flex:1,background:'#fff',borderRadius:12,padding:10,textAlign:'center'}}>
+            <div style={{fontSize:10,color:'#888',fontWeight:700}}>HERD LIMIT</div>
+            <div style={{fontSize:18,fontWeight:900,color:theme.primary}}>{level}</div>
+          </div>
+        </div>
+      </Card>
+
+      <SecHead label="PROCESS LIVESTOCK" color="#c0392b"/>
+      {meatAnimals.map(a=>{
+        const owned=ownedAnimals[a.id]||0;
+        const qty=meatInv[a.id]||0;
+        const canProcess=owned>1;
+        return(
+          <Card key={a.id}>
+            <div style={{display:'flex',alignItems:'center',gap:12,marginBottom:10}}>
+              <div style={{fontSize:36}}>{a.emoji}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{a.name}</div>
+                <div style={{fontSize:11,color:'#666',marginTop:2}}>Owned: {owned} · Produces {a.me} {a.meat}</div>
+                <div style={{fontSize:11,color:'#888',marginTop:2}}>Eat: +{a.ms} stamina · Sell: 🪙{a.mv}</div>
+              </div>
+              <button
+                onClick={()=>slaughter(a)}
+                disabled={!canProcess}
+                style={{background:canProcess?'#c0392b':'#bbb',color:'#fff',border:'none',borderRadius:10,padding:'9px 12px',fontWeight:800,cursor:canProcess?'pointer':'default',fontSize:12,flexShrink:0}}
+              >
+                Process
+              </button>
+            </div>
+            {!canProcess&&(
+              <div style={{fontSize:11,color:'#999',background:'#f8f8f8',borderRadius:10,padding:'7px 10px'}}>
+                {owned===0?'Buy this animal first.':'Buy one more before processing.'}
+              </div>
+            )}
+            {qty>0&&(
+              <div style={{display:'flex',alignItems:'center',gap:8,paddingTop:10,marginTop:10,borderTop:'1px solid #f0f0f0'}}>
+                <span style={{flex:1,fontSize:13,fontWeight:800,color:'#333'}}>{a.me} {qty} in stock</span>
+                <button onClick={()=>eatMeat(a)} style={{background:'#e67e22',color:'#fff',border:'none',borderRadius:10,padding:'8px 11px',fontWeight:800,cursor:'pointer',fontSize:12}}>Eat</button>
+                <button onClick={()=>sellMeat(a)} style={{background:'#27ae60',color:'#fff',border:'none',borderRadius:10,padding:'8px 11px',fontWeight:800,cursor:'pointer',fontSize:12}}>Sell All</button>
+              </div>
+            )}
+          </Card>
+        );
+      })}
+
+      <SecHead label="MEAT STORAGE" color="#c0392b"/>
+      {stocked.length===0?(
+        <Card>
+          <div style={{textAlign:'center',padding:'12px 0'}}>
+            <div style={{fontSize:42,marginBottom:8}}>🥩</div>
+            <div style={{fontWeight:800,fontSize:15,color:'#111'}}>No meat stored yet</div>
+            <div style={{fontSize:12,color:'#666',marginTop:4}}>Process extra animals to fill your butchery storage.</div>
+          </div>
+        </Card>
+      ):stocked.map(a=>{
+        const qty=meatInv[a.id]||0;
+        return(
+          <Card key={`stored-${a.id}`}>
+            <div style={{display:'flex',alignItems:'center',gap:12}}>
+              <div style={{fontSize:34}}>{a.me}</div>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15,color:'#111'}}>{a.meat}</div>
+                <div style={{fontSize:11,color:'#666',marginTop:2}}>Stored from {a.name}</div>
+              </div>
+              <div style={{background:'#fff5f5',borderRadius:10,padding:'6px 10px',fontWeight:900,color:'#c0392b'}}>×{qty}</div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+}
+
 function CollectionsScreen({G}){
   const{collected,T}=G;
   const allItems=[...CROPS.map(c=>({id:c.id,name:c.name,emoji:c.emoji,cat:'Crops'})),...MINERALS.map(m=>({id:m.id,name:m.name,emoji:m.emoji,cat:'Minerals'})),...RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Crafted'})),...KITCHEN_RECIPES.map(r=>({id:r.id,name:r.name,emoji:r.emoji,cat:'Cooked'})),...FISH.map(f=>({id:f.id,name:f.name,emoji:f.emoji,cat:'Fish'}))];
