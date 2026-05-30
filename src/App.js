@@ -427,6 +427,7 @@ function HarvestHaven({user,onSignOut}){
   const [unreadChat,setUnreadChat]=useState(0);
   const [lastSeenChat,setLastSeenChat]=useState(()=>parseInt(localStorage.getItem('hh_lastseen_chat')||'0'));
   const [globalEvents,setGlobalEvents]=useState([]); // in-game event feed
+  const [helpDismissed,setHelpDismissed]=useState(false);
   const [seasonIdx,setSeasonIdx]=useState(0);
   const [streak,setStreak]=useState(0);
   const [lastLogin,setLastLogin]=useState('');
@@ -514,7 +515,7 @@ function HarvestHaven({user,onSignOut}){
         if(!saveData){const raw=localStorage.getItem('hh7')||localStorage.getItem('hh6')||localStorage.getItem('hh_save');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
-          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC,farmName:setFarmName,themeId:setThemeId,stallCfg:setStall,dailyClaimed:setDC,lastPoolDist:setLastPoolDist};
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC,farmName:setFarmName,themeId:setThemeId,stallCfg:setStall,dailyClaimed:setDC,lastPoolDist:setLastPoolDist,helpDismissed:setHelpDismissed};
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
           if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));if(s.mach)setMach(s.mach);if(s.fuel!==undefined)setFuel(s.fuel);
           if(s.claimedGoals)localStorage.setItem('hh_goals_claimed',JSON.stringify(s.claimedGoals));
@@ -541,13 +542,13 @@ const saveGame=useCallback(async()=>{
       let claimedGoals=[];try{claimedGoals=JSON.parse(localStorage.getItem('hh_goals_claimed')||'[]');}catch{}
       let workers=[];try{workers=JSON.parse(localStorage.getItem('hh_workers')||'[]');}catch{}
       const lastClaim=localStorage.getItem('hh_lastclaim')||'';
-      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist,claimedGoals,workers,lastClaim,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
+      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist,helpDismissed:level>=5?true:helpDismissed,claimedGoals,workers,lastClaim,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
       localStorage.setItem('hh7',JSON.stringify(s));
       if(db&&uid){
         try{await set(ref(db,`saves/${uid}`),{version:8,updatedAt:Date.now(),data:s});}catch(e){console.log('Firebase save error',e);}
       }
     }catch(e){console.log('Save error',e);}
-  },[user?.uid,coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist]);
+  },[user?.uid,coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist,helpDismissed]);
 useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},[saveGame]);
   useEffect(()=>{
     const handler=()=>saveGame();
@@ -568,6 +569,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
       if(db){const evId=`lvl_${Date.now()}_${playerId}`;set(ref(db,`globalevents/${evId}`),{type:'level_up',farm:farmName,level:newLevel,time:Date.now()}).catch(()=>{});}
     }
   },[xp]);
+  useEffect(()=>{if(level>=5)setHelpDismissed(true);},[level]);
   useEffect(()=>{const t=setInterval(()=>{setTiles(ts=>{const now=Date.now();let ch=false;const nx=ts.map(ti=>{if(ti.state==='planted'&&ti.growsAt>0&&now>=ti.growsAt){ch=true;return{...ti,state:'ready'};}return ti;});return ch?nx:ts;});},2000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>{setPets(ps=>ps.map(p=>({...p,hunger:Math.max(0,p.hunger-1),happiness:Math.max(0,p.happiness-.5)})));},45000);return()=>clearInterval(t);},[]);
   useEffect(()=>{const t=setInterval(()=>setSeasonIdx(i=>(i+1)%4),240000);return()=>clearInterval(t);},[]);
@@ -1095,7 +1097,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
     return true;
   };
 
-    const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),setFuel:f=>setFuel(f),setCraftInv:c=>setCraftInv(c),setFishInv:f=>setFishInv(f),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
+    const G={coins,earn,spend,notify,setChat,level,xp,setXp,totalEarned,todayEarned,todaySpent,bankBal,setBankBal,goldHeld,goldPrice,goldBuy,setGoldBuy,goldSell,setGoldSell,buyGoldF,sellGoldF,animalCd,collectAnimal,minerals,mine,mineCd,sellMin,stallCfg,setStall,stamina,setStamina,meatInv,slaughter,eatMeat,sellMeat,silo,siloTotal,siloValue,sellFrom,sellOne,sellAll,totalHarv,setScreen,farmName,updateFN,themeId,updateTheme,playerId,T,season,seasonIdx,setSeasonIdx,cropPrice,tasks,activeTasks,availTasks,acceptTask,abandonTask,canComplete,completeTask,setTasks,pets,petInv,adoptPet,feedPet,playPet,chatMsgs,sendChat,blocked,setBlocked,unreadChat,setUnreadChat,lastSeenChat,setLastSeenChat,globalEvents,helpDismissed,setHelpDismissed,streak,lastLogin,dailyClaimed,setDC,claimDaily,craftInv,craft,canCraft,sellCrafted,collected,friendship,hardTasks,minedTotal,goldenHarv,animalTypes,listings,addListing,buyListing,loanDebt,takeEmergencyLoan,setLoanDebt,dqP,dqDone,claimDQ,friendsList,setFriendsList,friendStreak,lastFriendHelp,sendFriendHelp,upgrades,buyUpgrade,goldGrowthBal,setGGB,goldGrowth,setGG,jointBal,setJB,poolTotal,myPoolShare,friendBonus,plantAll,harvestAll,waterAll,autoPlow,ownedAnimals,buyAnimal,animalLevels,animalXp,mach,fuel,buyMach,upgMach,toggleMach,repairMach,buyFuelF,addToQueue,clearQueue,MACH_DEF,FUEL_SHOP,allStalls,setSilo:s=>setSilo(s),setMin:m=>setMin(m),setFuel:f=>setFuel(f),setCraftInv:c=>setCraftInv(c),setFishInv:f=>setFishInv(f),landPlots,buyLand,fishInv,baitInv,selBait,setSelBait,fishCd,castLine,sellFish,sellAllFish,buyBait,craftFishRecipe,canCraftFish,totalFishCaught,fishChatMsgs,setFishChat};
 
   return(
     <div style={{width:'100%',maxWidth:430,margin:'0 auto',height:'100vh',display:'flex',flexDirection:'column',background:T.bg,fontFamily:'system-ui,sans-serif',overflow:'hidden',position:'relative'}}>
@@ -1202,7 +1204,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
 }
 
 function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
-  const{coins,setScreen,T,level,pets,dailyClaimed,loanDebt,dqDone,friendStreak,streak,farmName,totalEarned,xp,fishInv}=G;
+  const{coins,setScreen,T,level,pets,dailyClaimed,loanDebt,dqDone,friendStreak,streak,farmName,totalEarned,xp,fishInv,helpDismissed,setHelpDismissed}=G;
   const totalFish=Object.values(fishInv||{}).reduce((a,b)=>a+b,0);
   const{unreadChat}=G;
   const badges={silo:siloTotal>0?`${siloTotal}`:null,mine:minCount>0?`${minCount}`:null,taskboard:activeTasks.length>0?`${activeTasks.length}`:null,pets:pets.length>0?`${pets.length}`:null,daily:!dailyClaimed?'!':null,chat:unreadChat>0?`${unreadChat}`:null};
@@ -1271,6 +1273,35 @@ function HomeScreen({G,siloTotal,siloValue,minCount,activeTasks}){
         <div style={{fontSize:12,fontWeight:900,color:'#fff'}}>🤝 Friend Streak {friendStreak} days</div>
         <div style={{fontSize:12,fontWeight:700,color:'rgba(255,255,255,0.9)'}}>+{Math.round(friendStreak*.05*100)}% bonus</div>
       </div>}
+
+      {level<5&&!helpDismissed&&(
+        <Card style={{background:'linear-gradient(135deg,rgba(255,255,255,.98),rgba(236,253,245,.96))',border:'2px solid rgba(74,222,128,.45)',boxShadow:'0 8px 28px rgba(22,163,74,.18)'}}>
+          <div style={{display:'flex',justifyContent:'space-between',gap:10,alignItems:'flex-start',marginBottom:10}}>
+            <div>
+              <div style={{fontSize:11,fontWeight:900,color:T.primary,letterSpacing:1.4,textTransform:'uppercase'}}>New Farmer Tips</div>
+              <div style={{fontSize:18,fontWeight:900,color:'#111',marginTop:2}}>🌱 Learn Harvest Haven</div>
+              <div style={{fontSize:12,color:'#555',lineHeight:1.5,marginTop:4}}>Follow these basics until Level 5. After that, this helper switches off automatically.</div>
+            </div>
+            <button onClick={()=>setHelpDismissed(true)} style={{background:'#f3f4f6',border:'1px solid #e5e7eb',borderRadius:10,padding:'6px 9px',fontSize:11,fontWeight:900,color:'#666',cursor:'pointer',flexShrink:0}}>Got it</button>
+          </div>
+          {[
+            ['1','Plow and plant','Open Farming Fields, tap empty soil to plow, choose a crop, then plant it.'],
+            ['2','Harvest and sell','When crops glow ready, harvest them into the Silo and sell for coins.'],
+            ['3','Use daily boosts','Claim Daily Rewards and complete Task Board requests for faster XP.'],
+            ['4','Grow your farm','Buy animals, craft in the Workshop, and unlock the Mine at Level 5.'],
+          ].map(([n,title,txt])=>(
+            <div key={n} style={{display:'flex',gap:9,alignItems:'flex-start',padding:'7px 0',borderTop:n==='1'?'none':'1px solid #eef2f0'}}>
+              <div style={{width:22,height:22,borderRadius:'50%',background:T.primary,color:'#fff',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:900,flexShrink:0}}>{n}</div>
+              <div><div style={{fontSize:12,fontWeight:900,color:'#222'}}>{title}</div><div style={{fontSize:11,color:'#666',lineHeight:1.45}}>{txt}</div></div>
+            </div>
+          ))}
+          <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:8,marginTop:10}}>
+            {[['farm','Start Farming'],['daily','Daily Reward'],['taskboard','Task Board'],['farmhouse','Guide Books']].map(([id,label])=>(
+              <button key={id} onClick={()=>setScreen(id)} style={{background:id==='farm'?T.primary:'#fff',color:id==='farm'?'#fff':T.primary,border:`1.5px solid ${T.primary}44`,borderRadius:12,padding:'8px 6px',fontSize:11,fontWeight:900,cursor:'pointer'}}>{label}</button>
+            ))}
+          </div>
+        </Card>
+      )}
 
       {/* Menu sections */}
       {menu.map((sec,si)=>(
