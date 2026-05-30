@@ -340,13 +340,13 @@ const UPGRADES=[
   {id:'doubleXp',name:'XP Booster',emoji:'⭐',desc:'+50% XP from all activities permanently',cost:6000},
 ];
 const MENU_DEF=[
-  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting Workshop',desc:'Forge tools and goods from minerals',ac:'#795548',ml:3},{id:'kitchen',emoji:'🍳',label:'Kitchen',desc:'Cook recipes from crops, fish and produce',ac:'#e74c3c',ml:1},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:5},{id:'fishing',emoji:'🎣',label:'Farm Lake',desc:'Fish, craft and trade catches',ac:'#2980b9',ml:1},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
+  {title:'YOUR FARM',items:[{id:'daily',emoji:'🎁',label:'Daily Rewards',desc:'Claim daily bonus and streak',ac:'#f39c12',ml:1},{id:'farm',emoji:'🌾',label:'Farming Fields',desc:'Plow, plant, water and harvest',ac:'#27ae60',ml:1},{id:'silo',emoji:'🏗️',label:'Silo',desc:'View and sell stored crops',ac:'#8B6914',ml:1},{id:'crafting',emoji:'🔨',label:'Crafting Workshop',desc:'Forge tools and goods from minerals',ac:'#795548',ml:3},{id:'kitchen',emoji:'🍳',label:'Kitchen',desc:'Cook recipes from crops, fish and produce',ac:'#e74c3c',ml:1},{id:'taskboard',emoji:'📋',label:'Task Board',desc:'Accept NPC missions for rewards',ac:'#8e44ad',ml:1},{id:'pets',emoji:'🐾',label:'My Pets',desc:'Feed and care for your pets',ac:'#e67e22',ml:1},{id:'animals',emoji:'🐄',label:'Animals',desc:'Collect milk, eggs, wool',ac:'#795548',ml:1},{id:'butchery',emoji:'🔪',label:'Butchery',desc:'Process meat for stamina or sell',ac:'#c0392b',ml:1},{id:'mine',emoji:'⛏️',label:'Mine',desc:'Extract rare minerals',ac:'#4a4a4a',ml:1},{id:'fishing',emoji:'🎣',label:'Farm Lake',desc:'Fish, craft and trade catches',ac:'#2980b9',ml:1},{id:'collections',emoji:'📖',label:'Collections',desc:'Track discoveries',ac:'#16a085',ml:1}]},
   {title:'COMMERCE',items:[{id:'market',emoji:'🏪',label:'Player Market',desc:'List and buy from other players',ac:'#2980b9',ml:1},{id:'gmb',emoji:'🏛️',label:'Gov. Marketing Board',desc:'Last resort buyer and seller',ac:'#7f8c8d',ml:1},{id:'stall',emoji:'🛖',label:'My Farm Stall',desc:'Customise your personal stall',ac:'#e67e22',ml:1},{id:'visitstalls',emoji:'🏘️',label:'Visit Stalls',desc:'Browse and buy from other players',ac:'#16a085',ml:1}]},
   {title:'FINANCE',items:[{id:'bank',emoji:'🏦',label:'Bank',desc:'Savings, loans and profit share',ac:'#1a5276',ml:1},{id:'gold',emoji:'🥇',label:'Gold Store',desc:'Buy and sell at live rates',ac:'#b7800a',ml:1},{id:'finance',emoji:'💰',label:'Financial Dashboard',desc:'Income, expenses and net worth',ac:'#1a6b2a',ml:1}]},
   {title:'COMMUNITY',items:[{id:'chat',emoji:'💬',label:'Farm Chat',desc:'Talk, trade and get help',ac:'#16a085',ml:1},{id:'goals',emoji:'🏆',label:'Long-Term Goals',desc:'Big milestones and rewards',ac:'#f39c12',ml:1}]},
   {title:'MANAGEMENT',items:[{id:'farmhouse',emoji:'🏡',label:'Farmhouse',desc:'Guide, friends, settings and multiplayer',ac:'#795548',ml:1},{id:'garage',emoji:'🔧',label:'Garage & Upgrades',desc:'Buy permanent farm upgrades',ac:'#546e7a',ml:1},{id:'workers',emoji:'👔',label:'Farm Workers',desc:'Hire workers and a manager',ac:'#2c3e50',ml:8}]},
 ];
-const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','kitchen','collections','goals','garage','workers'];
+const ACTIVE=['farm','silo','animals','butchery','mine','fishing','market','gmb','stall','bank','finance','farmhouse','taskboard','pets','chat','daily','crafting','kitchen','collections','goals','garage','workers','visitstalls'];
 const xpFor=l=>{
   // Scales up - never truly maxes out
   if(l<10)return l*100;
@@ -418,7 +418,7 @@ function HarvestHaven({user,onSignOut}){
   const [farmName,setFarmName]=useState('Sunny Acres Farm');
   const [themeId,setThemeId]=useState('forest');
   const [worldCode,setWC]=useState('');
-  const [playerId]=useState(()=>`P${Math.random().toString(36).substr(2,6).toUpperCase()}`);
+  const [playerId]=useState(()=>user?.uid?`P${user.uid.slice(0,6).toUpperCase()}`:`P${Math.random().toString(36).substr(2,6).toUpperCase()}`);
   const [tasks,setTasks]=useState([]);
   const [pets,setPets]=useState([]);
   const [petInv,setPetInv]=useState({petFood:5,toys:3,treats:2});
@@ -440,6 +440,7 @@ function HarvestHaven({user,onSignOut}){
   // New v7 state
   const [loanDebt,setLoanDebt]=useState(0);
   const loanRef=useRef(0);
+  const saveLoadedRef=useRef(false);
   const [dqP,setDQP]=useState({dqH:0,dqM:0,dqT:0});
   const [dqDone,setDQDone]=useState([]);
   const [friendsList,setFriendsList]=useState([]);
@@ -495,42 +496,58 @@ function HarvestHaven({user,onSignOut}){
 
   useEffect(()=>{
     (async()=>{
+      saveLoadedRef.current=false;
+      let saveData=null;
+      let loadedFromCloud=false;
+      const uid=user?.uid||auth?.currentUser?.uid;
       try{
-        let saveData=null;
-        if(db&&auth?.currentUser){
-          try{const sn=await get(child(ref(db),`saves/${auth.currentUser.uid}`));if(sn.exists())saveData=JSON.parse(sn.val());}catch{}
+        if(db&&uid){
+          try{
+            const sn=await get(child(ref(db),`saves/${uid}`));
+            if(sn.exists()){
+              const remote=sn.val();
+              saveData=typeof remote==='string'?JSON.parse(remote):(remote?.data||remote);
+              loadedFromCloud=true;
+            }
+          }catch(e){console.log('Firebase load error',e);}
         }
         if(!saveData){const raw=localStorage.getItem('hh7')||localStorage.getItem('hh6')||localStorage.getItem('hh_save');if(raw)saveData=JSON.parse(raw);}
         if(saveData){
           const s=saveData;
-          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC};
+          const k={coins:setCoins,xp:setXp,level:setLevel,silo:setSilo,minerals:setMin,bankBal:setBankBal,goldHeld:setGold,friendship:setFP,streak:setStreak,lastLogin:setLastLogin,petInv:setPetInv,pets:setPets,collected:setCollected,craftInv:setCraftInv,hardTasks:setHT,goldenHarv:setGH,minedTotal:setMTotal,totalEarned:setTE,seasonIdx:setSeasonIdx,totalHarv:setTH,loanDebt:setLoanDebt,dqP:setDQP,dqDone:setDQDone,friendsList:setFriendsList,friendStreak:setFS,lastFriendHelp:setLFH,upgrades:setUpgrades,goldGrowth:setGG,goldGrowthBal:setGGB,jointBal:setJB,ownedAnimals:setOwnedAnimals,meatInv:setMeatInv,landPlots:setLP,animalLevels:setAnimalLevels,animalXp:setAnimalXp,fishInv:setFishInv,baitInv:setBaitInv,totalFishCaught:setTFC,farmName:setFarmName,themeId:setThemeId,stallCfg:setStall,dailyClaimed:setDC,lastPoolDist:setLastPoolDist};
           Object.entries(k).forEach(([key,fn])=>{if(s[key]!==undefined)fn(s[key]);});
           if(s.tiles)setTiles(s.tiles.map(t=>({...t,crop:t.crop?CROPS.find(c=>c.id===t.crop.id)||null:null})));if(s.mach)setMach(s.mach);if(s.fuel!==undefined)setFuel(s.fuel);
+          if(s.claimedGoals)localStorage.setItem('hh_goals_claimed',JSON.stringify(s.claimedGoals));
+          if(s.workers)localStorage.setItem('hh_workers',JSON.stringify(s.workers));
+          if(s.lastClaim)localStorage.setItem('hh_lastclaim',s.lastClaim);
+          localStorage.setItem('hh7',JSON.stringify(s));
+          if(!loadedFromCloud&&db&&uid){
+            await set(ref(db,`saves/${uid}`),{version:8,updatedAt:Date.now(),data:s});
+          }
         }
-}catch(e){console.log('Load error',e);}      try{const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}catch{}
-      try{if(user?.uid){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
-      try{const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}catch{}
+}catch(e){console.log('Load error',e);}      try{if(!saveData?.farmName){const r=await window.storage.get('farm_name');if(r)setFarmName(r.value);}}catch{}
+      try{if(user?.uid&&!saveData?.farmName){const sn=await get(child(ref(db),`users/${user.uid}/profile`));if(sn.exists()){const p=sn.val();if(p.farmName)setFarmName(p.farmName);}}}catch{}
+      try{if(!saveData?.themeId){const r=await window.storage.get('theme_id');if(r)setThemeId(r.value);}}catch{}
       setWC('GLOBAL'); // All users share one global community
       setTasks(genTasks(1));
-      // Immediately write correct state to Firebase after load so next interval save is correct
-      if(db&&auth?.currentUser){
-        try{
-          const raw=localStorage.getItem('hh7');
-          if(raw)await set(ref(db,`saves/${auth.currentUser.uid}`),raw);
-        }catch(e){console.log('Post-load Firebase sync error',e);}
-      }
+      saveLoadedRef.current=true;
     })();
-  },[]);
+  },[user?.uid]);
 
 const saveGame=useCallback(async()=>{
     try{
-      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
+      if(!saveLoadedRef.current)return;
+      const uid=user?.uid||auth?.currentUser?.uid;
+      let claimedGoals=[];try{claimedGoals=JSON.parse(localStorage.getItem('hh_goals_claimed')||'[]');}catch{}
+      let workers=[];try{workers=JSON.parse(localStorage.getItem('hh_workers')||'[]');}catch{}
+      const lastClaim=localStorage.getItem('hh_lastclaim')||'';
+      const s={coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist,claimedGoals,workers,lastClaim,tiles:tiles.map(t=>({...t,crop:t.crop?{id:t.crop.id}:null}))};
       localStorage.setItem('hh7',JSON.stringify(s));
-      if(db&&auth?.currentUser){
-        try{await set(ref(db,`saves/${auth.currentUser.uid}`),JSON.stringify(s));}catch(e){console.log('Firebase save error',e);}
+      if(db&&uid){
+        try{await set(ref(db,`saves/${uid}`),{version:8,updatedAt:Date.now(),data:s});}catch(e){console.log('Firebase save error',e);}
       }
     }catch(e){console.log('Save error',e);}
-  },[coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught]);
+  },[user?.uid,coins,xp,level,silo,minerals,bankBal,goldHeld,friendship,streak,lastLogin,petInv,pets,collected,craftInv,hardTasks,goldenHarv,minedTotal,totalEarned,seasonIdx,totalHarv,loanDebt,dqP,dqDone,friendsList,friendStreak,lastFriendHelp,upgrades,goldGrowth,goldGrowthBal,jointBal,listings,tiles,ownedAnimals,meatInv,landPlots,mach,fuel,animalLevels,animalXp,fishInv,baitInv,totalFishCaught,farmName,themeId,stallCfg,dailyClaimed,lastPoolDist]);
 useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},[saveGame]);
   useEffect(()=>{
     const handler=()=>saveGame();
@@ -617,7 +634,7 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   };
   const spend=amt=>{setCoins(c=>c-amt);setTDS(s=>s+amt);};
   const addCollected=id=>setCollected(c=>{if(c.includes(id))return c;return[...c,id];});
-  const updateFN=async n=>{setFarmName(n);try{await window.storage.set('farm_name',n);}catch{}};
+  const updateFN=async n=>{setFarmName(n);try{await window.storage.set('farm_name',n);}catch{}try{const uid=user?.uid||auth?.currentUser?.uid;if(db&&uid)await set(ref(db,`users/${uid}/profile/farmName`),n);}catch{}};
   const updateTheme=async id=>{setThemeId(id);try{await window.storage.set('theme_id',id);}catch{}};
 
   const buyLand=()=>{const idx=landPlots-3;if(idx>=LAND_PRICES.length){notify('Maximum land!','orange');return;}const p=LAND_PRICES[idx];if(coins<p){notify(`Need 🪙${p.toLocaleString()}!`,'orange');return;}spend(p);setLP(l=>l+1);setTiles(ts=>[...ts,...Array(4).fill(null).map((_,i)=>({id:ts.length+i,state:'empty',crop:null,growsAt:0,watered:false}))]);notify('+4 new fields!','green');};
@@ -1867,6 +1884,103 @@ function ButcheryScreen({G}){
           </Card>
         );
       })}
+    </div>
+  );
+}
+
+function MineScreen({G}){
+  const{level,minerals,mine,mineCd,sellMin,upgrades,T,minedTotal}=G;
+  const theme=T||THEMES[0];
+  const unlocked=level>=5;
+  const visibleMinerals=MINERALS.filter(m=>level>=m.ml);
+  const lockedMinerals=MINERALS.filter(m=>level<m.ml).slice(0,4);
+  const totalStored=Object.values(minerals||{}).reduce((sum,v)=>sum+(v||0),0);
+  const totalValue=MINERALS.reduce((sum,m)=>sum+((minerals?.[m.id]||0)*m.v),0);
+
+  return(
+    <div style={{padding:14}}>
+      <div style={{background:'linear-gradient(135deg,#1f2937,#4b5563)',borderRadius:20,padding:16,marginBottom:14,color:'#fff'}}>
+        <div style={{fontSize:11,opacity:.85,letterSpacing:1,fontWeight:700}}>MOUNTAIN MINE</div>
+        <div style={{fontSize:20,fontWeight:900,margin:'3px 0'}}>⛏️ Mining Shaft</div>
+        <div style={{fontSize:12,opacity:.78}}>
+          {unlocked?'Dig for minerals, gems, and crafting materials.':'Unlocks at Level 5. Keep farming and completing tasks to open the shaft.'}
+        </div>
+      </div>
+
+      {!unlocked?(
+        <Card>
+          <div style={{textAlign:'center',padding:'18px 8px'}}>
+            <div style={{fontSize:52,marginBottom:10}}>🔒</div>
+            <div style={{fontWeight:900,fontSize:17,color:'#111'}}>Mine unlocks at Level 5</div>
+            <div style={{fontSize:12,color:'#666',marginTop:6,lineHeight:1.5}}>You are Level {level}. Harvest crops, cook, fish, and complete tasks to earn XP.</div>
+          </div>
+        </Card>
+      ):(
+        <>
+          <Card style={{background:'#f8fafc',border:'1px solid #e5e7eb'}}>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:8,marginBottom:12}}>
+              <div style={{background:'#fff',borderRadius:12,padding:10,textAlign:'center'}}>
+                <div style={{fontSize:10,color:'#888',fontWeight:800}}>STORED</div>
+                <div style={{fontSize:17,fontWeight:900,color:'#111'}}>{totalStored}</div>
+              </div>
+              <div style={{background:'#fff',borderRadius:12,padding:10,textAlign:'center'}}>
+                <div style={{fontSize:10,color:'#888',fontWeight:800}}>VALUE</div>
+                <div style={{fontSize:17,fontWeight:900,color:'#b7800a'}}>🪙{totalValue.toLocaleString()}</div>
+              </div>
+              <div style={{background:'#fff',borderRadius:12,padding:10,textAlign:'center'}}>
+                <div style={{fontSize:10,color:'#888',fontWeight:800}}>MINED</div>
+                <div style={{fontSize:17,fontWeight:900,color:theme.primary}}>{minedTotal||0}</div>
+              </div>
+            </div>
+            <button
+              onClick={mine}
+              disabled={mineCd}
+              style={{width:'100%',background:mineCd?'#9ca3af':'linear-gradient(135deg,#374151,#111827)',color:'#fff',border:'none',borderRadius:14,padding:14,fontSize:15,fontWeight:900,cursor:mineCd?'default':'pointer',boxShadow:mineCd?'none':'0 6px 18px rgba(17,24,39,.25)'}}
+            >
+              {mineCd?'Mining...':'⛏️ Mine Rock'}
+            </button>
+            {upgrades?.mineBoost&&<div style={{fontSize:11,color:'#27ae60',fontWeight:800,textAlign:'center',marginTop:8}}>Mine Elevator active: rare drop rates boosted</div>}
+          </Card>
+
+          <SecHead label="MINERAL STORAGE" color="#4b5563"/>
+          {visibleMinerals.map(m=>{
+            const qty=minerals?.[m.id]||0;
+            return(
+              <Card key={m.id}>
+                <div style={{display:'flex',alignItems:'center',gap:12}}>
+                  <div style={{fontSize:30}}>{m.emoji}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:800,fontSize:14,color:'#111'}}>{m.name}</div>
+                    <div style={{fontSize:11,color:'#666'}}>Owned: {qty} · Sell: 🪙{m.v} each · +{m.xp}XP</div>
+                  </div>
+                  <button
+                    onClick={()=>sellMin(m)}
+                    disabled={!qty}
+                    style={{background:qty?'#b7800a':'#ddd',color:qty?'#fff':'#999',border:'none',borderRadius:10,padding:'8px 11px',fontWeight:800,cursor:qty?'pointer':'default',fontSize:12,flexShrink:0}}
+                  >
+                    {qty?`Sell 🪙${(qty*m.v).toLocaleString()}`:'None'}
+                  </button>
+                </div>
+              </Card>
+            );
+          })}
+
+          {lockedMinerals.length>0&&(
+            <>
+              <SecHead label="COMING DEEPER IN THE MINE" color="#777"/>
+              <Card>
+                {lockedMinerals.map((m,i)=>(
+                  <div key={m.id} style={{display:'flex',alignItems:'center',gap:10,padding:'7px 0',borderBottom:i<lockedMinerals.length-1?'1px solid #f0f0f0':'none',opacity:.55}}>
+                    <div style={{fontSize:24}}>{m.emoji}</div>
+                    <div style={{flex:1,fontWeight:800,color:'#444'}}>{m.name}</div>
+                    <div style={{fontSize:11,color:'#888',fontWeight:700}}>Level {m.ml}</div>
+                  </div>
+                ))}
+              </Card>
+            </>
+          )}
+        </>
+      )}
     </div>
   );
 }
