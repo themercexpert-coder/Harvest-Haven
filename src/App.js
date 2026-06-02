@@ -356,8 +356,34 @@ const xpFor=l=>{
   return l*1000; // 100+ - very long grind
 };
 const todayStr=()=>new Date().toISOString().split('T')[0];
+const taskDifficultyForLevel=lvl=>lvl>=50?{diff:'mythic',qtyMult:4,rewardMult:5,hrs:120,rfood:5,rtoy:3}:lvl>=35?{diff:'legendary',qtyMult:3.2,rewardMult:3.8,hrs:96,rfood:4,rtoy:2}:lvl>=20?{diff:'expert',qtyMult:2.3,rewardMult:2.6,hrs:84,rfood:3,rtoy:1}:lvl>=10?{diff:'hard',qtyMult:1.6,rewardMult:1.7,hrs:72,rfood:2,rtoy:1}:lvl>=4?{diff:'medium',qtyMult:1.25,rewardMult:1.25,hrs:null,rfood:null,rtoy:null}:{diff:'easy',qtyMult:1,rewardMult:1,hrs:null,rfood:null,rtoy:null};
+const taskItemsOf=t=>t.items||[{itemId:t.itemId,qty:t.qty||1,inv:t.inv,itemEmoji:t.itemEmoji,itemName:t.itemName}];
 const genTasks=lvl=>{
-  const lvScale=Math.max(1,Math.floor(lvl/5));
+  const tier=taskDifficultyForLevel(lvl);
+  const scaleTask=(t,i)=>{
+    const items=taskItemsOf(t).map(item=>({...item,qty:Math.max(1,Math.ceil((item.qty||1)*tier.qtyMult))}));
+    const first=items[0]||{};
+    const diff=lvl>=10?tier.diff:t.diff;
+    return{
+      ...t,
+      items,
+      itemId:first.itemId,
+      itemEmoji:first.itemEmoji,
+      itemName:first.itemName,
+      inv:first.inv,
+      qty:first.qty,
+      diff,
+      coins:Math.round((t.coins||100)*tier.rewardMult),
+      xp:Math.round((t.xp||20)*tier.rewardMult),
+      fp:Math.round((t.fp||5)*(lvl>=10?1.5:1)),
+      hrs:tier.hrs||t.hrs||24,
+      rfood:tier.rfood??t.rfood??0,
+      rtoy:tier.rtoy??t.rtoy??0,
+      id:`t${Date.now()}${i}`,
+      accepted:false,
+      expiresAt:Date.now()+(tier.hrs||t.hrs||24)*3600000
+    };
+  };
   const base=[...TASK_POOL].filter(t=>!(t.diff==='hard'&&lvl<10)&&!(t.diff==='medium'&&lvl<4)).sort(()=>Math.random()-.5).slice(0,6);
   // Add crafted item tasks at level 5+
   const crafted=lvl>=5?RECIPES.slice(0,Math.min(RECIPES.length,Math.floor(lvl/4)+1)).sort(()=>Math.random()-.5).slice(0,2).map((r,i)=>({
@@ -366,13 +392,7 @@ const genTasks=lvl=>{
     npcId:Object.keys(NPCS)[Math.floor(Math.random()*Object.keys(NPCS).length)],
     hrs:24,rfood:1,rtoy:0
   })):[];
-  return [...base,...crafted].map((t,i)=>({
-    ...t,
-    id:`t${Date.now()}${i}`,
-    qty:Math.max(t.qty||1,Math.round((t.qty||1)*(1+lvScale*0.2))),
-    accepted:false,
-    expiresAt:Date.now()+(t.hrs||24)*3600000
-  }));
+  return [...base,...crafted].map(scaleTask);
 };
 const getMood=a=>a>=80?{mood:'Thriving',emoji:'😄',col:'#27ae60'}:a>=60?{mood:'Happy',emoji:'😊',col:'#2ecc71'}:a>=40?{mood:'Content',emoji:'😐',col:'#f39c12'}:a>=20?{mood:'Sad',emoji:'😟',col:'#e67e22'}:{mood:'Hungry',emoji:'😢',col:'#e74c3c'};
 const getFP=p=>p>=200?{label:'Best Friend',col:'#8e44ad'}:p>=100?{label:'Good Friend',col:'#2980b9'}:p>=50?{label:'Friend',col:'#27ae60'}:p>=20?{label:'Acquaintance',col:'#f39c12'}:{label:'Stranger',col:'#aaa'};
@@ -380,7 +400,7 @@ const getFP=p=>p>=200?{label:'Best Friend',col:'#8e44ad'}:p>=100?{label:'Good Fr
 const Card=({children,style={}})=><div style={{background:'#fff',borderRadius:16,padding:14,boxShadow:'0 1px 8px rgba(0,0,0,.07)',border:'1px solid #ececec',marginBottom:10,...style}}>{children}</div>;
 const Btn=({onClick,color='#27ae60',disabled,children,style={}})=><button onClick={onClick} disabled={disabled} style={{background:disabled?'#bbb':color,color:'#fff',border:'none',borderRadius:12,padding:'9px 16px',fontSize:13,fontWeight:700,cursor:disabled?'default':'pointer',...style}}>{children}</button>;
 const Bar=({v,c})=><div style={{height:8,background:'#eee',borderRadius:4,overflow:'hidden'}}><div style={{height:'100%',width:`${Math.max(0,Math.min(100,v))}%`,background:c,borderRadius:4,transition:'width .5s'}}/></div>;
-const DiffBadge=({d})=>{const c=d==='easy'?'#27ae60':d==='medium'?'#e67e22':'#e74c3c';return<span style={{background:c,color:'#fff',borderRadius:20,padding:'2px 8px',fontSize:10,fontWeight:800}}>{d.toUpperCase()}</span>;};
+const DiffBadge=({d})=>{const c={easy:'#27ae60',medium:'#e67e22',hard:'#e74c3c',expert:'#8e44ad',legendary:'#b7800a',mythic:'#111827'}[d]||'#777';return<span style={{background:c,color:'#fff',borderRadius:20,padding:'2px 8px',fontSize:10,fontWeight:800}}>{String(d||'task').toUpperCase()}</span>;};
 const SecHead=({label,color='#777'})=><div style={{fontSize:11,fontWeight:800,color,letterSpacing:1.1,marginBottom:8,paddingLeft:2}}>{label}</div>;
 const TabRow=({tabs,active,onSelect,ac='#1a6b2a'})=><div style={{display:'flex',gap:4,marginBottom:14,background:'rgba(0,0,0,0.07)',borderRadius:16,padding:3}}>{tabs.map(([id,lb])=><button key={id} onClick={()=>onSelect(id)} style={{flex:1,background:active===id?'#fff':'transparent',color:active===id?ac:'#666',border:'none',borderRadius:13,padding:'8px 4px',fontSize:11,fontWeight:active===id?800:600,cursor:'pointer',transition:'all .2s',boxShadow:active===id?'0 2px 8px rgba(0,0,0,0.12)':'none'}}>{lb}</button>)}</div>;
 
@@ -769,17 +789,25 @@ useEffect(()=>{const t=setInterval(saveGame,15000);return()=>clearInterval(t);},
   const acceptTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:true}:t));
   const abandonTask=id=>setTasks(ts=>ts.map(t=>t.id===id?{...t,accepted:false}:t));
   const getInv=(inv,id)=>{if(inv==='silo')return silo[id]||0;if(inv==='crafted')return craftInv[id]||0;if(inv==='fish')return fishInv[id]||0;if(inv==='meat')return meatInv[id]||0;return minerals[id]||0;};
-  const canComplete=task=>{const items=task.items||[{itemId:task.itemId,qty:task.qty,inv:task.inv}];return items.every(({itemId,qty,inv})=>getInv(inv,itemId)>=qty);};
+  const canComplete=task=>taskItemsOf(task).every(({itemId,qty,inv})=>getInv(inv,itemId)>=qty);
   const completeTask=task=>{
     if(!canComplete(task)){notify('Not enough items!','orange');return;}
-    if(task.inv==='silo')setSilo(s=>({...s,[task.itemId]:(s[task.itemId]||0)-task.qty}));
-    else setMin(m=>({...m,[task.itemId]:(m[task.itemId]||0)-task.qty}));
+    const grouped=taskItemsOf(task).reduce((acc,{itemId,qty,inv})=>{
+      const bucket=inv==='silo'?'silo':inv==='crafted'?'crafted':inv==='fish'?'fish':inv==='meat'?'meat':'mineral';
+      acc[bucket]={...(acc[bucket]||{}),[itemId]:((acc[bucket]?.[itemId]||0)+qty)};
+      return acc;
+    },{});
+    if(grouped.silo)setSilo(s=>Object.entries(grouped.silo).reduce((next,[id,qty])=>({...next,[id]:(next[id]||0)-qty}),{...s}));
+    if(grouped.mineral)setMin(m=>Object.entries(grouped.mineral).reduce((next,[id,qty])=>({...next,[id]:(next[id]||0)-qty}),{...m}));
+    if(grouped.crafted)setCraftInv(c=>Object.entries(grouped.crafted).reduce((next,[id,qty])=>({...next,[id]:(next[id]||0)-qty}),{...c}));
+    if(grouped.fish)setFishInv(f=>Object.entries(grouped.fish).reduce((next,[id,qty])=>({...next,[id]:(next[id]||0)-qty}),{...f}));
+    if(grouped.meat)setMeatInv(m=>Object.entries(grouped.meat).reduce((next,[id,qty])=>({...next,[id]:(next[id]||0)-qty}),{...m}));
     const isBF=getFP(friendship[task.npcId]||0).label==='Best Friend';
     const payout=isBF?Math.round(task.coins*1.2):task.coins;
     earn(payout);setXp(x=>x+task.xp);
     if(task.rfood)setPetInv(p=>({...p,petFood:p.petFood+task.rfood}));
     if(task.rtoy)setPetInv(p=>({...p,toys:p.toys+task.rtoy}));
-    if(task.diff==='hard')setHT(h=>h+1);
+    if(['hard','expert','legendary','mythic'].includes(task.diff))setHT(h=>h+1);
     setFP(f=>({...f,[task.npcId]:Math.min(300,(f[task.npcId]||0)+task.fp)}));
     setTasks(ts=>ts.filter(t=>t.id!==task.id));
     setDQP(p=>({...p,dqT:p.dqT+1}));
@@ -1520,11 +1548,12 @@ function CraftingScreen({G}){
 }
 
 function TaskBoardScreen({G}){
-  const{tasks,canComplete,completeTask,setTasks,level,silo,minerals,craftInv,friendship,notify,T,earn,setXp,setPetInv,petInv}=G;
+  const{tasks,canComplete,completeTask,setTasks,silo,minerals,craftInv,fishInv,meatInv,friendship,notify}=G;
   const[tab,setTab]=useState('available');
   const available=tasks.filter(t=>!t.accepted&&t.expiresAt>Date.now());
   const active=tasks.filter(t=>t.accepted&&t.expiresAt>Date.now());
-  const isBF=friendship>=100;
+  const bestFriendCount=Object.values(friendship||{}).filter(fp=>getFP(fp).label==='Best Friend').length;
+  const getTaskInv=(inv,id)=>{if(inv==='silo')return silo[id]||0;if(inv==='crafted')return craftInv[id]||0;if(inv==='fish')return fishInv[id]||0;if(inv==='meat')return meatInv[id]||0;return minerals[id]||0;};
 
   const quickComplete=task=>{
     if(!canComplete(task)){notify('You do not have the required items!','orange');return;}
@@ -1543,33 +1572,46 @@ function TaskBoardScreen({G}){
   };
 
   const renderTask=(task,isActive)=>{
-    const npc=G.NPCS?.[task.npcId]||{name:'Farmer',emoji:'👨‍🌾',col:'#27ae60'};
+    const npc=NPCS[task.npcId]||{name:'Farmer',emoji:'👨‍🌾',col:'#27ae60'};
+    const items=taskItemsOf(task);
     const ready=canComplete(task);
-    const isBFBonus=isBF&&task.diff==='hard';
+    const isBFBonus=getFP((friendship||{})[task.npcId]||0).label==='Best Friend';
+    const payout=isBFBonus?Math.round(task.coins*1.2):task.coins;
     return(
       <Card key={task.id}>
         <div style={{display:'flex',gap:10,alignItems:'flex-start',marginBottom:10}}>
           <div style={{width:42,height:42,background:`${npc.col}22`,borderRadius:14,display:'flex',alignItems:'center',justifyContent:'center',fontSize:24,flexShrink:0,border:`1px solid ${npc.col}44`}}>{npc.emoji}</div>
           <div style={{flex:1}}>
             <div style={{fontWeight:900,fontSize:14,color:'#111'}}>{npc.name}</div>
-            <div style={{fontSize:12,color:'#555',margin:'2px 0'}}>Needs: {task.qty}x {task.itemEmoji||''} {task.itemName||task.itemId}</div>
+            <div style={{fontSize:12,color:'#555',margin:'4px 0 6px'}}>Needs:</div>
+            <div style={{display:'flex',gap:6,flexWrap:'wrap',marginBottom:8}}>
+              {items.map((item,idx)=>{
+                const have=getTaskInv(item.inv,item.itemId);
+                const ok=have>=(item.qty||1);
+                return(
+                  <span key={`${item.itemId}-${idx}`} style={{background:ok?'#eafaf1':'#fff4e6',color:ok?'#1e8449':'#b35c00',border:`1px solid ${ok?'#b8e6c8':'#ffd59b'}`,borderRadius:14,padding:'3px 8px',fontSize:11,fontWeight:800}}>
+                    {item.itemEmoji||''} {have}/{item.qty||1} {item.itemName||item.itemId}
+                  </span>
+                );
+              })}
+            </div>
             <div style={{display:'flex',gap:8,alignItems:'center',flexWrap:'wrap'}}>
-              <span style={{fontSize:12,fontWeight:800,color:'#f39c12'}}>🪙{isBFBonus?Math.round(task.coins*1.2):task.coins}</span>
+              <span style={{fontSize:12,fontWeight:800,color:'#f39c12'}}>🪙{payout}</span>
               <span style={{fontSize:11,color:'#888'}}>+{task.xp}XP</span>
               {task.rfood>0&&<span style={{fontSize:11,color:'#e67e22'}}>🐾×{task.rfood}</span>}
-              <span style={{background:task.diff==='hard'?'#e74c3c':task.diff==='medium'?'#f39c12':'#27ae60',color:'#fff',borderRadius:20,padding:'1px 8px',fontSize:9,fontWeight:800,textTransform:'uppercase'}}>{task.diff}</span>
-              {isBFBonus&&<span style={{fontSize:9,color:'#27ae60',fontWeight:800}}>🤝 BF +20%</span>}
+              <DiffBadge d={task.diff}/>
+              {isBFBonus&&<span style={{fontSize:9,color:'#27ae60',fontWeight:800}}>🤝 +20%</span>}
             </div>
           </div>
         </div>
         {isActive?(
           <div style={{display:'flex',gap:6}}>
             <Btn onClick={()=>setTasks(ts=>ts.map(t=>t.id===task.id?{...t,accepted:false}:t))} color='#aaa' style={{flex:1,padding:9,fontSize:12}}>Pass</Btn>
-            <Btn onClick={()=>quickComplete(task)} disabled={!ready} color='#27ae60' style={{flex:2,padding:9,fontSize:13}}>{ready?`Complete +🪙${isBFBonus?Math.round(task.coins*1.2):task.coins}`:'Need items'}</Btn>
+            <Btn onClick={()=>quickComplete(task)} disabled={!ready} color='#27ae60' style={{flex:2,padding:9,fontSize:13}}>{ready?`Complete +🪙${payout}`:'Need items'}</Btn>
           </div>
         ):(
           <Btn onClick={()=>acceptAndComplete(task)} color={ready?'#27ae60':'#2980b9'} style={{width:'100%',padding:10,fontSize:13}}>
-            {ready?`Complete Now +🪙${task.coins}`:'Accept Task'}
+            {ready?`Complete Now +🪙${payout}`:'Accept Task'}
           </Btn>
         )}
       </Card>
@@ -1581,7 +1623,7 @@ function TaskBoardScreen({G}){
       <div style={{background:'linear-gradient(135deg,#6c3483dd,#8e44adcc)',backdropFilter:'blur(8px)',borderRadius:20,padding:16,marginBottom:14,color:'#fff',border:'1px solid rgba(255,255,255,0.15)'}}>
         <div style={{fontSize:11,opacity:.8,letterSpacing:1,fontWeight:800,textTransform:'uppercase',marginBottom:2}}>Missions</div>
         <div style={{fontSize:22,fontWeight:900,letterSpacing:-.3}}>📋 Task Board</div>
-        <div style={{fontSize:12,opacity:.75,marginTop:2}}>{active.length} active · {available.length} available · {isBF?'🤝 Best Friend bonus active!':'Friendship: '+friendship+'%'}</div>
+        <div style={{fontSize:12,opacity:.75,marginTop:2}}>{active.length} active · {available.length} available · {bestFriendCount>0?`🤝 ${bestFriendCount} best friend bonus${bestFriendCount>1?'es':''} active`:'Build friendship for +20% rewards'}</div>
       </div>
       <TabRow tabs={[['available',`Available (${available.length})`],['active',`Active (${active.length})`]]} active={tab} onSelect={setTab} ac='#8e44ad'/>
       {tab==='available'&&(available.length===0

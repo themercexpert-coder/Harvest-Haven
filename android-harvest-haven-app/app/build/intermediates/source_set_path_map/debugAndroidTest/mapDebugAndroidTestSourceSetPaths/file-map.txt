@@ -1,0 +1,5 @@
+com.codar.harvesthaven.test.app-androidTest-0 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\generated\res\resValues\androidTest\debug
+com.codar.harvesthaven.test.app-updated_navigation_xml-1 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\generated\updated_navigation_xml\debugAndroidTest
+com.codar.harvesthaven.test.app-mergeDebugAndroidTestResources-2 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.codar.harvesthaven.test.app-mergeDebugAndroidTestResources-3 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.codar.harvesthaven.test.app-debugAndroidTest-4 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources

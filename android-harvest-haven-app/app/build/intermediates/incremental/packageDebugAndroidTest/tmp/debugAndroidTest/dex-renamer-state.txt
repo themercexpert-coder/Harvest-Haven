@@ -1,0 +1,7 @@
+#Sat May 30 19:20:33 SAST 2026
+base.0=C\:\\Users\\abdur\\harvest-haven\\android-harvest-haven-app\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+base.1=C\:\\Users\\abdur\\harvest-haven\\android-harvest-haven-app\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\10\\classes.dex
+path.0=0/classes.dex
+path.1=10/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex

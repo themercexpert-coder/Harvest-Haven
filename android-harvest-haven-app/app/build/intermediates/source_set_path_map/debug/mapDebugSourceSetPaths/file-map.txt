@@ -1,0 +1,8 @@
+com.codar.harvesthaven.app-pngs-0 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\generated\res\pngs\debug
+com.codar.harvesthaven.app-resValues-1 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\generated\res\resValues\debug
+com.codar.harvesthaven.app-updated_navigation_xml-2 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\generated\updated_navigation_xml\debug
+com.codar.harvesthaven.app-packageDebugResources-3 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.codar.harvesthaven.app-packageDebugResources-4 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.codar.harvesthaven.app-debug-5 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.codar.harvesthaven.app-debug-6 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\src\debug\res
+com.codar.harvesthaven.app-main-7 C:\Users\abdur\harvest-haven\android-harvest-haven-app\app\src\main\res
